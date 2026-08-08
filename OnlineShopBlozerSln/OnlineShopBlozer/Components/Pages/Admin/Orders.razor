@@ -1,0 +1,64 @@
+﻿@*Usings----------------------*@
+@page "/Admin/orders"
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@inject NavigationManager Navigation
+@inject IOrderService OrderService
+@inject IToastService ToastService
+@*Body---------------------------*@
+<h1 class="page-title">Orders</h1>
+<table class="products-table">
+    <thead class="products-table-header">
+    <tr>
+            <th class="products-table-heading">Id</th>
+            <th class="products-table-heading">User</th>
+            <th class="products-table-heading">Date</th>
+            <th class="products-table-heading">Total</th>
+            <th class="products-table-heading" >Status</th>
+            <th class="products-table-heading">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="products-table-body">
+        @foreach (var order in orders)
+        {
+            <tr class="products-table-row">
+                <td class="products-table-cell">@order.Id</td>
+                <td class="products-table-cell">@order.UserId</td>
+                <td class="products-table-cell">@order.OrderDate</td>
+                <td class="products-table-cell">@order.TotalPrice</td>
+                <td class="products-table-cell">@order.Status</td>
+                <td class="products-table-cell">
+                    <button class="edit-button"
+                         @onclick="() => EditStatus(order)">
+                        Change Status
+                    </button>
+                    <button class="edit-button"
+                        @onclick="() => GoToDetails(order.Id)">
+                        Details
+                    </button>
+                    </td>
+            </tr> 
+        }
+    </tbody>
+</table>
+@*Code_C#------------------------*@
+@code {
+    private List<Order> orders = new();
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetAllAsync();    
+    }
+    //Edit_Status-------------------------
+    private async Task EditStatus(Order order)
+    {
+        await OrderService.UpdateStatusAsync(order.Id, "Completed");
+        orders = await OrderService.GetAllAsync();
+        ToastService.ShowSuccess("Order status updated.");
+    }
+    //Go_To_Details----------------------------
+    private void GoToDetails(int id)
+    {
+        Navigation.NavigateTo($"/admin/order/details/{id}");
+    }
+}

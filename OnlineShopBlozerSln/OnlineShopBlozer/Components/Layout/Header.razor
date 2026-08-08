@@ -1,0 +1,54 @@
+﻿@*usings-----------------------*@
+@rendermode InteractiveServer
+
+@using OnlineShopBlozer.Services
+@using OnlineShopBlozer.Services.Interfaces
+
+@inject ICartService CartService
+@inject CartState CartState
+
+<header class="shop-header">
+
+    <a href="/" class="logo">
+        My Shop
+    </a>
+
+    <a href="/cart" class="cart-button">
+        🛒 Cart (@cartCount)
+    </a>
+
+    <a href="/orders" class="cart-button">
+        Orders
+    </a>
+
+</header>
+
+
+@code {
+
+    private int cartCount;
+
+    private const string UserId = "test-user";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        cartCount = await CartService.GetCartItemCountAsyng(UserId);
+
+        CartState.OnChange += UpdateCartCount;
+    }
+
+
+    private async void UpdateCartCount()
+    {
+        cartCount = await CartService.GetCartItemCountAsyng(UserId);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    public void Dispose()
+    {
+        CartState.OnChange -= UpdateCartCount;
+    }
+}

@@ -1,0 +1,50 @@
+﻿@*Usings------------------------------*@
+@page "/orders"
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@inject IOrderService OrderService
+@*Body--------------------------------*@
+@if (orders.Count == 0)
+{
+    <div class="cart-empty">
+        <h3>No orders found.</h3>
+    </div>
+}
+else
+{
+    <div class="orders-container">
+        @foreach (var order in orders)
+        {
+            <div class="order-cart">
+                <div class="order-header">
+                    <h3>Order #@order.Id</h3>
+                    <span>@order.Status</span>
+                </div>
+                <div class="order-header-p">
+                    <p>Date: @order.OrderDate</p>
+                    <p>Total: @order.TotalPrice$</p>
+                </div>
+                <div class="order-header-hr">
+                    
+                </div>
+                @foreach (var item in order.Items)
+                {
+                    <div class="order-item">
+                        <span>@item.Product.Name</span>
+                        <span>@item.Quantity * @item.Price</span>
+                    </div>    
+                }
+            </div>    
+        }
+    </div>    
+}
+@*Code_c#-----------------------------*@
+@code {
+    private List<Order> orders = new();
+    private string userId = "test-user";
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetUserOrdersAsync(userId);    
+    }
+}

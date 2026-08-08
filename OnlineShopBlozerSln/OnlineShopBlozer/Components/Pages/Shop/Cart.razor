@@ -1,0 +1,145 @@
+﻿@*usings-----------------------------------*@
+@page "/cart"
+@using OnlineShopBlozer.Models
+@using CartModel = OnlineShopBlozer.Models.Cart
+@using OnlineShopBlozer.Services.Interfaces
+@using OnlineShopBlozer.Services
+@using OnlineShopBlozer.Components.Shared
+@inject ICartService CartService
+@inject CartState CartState
+@inject IToastService ToastService
+@inject IOrderService OrderService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@*Error_Show-------------------------------*@
+<Toast />
+@*Body-------------------------------------*@
+@if (cart == null || !cart.Items.Any())
+{
+    <div class="cart-empty">
+        <p>Your cart is empty</p>
+    </div>
+}
+else
+{
+    <div class="cart-container">
+        @foreach (var item in cart.Items)
+        {
+            <div class="cart-item">
+                @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                {
+                    <img src="@item.Product.ImageUrl"
+                    class="cart-image"/>
+                }
+                else
+                {
+                    <span>No Image</span>    
+                }
+                <div class="cart-product-info">
+                    <h4 class="cart-product-name">
+                        @item.Product.Name
+                    </h4>
+                    <p class="cart-product-price">
+                        Price: 
+                        <span>@item.Product.Price</span>
+                    </p>
+                    <div class="cart-product-quantity">
+                            <button class="quantity-button" 
+                               @onclick="() => Decrease(item.Id)">
+                                -
+                            </button>
+                        <span>@item.Quantity</span>
+                        <button class="quantity-button"
+                                @onclick="() => Increase(item.Id)">
+                            +
+                            </button>
+                    </div>
+                    <button class="delete-cart-button"
+                        @onclick="() => Remove(item.Id)">
+                    Delete
+                </button>
+                </div>
+            </div> 
+        }
+        @*Summary-----------------*@
+        <div class="cart-summary">
+        <h3>Total Item: @TotalItems</h3>
+        <h2>Total Price: @TotalPrice</h2>
+        <button class="checkout-button"
+                @onclick="Checkout">
+            Checkout
+        </button>
+        <button class="checkout-button"
+                @onclick="ClearCart">
+                Clear Cart
+            </button>
+        </div>
+    </div>    
+}
+@*code_c#----------------------------------*@
+@code {
+    //Get_cart--------------------------------
+    private CartModel? cart;
+    private string UserId = "test-user";
+    protected override async Task OnInitializedAsync()
+    {
+        cart = await CartService.GetCartAsync(UserId);    
+    }
+    //Quantity------------------------------------
+    //Increase-------------
+    private async Task Increase(int cartItemId)
+    {
+        await CartService.IncreaseQuantityAsync(cartItemId);
+        cart = await CartService.GetCartAsync(UserId);
+        CartState.NotifyStateChanged();
+        ToastService.ShowSuccess("Quantity increased.");
+    }
+    //Decrease--------------
+    private async Task Decrease(int cartItemId)
+    {
+        await CartService.DecreaseQuantityAsync(cartItemId);
+        cart = await CartService.GetCartAsync(UserId);
+        CartState.NotifyStateChanged();
+        ToastService.ShowSuccess("Quantity updated.");
+    }
+    //Remove----------------
+    private async Task Remove(int cartItemId)
+    {
+        await CartService.RemoveFromCartAsync(cartItemId);
+        cart = await CartService.GetCartAsync(UserId);
+        CartState.NotifyStateChanged();
+        ToastService.ShowSuccess("Product removed from cart.");
+    }
+    //total_price---------------
+    private decimal TotalPrice =>
+        cart?.Items.Sum(i => i.Product.Price * i.Quantity) ?? 0;
+    //Total_items---------------
+    private decimal TotalItems =>
+        cart?.Items.Sum(i => i.Quantity) ?? 0;
+    //ClearCart-------------------
+    private async Task ClearCart()
+    {
+        await CartService.ClearCartAsync(UserId);
+        cart = await CartService.GetCartAsync(UserId);
+        CartState.NotifyStateChanged();
+        ToastService.ShowSuccess("Cart cleared successfully.");
+    }
+    //Checkout---------------------------
+    private async Task Checkout()
+    {
+        try
+        {
+            await OrderService.CreateOrderAsync(UserId);
+            cart = await CartService.GetCartAsync(UserId);
+            CartState.NotifyStateChanged();
+            ToastService.ShowSuccess("Order placed successfully.");
+            Navigation.NavigateTo("/orders");
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
+    }
+
+
+}

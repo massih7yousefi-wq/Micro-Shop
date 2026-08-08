@@ -1,0 +1,56 @@
+﻿@*usings----------------------------------*@
+@page "/admin/products/details/{id:int}"
+@rendermode InteractiveServer
+
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@inject IProductsService ProductService
+@*details_show---------------*@
+  
+  @if (product == null)
+  {
+  <p class="product-not-found">Product not found.</p>
+  <a class="back-button" href="/admin/products">Back to Products</a>
+  }
+  else
+    {
+    <div class="details-card">
+        @if (!string.IsNullOrEmpty(product.ImageUrl))
+        {
+            <div class="product-image-container">
+            <img src="@product.ImageUrl"
+                     class="details-image" />
+            </div>
+        }
+         <h2 class="details-title">Product Details (@product.Name)</h2>
+         <div class="details-row">
+            <span class="details-label">Id:</span>
+            <span>@product.Id</span>
+         </div>
+         <div class="details-row">
+            <span class="details-label">Name:</span>
+            <span>@product.Name</span>
+         </div>
+         <div class="details-row">
+            <span class="details-label">Price:</span>
+            <span>@product.Price</span>
+         </div>
+         <div class="details-row">
+            <span class="details-label">Category:</span>
+            <span>@product.Category?.Name</span>
+         </div>
+        <a class="back-button" href="/admin/products">Back to Products</a>
+    </div>
+ }
+@code {
+    //class_URL---------------------
+    [Parameter]
+    public int Id { get; set; }
+    private Product? product;
+    //-----------------------------
+    //Read_list--------------------
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetByIdAsync(Id);
+    }  
+}

@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<header class="admin-header">
+    <div class="admin-titel">Micro Shop Admin</div>
+    <div class="admin-users">Admin</div>
+</header>
+<div class="admin-container">
+    <aside class="admin-sidebar">
+        <ul class="admin-menu">
+            <li class="admin-menu-item">
+                <NavLink href="/admin/dashboard">Dashboard</NavLink>
+                </li>
+            <li class="admin-menu-item">
+                <NavLink href="/admin/products">Products</NavLink>
+                </li>
+            <li class ="admin-menu-item">
+                <NavLink href="admin/categories">Categories</NavLink>
+                </li>
+            <li class="admin-menu-item">
+                <NavLink href="/admin/orders">Orders</NavLink>
+                </li>
+            <li class="admin-menu-item">
+                <NavLink href="/admin/users">Users</NavLink>
+                </li>
+        </ul>
+    </aside>
+    <main class="admin-content">
+        @Body
+    </main>
+</div>
+<footer class="admin-footer">
+    <p>© 2026 Online Shop</p>
+</footer>

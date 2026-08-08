@@ -1,0 +1,58 @@
+﻿@*usings---------------------------------*@
+@page "/products/details/{Id:int}"
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@using OnlineShopBlozer.Services
+@inject NavigationManager Navigation 
+@inject IProductsService ProductService
+@inject ICartService CartService
+@inject CartState CartState
+@inject IToastService ToastService
+@using OnlineShopBlozer.Components.Shared
+
+@*Body------------------------------------*@
+<Toast />
+@if (product != null)
+{
+    <div class="shop-details-container">
+        <div class="details-shop-image">
+            <img src="@product.ImageUrl"/>
+        </div>
+        <div class="shop-details-info">
+            <h1>@product.Name</h1>
+            <h3 class="shop-details-price">@product.Price $</h3>
+            <p class="shop-details-category">@product.Category?.Name</p>
+            <button class="shop-details-buy" @onclick="AddToCart">
+                Add To Cart
+            </button>
+            
+        </div>
+    </div>
+}
+@*code_c#----------------------------------------*@
+@code {
+    //Get_product_by_id-----------------------------
+    [Parameter]
+    public int Id { get; set; }
+
+    Product? product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetByIdAsync(Id);
+    }
+    //Cart-----------------------------------
+    private string userId = "test-user";
+    private async Task AddToCart()
+    {
+        if (product == null)
+        {
+            return;      
+        }
+        await CartService.AddToCartAsync(userId,product.Id);
+        ToastService.ShowSuccess("Product added to cart");
+        CartState.NotifyStateChanged();
+
+    }
+}

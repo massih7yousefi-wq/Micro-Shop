@@ -1,0 +1,58 @@
+﻿@*usings--------------------------------*@
+@page "/Admin/dashboard"
+@page "/admin"
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@inject IDashboardService DashboardService
+@*Dashboard_cards-------------------------*@
+<div class="dashboard-cards">
+    <div class="dashboard-card">
+        <h3>Total Products: </h3>
+        <p>@totalProducts</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Total Categories: </h3>
+        <p>@totalCategories</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Average Price: </h3>
+        <p>@averagePrice</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Most Expensive: </h3>
+        <p>@mostExpensive?.Name</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Cheapest: </h3>
+        <p>@cheapest?.Name</p>
+    </div>
+
+</div>
+@*code_c#--------------------------------------*@
+@code {
+    //total_and_average-------------------------
+    private int totalProducts;
+    private int totalCategories;
+    private decimal averagePrice;
+    private Product? mostExpensive;
+    private Product? cheapest;
+
+    protected override async Task OnInitializedAsync()
+    {
+        totalProducts = await DashboardService.GetTotalProductAsync();
+
+        totalCategories = await DashboardService.GetTotalCategoriesAsync();
+
+        averagePrice = await DashboardService.GetAveragePriceAsync();
+
+        mostExpensive = await DashboardService.GetMostExpensiveAsync();
+
+        cheapest = await DashboardService.GetCheapestAsync();
+    }
+}

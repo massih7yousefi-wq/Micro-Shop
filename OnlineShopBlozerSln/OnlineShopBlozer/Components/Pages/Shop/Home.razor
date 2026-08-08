@@ -1,0 +1,40 @@
+﻿@page "/"
+@*usings----------------------------------------*@
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@rendermode InteractiveServer
+@inject IProductsService ProductService
+@inject NavigationManager Navigation
+@*Products_Show----------------------------------------*@
+<div class="products-grid">
+    @foreach (var product in products)
+    {
+        <div class="product-card">
+            <img class="shop-product-image" src="@product.ImageUrl" />
+                <h3>@product.Name</h3>
+
+                <p>@product.Price $ </p>
+
+            <p>@product.Category?.Name</p>
+            <button
+                @onclick='@(() => OpenDetails(product.Id))'>
+                View Details
+            </button>
+        </div>
+        
+    }
+</div>
+@*code_c#----------------------------------------------*@
+@code {
+    //Product_list-------------------------------------
+    List<Product> products = new();
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetShopProductsAsync(); 
+    }
+    //details-------------------------------------------
+    void OpenDetails(int id)
+    {
+        Navigation.NavigateTo($"/products/details/{id}");
+    }
+}

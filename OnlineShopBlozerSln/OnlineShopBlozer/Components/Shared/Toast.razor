@@ -1,0 +1,37 @@
+﻿@*using--------------------------------*@
+@using OnlineShopBlozer.Services.Interfaces
+@implements IDisposable
+@*Body----------------------------------*@
+@if (visible)
+{
+    <div class="toast-container @toastType">@message</div>    
+}
+@*Code_C#--------------------------------*@
+@code {
+    [Inject]
+    public IToastService ToastService { get; set; } = null!;
+    private bool visible;
+    private string message = "";
+    private string toastType = "";
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnShow += ShowToast;
+    }
+    //Show_Toast-----------------------
+    private async void ShowToast(string msg, string type)
+    {
+        message = msg;
+        toastType = type;
+        visible = true;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(3000);
+        visible = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    //Dispose---------------------------
+    public void Dispose()
+    {
+        ToastService.OnShow -= ShowToast;    
+    }
+}

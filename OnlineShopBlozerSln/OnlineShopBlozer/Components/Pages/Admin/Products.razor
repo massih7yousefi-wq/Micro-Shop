@@ -1,0 +1,322 @@
+﻿@*usings------------------------------------------*@
+@page "/admin/products"
+@using OnlineShopBlozer.Services.Interfaces
+@using OnlineShopBlozer.Services
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Helpers
+@using Microsoft.AspNetCore.Components.Forms
+@using OnlineShopBlozer.Components.Shared
+@inject IToastService ToastService
+@inject IJSRuntime JS
+@inject NavigationManager Navigation  
+@inject IProductsService ProductService
+@inject IImageService ImageService
+@inject ICategoryService categoryService
+@*Error_add-----------------------------------------*@
+<Toast />
+@*title---------------------------------------------*@
+<h1 class="page-title">Products</h1>
+@*add_form------------------------------------------*@
+<div class="add-form">
+    <h3 class="add-title">Add Product</h3>
+    <input class="add-input" @bind="newProduct.Name"
+            placeholder="Product Name"/>
+    <input class="add-input" @bind="newProduct.Price"
+           placeholder="Product Price" />
+    @*product   +   category------*@
+    <select class="add-input"
+            @bind="newProduct.CategoryId">
+            <option value="0">Select Category</option>
+            @foreach (var category in categories)
+             {
+                <option value="@category.Id">@category.Name</option>       
+             }
+    </select>
+    @*-----------------*@
+    <InputFile class="image-upload" OnChange="UploadImage" />
+    @if (!string.IsNullOrEmpty(newProduct.ImageUrl))
+    {
+        <img src="@newProduct.ImageUrl" class="preview-image" />
+    }
+    <button class="add-button" @onclick="AddProduct">Add Product</button>
+    
+</div>
+
+@*edit-form------------------------------------------*@
+@if (SelectedProduct != null)
+{
+    <div class="edit-form">
+    <h3 class="edit-title" >Edit Product</h3>
+    <div class="form-group">
+        <label>Name : </label>
+            <input @bind="SelectedProduct.Name" class="form-input" />
+    </div>
+    <div class="form-group">
+        <label>price : </label>
+            <input @bind="SelectedProduct.Price" class="form-input" />
+    </div>
+    <div class="form-group">
+        <label>Category :</label>
+            <select class="form-input" @bind="SelectedProduct.CategoryId">
+
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>    
+                }
+            </select>
+            <InputFile class="image-upload" OnChange="EditImage" />
+            @if (!string.IsNullOrEmpty(SelectedProduct.ImageUrl))
+                {
+                <img src="@SelectedProduct.ImageUrl" class="preview-image" />
+            }
+        </div>
+        <bottun class="save-button" 
+                @onclick="SaveChanges">Save</bottun>
+    </div>
+}
+@*search-table---------------------------------------------------------------*@
+<input class="search-input" value="@searchTerm" 
+                 @oninput="SearchChanged" 
+                placeholder="Search product..." />
+@*Table----------------------------------------------------------------------*@
+<div class="products-container">
+    <table class="products-table">
+        <thead class="products-table-header">
+        <tr>
+                <th class="products-table-heading" 
+                    @onclick='() => SortBy("Id")'>Id</th>
+
+                <th class="products-table-heading">Image</th>
+
+                <th class="products-table-heading"
+                    @onclick='() => SortBy("Name")'>Name</th>
+
+                <th class="products-table-heading"
+                    @onclick='() => SortBy("Price")'>Price</th>
+
+                <th class="products-table-heading">
+                        Category</th>
+
+                <th class="products-table-heading">Actions</th>
+        </tr>
+        </thead>
+                 @*sort------*@
+        <tbody class="products-table-body">
+            @foreach (var product in products)
+            {
+                <tr class="products-table-row">
+                    <td class="products-table-cell">
+                        @product.Id
+                    </td>
+                    <td class="products-table-cell">
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl"
+                            class="product-image" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>    
+                        }
+                    </td>
+                    <td class="products-table-cell">
+                        @product.Name
+                        </td>
+                    <td class="products-table-cell">
+                        @product.Price
+                        </td>
+                    <td class="products-table-cell">
+                        @product.Category?.Name
+                        </td>
+                    <td class="products-table-cell">
+                        <button class="edit-button"
+                                @onclick="() => EditProduct(product)">Edit</button>
+                        <button class="delete-button" 
+                                @onclick="() => DeleteProduct(product)">delete</button>
+                        <button class="edit-button"
+                                @onclick='() => GoToDetails(product.Id)'>
+                            Details
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@*pagination-------------------------------------------------------------------------------*@
+<div class="pagination">
+    <button @onclick="PreviousPage">Previous</button>
+    <span>Page @currentPage of @totalPages</span>
+    <button @onclick="NextPage">Next</button>
+</div>
+@*code_C#-----------------------------------------------*@
+@code {
+    //Get_list---------------------------------
+    private List<Product> products = new();
+    private List<Category> categories = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProduct();
+
+        categories = await categoryService.GetAllAsync();
+    }
+    //Add_product-----------------------------------------
+    private Product newProduct = new();
+    private string errorMessage = "";
+    private async Task AddProduct()
+    {
+        try
+        {
+            await ProductService.CreateAsync(newProduct);
+            newProduct = new();
+            errorMessage = "";
+            await LoadProduct();
+            ToastService.ShowSuccess("Product added successfully.");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            ToastService.ShowError(ex.Message);
+        }
+    }
+    //Delete_product----------------------------------------
+    public async Task DeleteProduct(Product product)
+    {
+        //sure_delete------------
+        bool confirmed = await JS.InvokeAsync<bool>(
+            "confirm",
+                $"Are you Sure want to delete {product.Name}?");
+        if (!confirmed) 
+        { 
+            return; 
+        }
+        //----------------
+        //DeleteImage--------------
+        if (!string.IsNullOrEmpty(product.ImageUrl))
+        {
+            await ImageService.DeleteAsync(product.ImageUrl);    
+        }
+        //-------------------------
+        await ProductService.DeleteAsync(product.Id);
+        await LoadProduct();
+        ToastService.ShowSuccess("product deleted successfully.");
+    }
+    //Edit_product-----------------------------------------------
+    private Product? SelectedProduct;
+    private void EditProduct(Product product)
+    {
+        SelectedProduct = product;    
+    }
+    //save_changes---------------
+    private async Task SaveChanges()
+    {
+        if (SelectedProduct == null)
+        {
+            return;    
+        }
+
+        try
+        {
+            await ProductService.UpdateAsync(SelectedProduct);
+
+            SelectedProduct = null;
+            errorMessage = "";
+            await LoadProduct();
+            ToastService.ShowSuccess("Product update successfully.");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message; 
+            ToastService.ShowError(ex.Message);
+        }
+    }
+    //Load_product---------------------
+    private string searchTerm = "";
+    private string sortColumn = "Id";
+    private bool sortAscending = true;
+    private int currentPage = 1;
+    private int pageSize = 5;
+    private int totalPages;
+
+    private async Task LoadProduct()
+    {
+        var result = await ProductService.GetProductAsync(
+          searchTerm,
+          sortColumn,
+          sortAscending,
+          currentPage,
+          pageSize);
+        products = result.Products;
+        totalPages = result.TotalPages;
+    }
+    //Sort----------
+    private async Task SortBy(string column)
+    {
+        if (sortColumn == column)
+        {
+            sortAscending = !sortAscending; ;
+        }
+        else
+        {
+            sortColumn = column;
+
+            sortAscending = true;
+        }
+        currentPage = 1;
+
+        await LoadProduct();
+    }
+    //Pagination------
+    private async Task PreviousPage()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            await LoadProduct();
+        }
+    }
+    private async Task NextPage()
+    {
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            await LoadProduct();
+        }
+    }   //search
+    private async  Task SearchChanged(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? "";
+        currentPage = 1;
+        await LoadProduct();
+    }
+    //--------------------------------------
+    //Go_To_Details--------------------------
+    private void GoToDetails(int id)
+    {
+        Navigation.NavigateTo($"/admin/products/details/{id}");   
+    }
+    //ImageUpload---------------------------------------------
+    private async Task UploadImage(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        newProduct.ImageUrl = await ImageService.UploadAsync(file);
+        await InvokeAsync(StateHasChanged);
+    }
+    //Edit_image--------------------------------------------
+    private async Task EditImage(InputFileChangeEventArgs e)
+    {
+        if (SelectedProduct == null)
+        {
+            return;    
+        }
+        if (!string.IsNullOrEmpty(SelectedProduct.ImageUrl))
+        {
+            await ImageService.DeleteAsync(SelectedProduct.ImageUrl);    
+        }
+        var file = e.File;
+        SelectedProduct.ImageUrl =
+            await ImageService.UploadAsync(file);
+    }
+}

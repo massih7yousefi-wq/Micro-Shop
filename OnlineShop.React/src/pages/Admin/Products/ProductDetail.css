@@ -1,0 +1,101 @@
+.product-detail-page{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    max-width:1200px;
+}
+.product-detail-back-button{
+    width:fit-content;
+    height:42px;
+    padding:0 18px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    background:#ffffff;
+    color:#334155;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:
+            background .2s,
+            transform .2s,
+            box-shadow .2s;
+}
+.product-detail-back-button:hover{
+    background:#f8fafc;
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px rgba(15,23,42,.08);
+}
+.product-detail-title{
+    margin:0;
+    padding:28px;
+    background:#ffffff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    color:#0f172a;
+    font-size:30px;
+    font-weight:700;
+    box-shadow:0 10px 25px rgba(15,23,42,.05);
+}
+.product-detail-description,
+.product-detail-price,
+.product-detail-category{
+    margin:0;
+    padding:18px 22px;
+    background:#ffffff;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    color:#334155;
+    font-size:15px;
+    line-height:1.7;
+}
+.product-detail-price{
+    font-weight:700;
+    color:#0f172a;
+}
+.product-detail-category{
+    width:fit-content;
+    background:#eff6ff;
+    color:#2563eb;
+    font-weight:600;
+}
+.product-detail-images{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fill,minmax(220px,1fr));
+    gap:20px;
+    padding:24px;
+    background:#ffffff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(15,23,42,.05);
+}
+.product-detail-images img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid #e2e8f0;
+    transition:
+            transform .25s,
+            box-shadow .25s;
+}
+.product-detail-images img:hover{
+    transform:scale(1.03);
+    box-shadow:0 12px 25px rgba(15,23,42,.15);
+}
+
+/*res---------------*/
+@media(max-width:768px){
+    .product-detail-title{
+        font-size:24px;
+        padding:20px;
+    }
+    .product-detail-images{
+        grid-template-columns:
+            repeat(2,1fr);
+        padding:16px;
+    }
+}
+
+
+

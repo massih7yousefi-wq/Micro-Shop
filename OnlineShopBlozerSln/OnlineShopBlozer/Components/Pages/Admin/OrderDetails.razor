@@ -1,0 +1,97 @@
+﻿@*Usings------------------------------*@
+@page "/admin/order/details/{Id:int}"
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using OnlineShopBlozer.Services.Interfaces
+@inject IOrderService OrderService
+@*Body--------------------------------------*@
+@if (order == null)
+{
+    <p>Order not found</p>
+}
+else
+{
+    <div class="order-details-container">
+        <h1>Order #@order.Id</h1>
+        <div class="order-info-grid">
+            <div class="info-card">
+                <span class="info-cart-span">Order Id</span>
+                <strong class="info-cart-strong">#@order.Id</strong>
+            </div>
+            <div class="info-card">
+                <span class="info-cart-span">User</span>
+                <strong class="info-cart-strong">@order.UserId</strong>
+            </div>
+            <div class="info-card">
+                <span class="info-cart-span">Date</span>
+                <strong class="info-cart-strong">
+                    @order.OrderDate.ToString("yyyy/MM/dd HH:mm")
+                    </strong>
+            </div>
+            <div class="info-card">
+                <span class="@GetStatusClass(order.Status)">Status</span>
+                <strong class="info-cart-strong">@order.Status</strong>
+            </div>
+            <div class="info-card">
+                <span class="info-cart-span">Total Price</span>
+                <strong class="info-cart-strong">@order.TotalPrice$</strong>
+            </div>
+        </div>
+        <h3>Product</h3>
+        <table class="products-table">
+            <thead class="products-table-header">
+                <tr>
+                    <th class="products-table-heading">Image</th>
+                    <th class="products-table-heading">Name</th>
+                    <th class="products-table-heading">Price</th>
+                    <th class="products-table-heading">Quantity</th>
+                    <th class="products-table-heading">Total</th>
+                </tr>
+            </thead>
+            <tbody class="products-table-body">
+                
+                    @foreach (var item in order.Items)
+                    {
+                    <tr class=" products-table-row">
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                            {
+                                <img src="@item.Product.ImageUrl"
+                                     class="product-image" />
+                            }
+                        </td>
+                        <td class="products-table-cell">@item.Product.Name</td>
+                        <td class="products-table-cell">@item.Price</td>
+                        <td class="products-table-cell">@item.Quantity</td>
+                        <td class="products-table-cell">@(item.Price* item.Quantity)$</td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+}
+@*Code_c#-----------------------------------*@
+@code {
+    //Route-----------------------
+    [Parameter]
+    public int Id { get; set; }
+    private Order? order;
+    protected override async Task OnInitializedAsync()
+    {
+        order = await OrderService.GetByIdAsync(Id);   
+    }
+    //Get_Status_Class--------------
+    private string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "status-pending",
+            "Processing" => "status-processing",
+            "Shipped" => "status-shipped",
+            "Completed" => "status-completed",
+            "Cancelled" => "status-cancelled",
+            _ => "status-default"
+        };
+    }
+
+}

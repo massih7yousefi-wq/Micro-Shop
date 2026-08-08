@@ -1,0 +1,26 @@
+.product-search {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.product-search-input {
+    flex: 1;
+    max-width: 400px;
+    height: 44px;
+    padding: 0 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #0f172a;
+    background-color: white;
+    outline: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.product-search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.product-search-input::placeholder {
+    color: #94a3b8;
+}

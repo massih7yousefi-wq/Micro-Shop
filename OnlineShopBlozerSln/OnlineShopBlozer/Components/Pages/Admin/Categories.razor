@@ -1,0 +1,247 @@
+﻿@*usings-----------------------------------*@
+@page "/Admin/categories"
+
+@rendermode InteractiveServer
+@using OnlineShopBlozer.Models
+@using Microsoft.EntityFrameworkCore;
+@using OnlineShopBlozer.Helpers;
+@using OnlineShopBlozer.Services.Interfaces
+@using OnlineShopBlozer.Components.Shared
+@inject IToastService ToastService
+@inject IJSRuntime JS
+@inject ICategoryService CategoryService
+
+@*Error_add-----------------------------------------*@
+<Toast />
+@*title---------------------------------------*@
+<h3>Categories</h3>
+@*ADD_Category_form------------------------------*@
+<div class="add-form">
+    <input class="add-input" 
+            @bind="newCategory.Name"
+            placeholder="Category Name"/>
+
+    <button class="add-button" 
+        @onclick="AddCategory">Add Category</button>
+</div>
+
+@*Edit_Category_form-----------------------------*@
+@if (selectedCategory != null)
+{
+    <div class="edit-form">
+        <h3>Edit Category</h3>
+        <input class="form-input" 
+            @bind="selectedCategory.Name"/>
+        <button class="save-button"
+            @onclick="SaveCategory">Save</button>
+    </div>
+}
+@*Search-------------------------------------*@
+<input class="search-input"
+       value=@categorysearchTerm
+        @oninput="SearchChanged"
+        placeholder="Search Category ..."/>
+@*Table------------------------------------*@
+<div class="products-container">
+    <table class="products-table">
+        <thead class="products-table-header">
+            <tr>
+                <th class="products-table-heading" @onclick='() => SortBy("Id")'>Id</th>
+                <th class="products-table-heading" @onclick='() => SortBy("Name")'>Name</th>
+                <th class="products-table-heading" @onclick='() => SortBy("Products")'>Products</th>
+                <th class="products-table-heading">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="products-table-body">
+            @foreach (var category in categories)
+            {
+                <tr class="products-table-row">
+                    <td class="products-table-cell">@category.Id</td>
+                    <td class="products-table-cell">@category.Name</td>
+                    <td class="products-table-cell">@category.Products.Count</td>
+                    <td class="products-table-cell">
+                        <button class="edit-button" 
+                            @onclick="() => EditCategory(category)">
+                            Edit
+                        </button>
+                        <button class="delete-button" 
+                            @onclick="() => DeleteCategory(category)">
+                            Delete
+                        </button>
+                    </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@*pagination-------------------------------------------------------------------------------*@
+<div class="pagination">
+    <button @onclick="PreviousPage">Previous</button>
+    <span>Page @categorycurrentPage of @categorytotalPages</span>
+    <button @onclick="NextPage">Next</button>
+</div>
+
+
+@code {
+    //list----------------------------------------
+    List<Category> categories = new();
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategory();
+    }
+    //ADD_category------------------------------------
+    Category newCategory = new();
+    async Task AddCategory()
+    {
+        try 
+        { 
+            await CategoryService.CreateAsync(newCategory);
+
+            categorycurrentPage = 1;
+
+            await LoadCategory();
+
+            newCategory = new();
+
+            errorMessage = "";
+            ToastService.ShowSuccess("Category added successfully.");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            ToastService.ShowError(ex.Message);
+        }
+    }
+    //Edit-category------------------------------------
+    private Category? selectedCategory;
+    void EditCategory(Category category)
+    {
+        selectedCategory = category;    
+    }
+    //save-----
+    async Task SaveCategory()
+    {
+        if (selectedCategory == null)
+        {
+            return;    
+        }
+        try 
+        { 
+            await CategoryService.UpdateAsync(selectedCategory);
+
+            categorycurrentPage = 1;
+
+            await LoadCategory();
+
+            selectedCategory = null;
+
+            errorMessage = "";
+            ToastService.ShowSuccess("Category update successfully.");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            ToastService.ShowError(ex.Message);
+        }
+    }
+    //Delete_category------------------------------------
+    private async Task DeleteCategory(Category category)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"Are you sure you want to delete '{category.Name}'?");
+
+        if (!confirmed)
+        {
+            return;
+        }
+
+        try
+        {
+            await CategoryService.DeleteAsync(category.Id);
+
+            errorMessage = string.Empty;
+
+            categorycurrentPage = 1;
+
+            await LoadCategory();
+
+            ToastService.ShowSuccess("Category deleted successfully.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            errorMessage = ex.Message;
+            ToastService.ShowError(ex.Message);
+        }
+        catch (Exception)
+        {
+            errorMessage = "An unexpected error occurred while deleting the category.";
+            ToastService.ShowError("An unexpected error occurred while deleting the category.");
+        }
+    }
+    //search---------------------------------------------------
+    private string categorysearchTerm = "";
+
+    async Task SearchChanged(ChangeEventArgs e)
+    {
+        categorysearchTerm = e.Value?.ToString() ?? "";
+        categorycurrentPage = 1;
+        await LoadCategory();
+    }
+    //Error_add--------------------------------------------------
+    private string errorMessage = "";
+    //Sort-----------------------------------------------------
+    private string categorysortColumn = "Id";
+    private bool categorysortAscending = true;
+
+    private async Task SortBy(string column)
+    {
+        if (categorysortColumn == column)
+        {
+            categorysortAscending = !categorysortAscending;
+        }
+        else
+        {
+            categorysortColumn = column;
+            categorysortAscending = true;
+        }
+        categorycurrentPage = 1;
+        await LoadCategory();
+    }
+    //load_category-------------------------------------------
+      private async Task LoadCategory()
+      {
+        var result = await CategoryService.GetCategoriesAsync(
+            categorysearchTerm,
+            categorysortColumn,
+            categorysortAscending,
+            categorycurrentPage,
+            categorypageSize);
+
+            categories = result.Categories;
+
+            categorytotalPages = result.TotalPages;
+      }
+    //Pagination----------------------------------------------
+    private int categorycurrentPage = 1;
+    private int categorypageSize = 5;
+    private int categorytotalPages;
+    
+    async Task PreviousPage()
+    {
+        if (categorycurrentPage > 1)
+        {
+            categorycurrentPage--;
+            await LoadCategory();
+        }
+    }
+
+    async Task NextPage()
+    {
+        if (categorycurrentPage < categorytotalPages)
+        {
+            categorycurrentPage++;
+            await LoadCategory();
+        }
+    }
+}
