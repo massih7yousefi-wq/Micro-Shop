@@ -1,267 +1,179 @@
 # Micro Shop
 
-A full-stack online shopping platform built as a practical software development project.
+Micro Shop is a modern e-commerce web application built with React and TypeScript.
 
-The project is designed with a layered architecture and includes a REST API backend, a React frontend, and a Blazor frontend. The goal is to build a complete and maintainable e-commerce system while applying real-world development practices.
+The project includes a customer-facing storefront and an admin dashboard for managing products and categories.
 
-## Project Overview
+##  Features
 
-**Micro Shop** is an online shopping platform that provides product and category management through an administrative interface and is being developed toward a complete e-commerce experience.
+### Storefront
 
-The project currently includes:
+* Modern responsive storefront
+* Home page with hero section
+* Product browsing
+* Category browsing
+* Shopping cart
+* Product details
+* Responsive header and footer
+* Clean and reusable UI components
 
+### Admin Dashboard
+
+* Admin layout with sidebar, header and footer
 * Product management
-* Category management
-* Product creation and editing
+* Create, edit and delete products
 * Product image management
 * Product search
 * Product sorting
-* Pagination
-* Category search and sorting
-* Category-product relationship management
-* RESTful API
-* React administration interface
-* Blazor application
-* Database integration
+* Product pagination
+* Product details page
+* Category management
+* Create and edit categories
+* Category search
+* Category sorting
+* Category pagination
 
-## Technologies
-
-### Backend
-
-* C#
-* .NET
-* ASP.NET Core Web API
-* Entity Framework Core
-* SQL Database
-* RESTful API
-* Dependency Injection
-* DTO-based API architecture
-* Service Layer architecture
-
-### Frontend
-
-#### React
+##  Tech Stack
 
 * React
 * TypeScript
 * React Router
-* REST API integration
-* Component-based architecture
 * CSS
+* REST API
+* Vite
 
-#### Blazor
-
-* Blazor
-* C#
-* .NET
-* REST API integration
-
-## Project Structure
+##  Project Structure
 
 ```text
-Micro-Shop/
+src/
+├── components/
+│   ├── Admin/
+│   │   ├── Header/
+│   │   ├── Sidebar/
+│   │   ├── Footer/
+│   │   ├── Product/
+│   │   └── Category/
+│   │
+│   └── Store/
+│       ├── Header/
+│       ├── Footer/
+│       ├── Hero/
+│       └── Category/
 │
-├── OnlineShop.API/
-│   └── ASP.NET Core Web API
+├── hooks/
+│   ├── useProducts.ts
+│   └── useCategories.ts
 │
-├── OnlineShop.React/
-│   └── React + TypeScript frontend
+├── models/
+│   ├── Product/
+│   └── Category/
 │
-├── OnlineShopBlozerSln/
-│   └── Blazor application
+├── pages/
+│   ├── Admin/
+│   └── Store/
 │
-├── OnlineShop_E/
-│   └── Project documentation and development notes
+├── services/
+│   ├── api.ts
+│   ├── productService.ts
+│   └── categoryService.ts
 │
-├── .gitignore
-└── README.md
+└── App.tsx
 ```
 
-## Architecture
+##  Getting Started
 
-The backend follows a layered approach to keep responsibilities separated.
-
-```text
-React / Blazor
-      │
-      ▼
-    REST API
-      │
-      ▼
- Controllers
-      │
-      ▼
- Services
-      │
-      ▼
- Entity Framework Core
-      │
-      ▼
-   Database
-```
-
-DTOs are used to control the data exposed by the API and to keep API contracts separate from database entities.
-
-## Main Features
-
-### Product Management
-
-The product management section supports:
-
-* Creating products
-* Editing products
-* Product image management
-* Selecting a main product image
-* Removing product images
-* Product search
-* Product sorting
-* Pagination
-* Category selection
-
-### Category Management
-
-The category management section supports:
-
-* Creating categories
-* Editing categories
-* Deleting categories
-* Category search
-* Category sorting
-* Pagination
-* Displaying the number of products in each category
-
-Categories that contain products cannot be deleted in order to preserve data integrity.
-
-## API
-
-The backend exposes RESTful endpoints that are consumed by the React and Blazor applications.
-
-The API is responsible for:
-
-* Product operations
-* Category operations
-* Data validation
-* Database operations
-* Search and filtering
-* Sorting
-* Pagination
-
-## Development Approach
-
-The project is being developed incrementally.
-
-Development focuses on:
-
-* Clean separation of responsibilities
-* Reusable components
-* API-first communication
-* DTO-based data transfer
-* Server-side search and pagination
-* Input validation
-* Error handling
-* Maintainable code structure
-* Git version control
-
-## Documentation
-
-The `OnlineShop_E` directory contains project documentation, notes, and explanations created during development.
-
-These documents are used as a development reference and explain the implementation and structure of different parts of the project.
-
-## Screenshots
-
-Screenshots of the application will be added as the project UI is completed.
-
-## Getting Started
-
-### Backend
-
-Navigate to the API project:
+### 1. Clone the repository
 
 ```bash
-cd OnlineShop.API
+git clone <repository-url>
+cd micro-shop
 ```
 
-Restore dependencies:
-
-```bash
-dotnet restore
-```
-
-Run the API:
-
-```bash
-dotnet run
-```
-
-### React
-
-Navigate to the React project:
-
-```bash
-cd OnlineShop.React
-```
-
-Install dependencies:
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-Start the development server:
+### 3. Configure the API
+
+Set the backend API URL in the project configuration.
+
+For example:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+### 4. Start the development server
 
 ```bash
 npm run dev
 ```
 
-### Blazor
+The application will be available through the local development URL provided by Vite.
 
-Open the Blazor solution located in:
-
-```text
-OnlineShopBlozerSln/
-```
-
-Restore the required .NET dependencies and run the appropriate Blazor project.
-
-## Git Workflow
-
-The project uses Git for version control.
-
-Typical workflow:
+##  Available Scripts
 
 ```bash
-git add .
-git commit -m "Describe the changes"
-git push
+npm run dev
+npm run build
+npm run preview
 ```
 
-Development is tracked through incremental commits as new features and improvements are added.
+##  UI
 
-## Future Improvements
+The application uses a clean and modern design system based on:
 
-Planned improvements may include:
+* Slate dark tones
+* Blue accent colors
+* Soft borders
+* Rounded cards
+* Subtle shadows
+* Responsive layouts
+* Consistent spacing and typography
 
-* Customer-facing shopping pages
-* Shopping cart
-* Checkout
-* Order management
-* User authentication and authorization
-* Improved product filtering
-* Improved UI/UX
+The admin dashboard and storefront use separate visual styles while maintaining the same overall design language.
+
+##  API
+
+The frontend communicates with a REST API for managing:
+
+* Products
+* Product images
+* Categories
+* Product/category relationships
+
+API communication is separated into service modules to keep components clean and maintainable.
+
+##  Responsive Design
+
+The interface is designed to work across:
+
+* Desktop
+* Tablet
+* Mobile
+
+Responsive layouts are implemented using CSS media queries and flexible grid/flex layouts.
+
+## 📌 Project Status
+
+The project is currently under active development.
+
+Current focus areas include:
+
+* Storefront UI
+* Product browsing
+* Category browsing
+* Admin product management
+* Admin category management
 * Responsive design
-* API documentation
-* Automated testing
-* Deployment
+* UI refinement
 
-## Project Status
+##  Author
 
-**In Development**
+Massih Yusevi(Yousefi)
 
-Micro Shop is an ongoing project and new features, improvements, and refinements are being added progressively.
+---
 
-## Author
-
-**Masih Yousefi**
-
-This project was created as a full-stack development project to practice and demonstrate modern web application development using .NET, REST APIs, React, TypeScript, and Blazor.
+Built with React + TypeScript.
