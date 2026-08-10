@@ -4,6 +4,7 @@ import Header from "../../components/Home/Header/Header";
 import Footer from "../../components/Home/Footer/Footer";
 import Hero from "../../components/Home/Hero/Hero";
 import Categories from "../../components/Home/Categories/Categories";
+import FeaturedProducts from "../../components/Home/FeaturedProducts/FeaturedProducts";
 //component----------------------------
 const Home = () => {
     return (
@@ -13,9 +14,8 @@ const Home = () => {
             <main>
                 <Hero />
                 <Categories />
-                <section>
-                    Featured Product
-                </section>
+
+                <FeaturedProducts />
 
                 <Footer />
 

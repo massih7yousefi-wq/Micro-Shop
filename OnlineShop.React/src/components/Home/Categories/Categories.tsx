@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import { categoryService } from "../../../services/categoryService";
 import type { Category } from "../../../models/Category/Category";
 import "./Categories.css"
-//GET_data_Categories------------------------
-interface Category {
-    id: number;
-    name: string;
-}
+
 //State------------------------------------
 function Categories() {
 const [categories, setCategories] = useState<Category[]>([]);
@@ -147,6 +143,5 @@ useEffect(() => {
 
     );
 
-};
-
+}
 export default Categories;

@@ -57,7 +57,7 @@ const Hero = () => {
                     <div className="hero-image-card">
 
                         <img
-                            src="/images/hero-product.png"
+                            src="/images/hero-product.webp"
                             alt="Featured products"
                         />
 
