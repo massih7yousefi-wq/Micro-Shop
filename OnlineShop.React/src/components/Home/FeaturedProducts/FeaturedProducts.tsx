@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { productService } from "../../../services/productService";
-import { API_BASE } from "../../../services/api.ts";
 import type { Product } from "../../../models/Product/Product";
+import ProductCard from "../../../components/Store/Product/ProductCart/ProductCart";
+import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
 
 function FeaturedProducts() {
+    const navigate = useNavigate();
+
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -85,69 +88,22 @@ function FeaturedProducts() {
 
                 <div className="featured-products__list">
 
-                    {products.map((product) => {
-
-                        const mainImage =
-                            product.images.find(
-                                (image) => image.isMain
-                            ) ?? product.images[0];
-
-                        return (
-                            <article
-                                className="product-card"
-                                key={product.id}
-                            >
-
-                                <div className="product-card__image">
-
-                                    {mainImage ? (
-                                        <img
-                                            src={`${API_BASE}${mainImage.imageUrl}`}
-                                            alt={product.name}
-                                        />
-                                    ) : (
-                                        <div className="product-card__image-placeholder">
-                                            No Image
-                                        </div>
-                                    )}
-
-                                </div>
-
-
-                                <div className="product-card__content">
-
-                                    <span className="product-card__category">
-                                        {product.categoryName}
-                                    </span>
-
-                                    <h3>
-                                        {product.name}
-                                    </h3>
-
-                                    <div className="product-card__footer">
-
-                                        <span className="product-card__price">
-                                            ${product.price.toFixed(2)}
-                                        </span>
-
-                                        <span className="product-card__link">
-                                            View Product →
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </article>
-                        );
-                    })}
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                        />
+                    ))}
 
                 </div>
 
 
                 <div className="featured-products__action">
 
-                    <button type="button">
+                    <button
+                        type="button"
+                        onClick={() => navigate("/products")}
+                    >
                         View All Products
                     </button>
 

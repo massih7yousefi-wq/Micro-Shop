@@ -1,0 +1,24 @@
+.store-product-search {
+    width: 100%;
+    margin-bottom: 35px;
+}
+.store-product-search__input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 14px;
+    outline: none;
+    transition:
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
+}
+.store-product-search__input::placeholder {
+    color: #94a3b8;
+}
+.store-product-search__input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
