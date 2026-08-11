@@ -1,6 +1,7 @@
 //imports--------------------------------------
 import type { Product } from "../../../../models/Product/Product.ts";
 import { API_BASE } from "../../../../services/api.ts";
+import { Link } from "react-router-dom";
 import "./ProductCart.css";
 //props----------------------------
 interface ProductCartProps {
@@ -50,9 +51,12 @@ function ProductCart({ product }: ProductCartProps) {
                         ${product.price.toFixed(2)}
                     </span>
 
-                    <span className="product-card__link">
+                    <Link
+                        to={`/products/${product.id}`}
+                        className="product-card__link"
+                    >
                         View Product →
-                    </span>
+                    </Link>
 
                 </div>
 

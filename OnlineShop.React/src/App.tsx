@@ -6,7 +6,7 @@ import Home from "./pages/Home/Home";
 
 // Store--------------------------------------
 import StoreProducts from "./pages/Store/Product/Products";
-
+import StoreProductDetail from "./pages/Store/Product/ProductDetail";
 // Admin---------------------------------------
 import AdminLayout from "./layout/AdminLayout/AdminLayout";
 
@@ -33,6 +33,11 @@ function App() {
                 <Route
                     path="products"
                     element={<StoreProducts />}
+                />
+
+                <Route
+                    path="products/:id"
+                    element={<StoreProductDetail />}
                 />
 
             </Route>

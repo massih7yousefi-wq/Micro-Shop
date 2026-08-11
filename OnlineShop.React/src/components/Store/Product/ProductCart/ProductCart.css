@@ -85,6 +85,14 @@
 .product-card:hover .product-card__link {
     color: #2563eb;
 }
+.product-card__link {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
 /* res--------------------------------- */
 @media (max-width: 600px) {
     .product-card__image {
