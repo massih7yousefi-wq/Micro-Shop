@@ -19,9 +19,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//SqlServer---------------------------------------
+//PostgreSQL---------------------------------------
 builder.Services.AddDbContextFactory<AppDbContext>(options =>
-        options.UseSqlServer(
+        options.UseNpgsql(
             builder.Configuration.GetConnectionString("DefaultConnection")));
 //Identity-----------------------------------------
 builder.Services

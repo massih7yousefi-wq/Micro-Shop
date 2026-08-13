@@ -30,6 +30,7 @@ namespace OnlineShop.API.Controllers
             string? searchTerm,
             string? sortColumn,
             bool sortAscending = true,
+            int? categoryId = null,
             int pageNumber = 1,
             int pageSize = 10)
         {
@@ -37,6 +38,7 @@ namespace OnlineShop.API.Controllers
                 searchTerm,
                 sortColumn,
                 sortAscending,
+                categoryId,
                 pageNumber,
                 pageSize);
 

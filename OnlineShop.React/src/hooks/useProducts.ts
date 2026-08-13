@@ -4,7 +4,7 @@ import type { Product } from "../models/Product/Product";
 import { productService } from "../services/productService";
 
 //States---------------------------------------------
-export const useProducts = () => {
+export const useProducts = (categoryId?:number) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -37,6 +37,7 @@ export const useProducts = () => {
                 debouncedSearchTerm,
                 sortColumn,
                 sortAscending,
+                categoryId,
                 currentPage,
                 10
             );
@@ -51,6 +52,7 @@ export const useProducts = () => {
     }, [debouncedSearchTerm,
         currentPage,
         sortColumn,
+        categoryId,
         sortAscending]);
     //Run_Code----------------------------
     useEffect(() => {

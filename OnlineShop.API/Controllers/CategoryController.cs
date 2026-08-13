@@ -82,9 +82,26 @@ namespace OnlineShop.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _categoryService.DeleteAsync(id);
+            try
+            {
+                await _categoryService.DeleteAsync(id);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new
+                {
+                    message = "Category not found."
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new
+                {
+                    message = ex.Message
+                });
+            }
         }
     }
 }

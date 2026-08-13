@@ -1,4 +1,10 @@
 // Imports----------------------------------------
+import { useEffect, useState } from "react";
+
+import type { Category } from "../../../models/Category/Category";
+import { categoryService } from "../../../services/categoryService";
+import { useSearchParams } from "react-router-dom";
+import CategoryFilter from "../../../components/Store/Product/CategoryFilter/CategoryFilter";
 import ProductSearch from "../../../components/Store/Product/ProductSearch/ProductSearch";
 import ProductCard from "../../../components/Store/Product/ProductCart/ProductCart";
 import { useProducts } from "../../../hooks/useProducts";
@@ -6,6 +12,16 @@ import "./Products.css";
 
 // Component--------------------------------------
 function Products() {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    const categoryIdParam = searchParams.get("categoryId");
+
+    const categoryId = categoryIdParam
+        ? Number(categoryIdParam)
+        : undefined;
 
     const {
         products,
@@ -19,8 +35,33 @@ function Products() {
         totalPages,
         nextPage,
         previousPage,
-    } = useProducts();
+    } = useProducts(categoryId);
+    //useEffect-------------------------------------
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const data = await categoryService.GetAll();
 
+                setCategories(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        void loadCategories();
+    }, []);
+    //handleCategoryChange---------------------
+    const handleCategoryChange = (newCategoryId?: number) => {
+
+        if (newCategoryId === undefined) {
+            setSearchParams({});
+            return;
+        }
+
+        setSearchParams({
+            categoryId: String(newCategoryId),
+        });
+    };
     // Loading---------------------------------------
     if (loading) {
         return (
@@ -78,6 +119,12 @@ function Products() {
                 <ProductSearch
                     searchTerm={searchTerm}
                     onSearchChange={handleSearchChange}
+                />
+
+                <CategoryFilter
+                    categories={categories}
+                    selectedCategoryId={categoryId}
+                    onCategoryChange={handleCategoryChange}
                 />
 
 

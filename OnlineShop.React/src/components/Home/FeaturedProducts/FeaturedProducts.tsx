@@ -19,6 +19,7 @@ function FeaturedProducts() {
                     undefined,
                     undefined,
                     true,
+                    undefined,
                     1,
                     4
                 );

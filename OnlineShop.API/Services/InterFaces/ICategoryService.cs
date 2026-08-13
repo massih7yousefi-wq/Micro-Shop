@@ -1,5 +1,5 @@
 ﻿using OnlineShop.API.DTOs.Category;
-using OnlineShop.API.Models;
+
 namespace OnlineShop.API.Services.Interfaces
 {
     public interface ICategoryService

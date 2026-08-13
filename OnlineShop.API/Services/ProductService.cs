@@ -319,6 +319,7 @@ namespace OnlineShop.API.Services
             string? searchTerm,
             string? sortColumn,
             bool sortAscending,
+            int? categoryId,
             int pageNumber,
             int pageSize )
         {
@@ -332,6 +333,12 @@ namespace OnlineShop.API.Services
                 {
                     query = query.Where(p =>
                          p.Name.Contains(searchTerm));
+                }
+                // Category Filter--------------------
+                if (categoryId.HasValue)
+                {
+                    query = query.Where(p =>
+                        p.CategoryId == categoryId.Value);
                 }
                 //Sort---------------------
                 query = sortColumn switch

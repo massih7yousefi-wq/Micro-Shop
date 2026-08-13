@@ -8,6 +8,7 @@ export const productService = {
         searchTerm?: string,
         sortColumn?: string,
         sortAscending: boolean = true,
+        categoryId?:number,
         pageNumber: number = 1,
         pageSize: number = 10
     ): Promise<ProductResult> => {
@@ -17,6 +18,7 @@ export const productService = {
                 searchTerm,
                 sortColumn,
                 sortAscending,
+                categoryId,
                 pageNumber,
                 pageSize,
             },

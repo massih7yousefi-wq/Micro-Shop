@@ -17,6 +17,7 @@ namespace OnlineShop.API.Services.Interfaces
             string? searchTerm,
             string? sortColumn,
             bool sortAscending,
+            int? categoryId,
             int pageNumber,
             int pageSize);
 
