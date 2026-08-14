@@ -1,6 +1,6 @@
 //imports--------------------------------------
 import type { Product } from "../../../../models/Product/Product.ts";
-import { API_BASE } from "../../../../services/api.ts";
+
 import { Link } from "react-router-dom";
 import "./ProductCart.css";
 //props----------------------------
@@ -23,7 +23,7 @@ function ProductCart({ product }: ProductCartProps) {
 
                 {mainImage ? (
                     <img
-                        src={`${API_BASE}${mainImage.imageUrl}`}
+                        src={mainImage.imageUrl}
                         alt={product.name}
                     />
                 ) : (

@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 
 import type { Product, ProductImage } from "../../../models/Product/Product";
 import { productService } from "../../../services/productService";
-import { API_BASE } from "../../../services/api";
+
 
 import "./ProductDetail.css";
 
@@ -169,7 +169,7 @@ function ProductDetail() {
                             {selectedImage ? (
 
                                 <img
-                                    src={`${API_BASE}${selectedImage.imageUrl}`}
+                                    src={selectedImage.imageUrl}
                                     alt={product.name}
                                 />
 
@@ -206,7 +206,7 @@ function ProductDetail() {
                                     >
 
                                         <img
-                                            src={`${API_BASE}${image.imageUrl}`}
+                                            src={image.imageUrl}
                                             alt={product.name}
                                         />
 

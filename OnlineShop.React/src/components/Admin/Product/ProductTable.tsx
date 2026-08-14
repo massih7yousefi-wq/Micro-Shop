@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import type { Product } from "../../../models/Product/Product";
-import { API_BASE } from "../../../services/api";
 import "./ProductTable.css";
 
 interface ProductTableProps {
@@ -20,13 +19,11 @@ const ProductTable = ({ products, onDelete,
             </div>
         );
     }
-
     const getMainImage = (product: Product) => {
         if (!product.images || product.images.length === 0) return null;
         const main = product.images.find((img) => img.isMain);
         return main ? main.imageUrl : product.images[0].imageUrl;
     };
-
     return (
         <div className="products-table-container">
             <table className="products-table">
@@ -52,10 +49,11 @@ const ProductTable = ({ products, onDelete,
                             <td className="products-table-cell">
                                 {imageUrl ? (
                                     <img
-                                        src={`${API_BASE}${imageUrl}`}
+                                        src={imageUrl}
                                         alt={product.name}
                                         className="product-image"
                                     />
+
                                 ) : (
                                     <span className="product-no-image">No Image</span>
                                 )}

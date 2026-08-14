@@ -10,7 +10,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 import { productService } from "../../../services/productService";
-import { API_BASE } from "../../../services/api";
 import type { ProductImage } from "../../../models/Product/Product";
 import CategorySelect from "../../../components/Admin/Category/CategorySelect";
 
@@ -423,7 +422,7 @@ const EditProductPage = () => {
                                     >
 
                                         <img
-                                            src={`${API_BASE}${image.imageUrl}`}
+                                            src={image.imageUrl}
                                             alt="Product"
                                         />
 

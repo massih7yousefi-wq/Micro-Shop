@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { productService } from "../../../services/productService";
 import type { Product } from "../../../models/Product/Product";
-import { API_BASE } from "../../../services/api";
 
 import "./ProductDetail.css";
 //component----------------------------------
@@ -70,7 +69,7 @@ const ProductDetail = () => {
 
                         <img
                             key={image.id}
-                            src={`${API_BASE}${image.imageUrl}`}
+                            src={image.imageUrl}
                             alt={product.name}
                         />
 
