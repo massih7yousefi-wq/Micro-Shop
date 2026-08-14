@@ -1,58 +1,61 @@
-﻿// Services/ImageService.cs
-
-using Microsoft.AspNetCore.Hosting;
+﻿//usings--------------------------------
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using OnlineShop.API.Services.Interfaces;
+using OnlineShop.API.Services.Storage;
 
 namespace OnlineShop.API.Services
 {
+    //Constructor----------------------------
     public class ImageService : IImageService
     {
-        private readonly IWebHostEnvironment _environment;
+        private readonly IFileStorage _fileStorage;
         private readonly ILogger<ImageService> _logger;
 
         public ImageService(
-            IWebHostEnvironment environment,
+            IFileStorage fileStorage,
             ILogger<ImageService> logger)
         {
-            _environment = environment;
+            _fileStorage = fileStorage;
             _logger = logger;
         }
-
+        //UploadAsync------------------------------------
         public async Task<string> UploadAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return string.Empty;
+
+            var allowedExtensions = new[]
+            {
+                ".jpg",
+                ".jpeg",
+                ".png",
+                ".webp"
+             };
+
+            var extension = Path.GetExtension(file.FileName)
+                .ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+            {
+                throw new InvalidOperationException(
+                    "Only JPG, JPEG, PNG and WEBP images are allowed.");
+            }
+
+            const long maxFileSize = 5 * 1024 * 1024;
+
+            if (file.Length > maxFileSize)
+            {
+                throw new InvalidOperationException(
+                    "Image size cannot exceed 5 MB.");
+            }
 
             _logger.LogInformation(
                 "Uploading image: {FileName}, Size: {Size}",
                 file.FileName,
                 file.Length);
 
-            var fileName =
-                Guid.NewGuid().ToString() +
-                Path.GetExtension(file.FileName);
-
-            var folderPath =
-                Path.Combine(_environment.WebRootPath, "images");
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            var filePath =
-                Path.Combine(folderPath, fileName);
-
-            using (var stream = new FileStream(
-                filePath,
-                FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var imageUrl = "/images/" + fileName;
+            var imageUrl = await _fileStorage.SaveAsync(file);
 
             _logger.LogInformation(
                 "Image uploaded successfully: {ImageUrl}",
@@ -60,23 +63,17 @@ namespace OnlineShop.API.Services
 
             return imageUrl;
         }
-
-        public Task DeleteAsync(string imageUrl)
+        //DeleteAsync-------------------------------
+        public async Task DeleteAsync(string imageUrl)
         {
-            if (string.IsNullOrEmpty(imageUrl))
-                return Task.CompletedTask;
+            if (string.IsNullOrWhiteSpace(imageUrl))
+                return;
 
-            var filePath =
-                Path.Combine(
-                    _environment.WebRootPath,
-                    imageUrl.TrimStart('/'));
+            await _fileStorage.DeleteAsync(imageUrl);
 
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-
-            return Task.CompletedTask;
+            _logger.LogInformation(
+                "Image deleted successfully: {ImageUrl}",
+                imageUrl);
         }
     }
 }

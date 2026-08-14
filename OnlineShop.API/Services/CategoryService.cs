@@ -30,12 +30,13 @@ public class CategoryService : ICategoryService
         try
         {
             return await context.Categories
+                .AsNoTracking()
                 .Select(c => new CategoryDto
                 {
-                    Id = c.Id,
-                    Name = c.Name,
-                    ProductCount = c.Products.Count()
-                })
+                     Id = c.Id,
+                     Name = c.Name,
+                     ProductCount = c.Products.Count()
+                 })
                 .ToListAsync();
         }
         catch (Exception ex)
@@ -54,6 +55,7 @@ public class CategoryService : ICategoryService
         try
         {
             return await context.Categories
+                .AsNoTracking()
                 .Where(c => c.Id == id)
                 .Select(c => new CategoryDto
                 {
@@ -81,11 +83,14 @@ public class CategoryService : ICategoryService
         int categorypageNumber,
         int categorypageSize)
     {
+        categorypageNumber = Math.Max(categorypageNumber, 1);
+        categorypageSize = Math.Clamp(categorypageSize, 1, 100);
+
         using var context = _contextFactory.CreateDbContext();
         try
         {
             IQueryable<Category> query =
-                context.Categories;
+                 context.Categories.AsNoTracking();
 
 
             // Search--------
@@ -104,8 +109,12 @@ public class CategoryService : ICategoryService
                     : query.OrderByDescending(c => c.Name),
 
                 "ProductCount" => categorysortAscending
-                    ? query.OrderBy(c => c.Products.Count())
-                    : query.OrderByDescending(c => c.Products.Count()),
+                    ? query
+                        .OrderBy(c => c.Products.Count())
+                        .ThenBy(c => c.Id)
+                    : query
+                        .OrderByDescending(c => c.Products.Count())
+                        .ThenByDescending(c => c.Id),
 
                 _ => categorysortAscending
                     ? query.OrderBy(c => c.Id)
@@ -201,7 +210,7 @@ public class CategoryService : ICategoryService
 
             if (category == null)
             {
-                throw new Exception("Category not found.");
+                throw new KeyNotFoundException("Category not found.");
             }
             //error-----
             var nameError =
@@ -232,7 +241,6 @@ public class CategoryService : ICategoryService
         try
         {
             var category = await context.Categories
-                .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
@@ -241,13 +249,14 @@ public class CategoryService : ICategoryService
                     "Category not found.");
             }
 
+            var hasProducts = await context.Products
+                .AnyAsync(p => p.CategoryId == id);
 
-            if (category.Products.Any())
+            if (hasProducts)
             {
                 throw new InvalidOperationException(
                     "You can't delete a category because it contains products.");
             }
-
 
             context.Categories.Remove(category);
 

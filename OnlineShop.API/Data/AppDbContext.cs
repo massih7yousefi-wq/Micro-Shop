@@ -28,7 +28,11 @@ namespace OnlineShop.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //  Product & ProductImage
+            //Price-------------------
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2);
+            //Product & ProductImage-----------
             modelBuilder.Entity<ProductImage>()
                 .HasOne(pi => pi.Product)
                 .WithMany(p => p.Images)

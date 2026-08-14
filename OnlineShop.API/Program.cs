@@ -5,11 +5,10 @@ using OnlineShop.API.Models;
 using OnlineShop.API.Services;
 using OnlineShop.API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
-
+using OnlineShop.API.Services.Storage;
 
 
 var builder = WebApplication.CreateBuilder(args);
-//swagger-----------------------
 
 // Add services to the container.
 
@@ -43,6 +42,8 @@ builder.Services.AddScoped<CartState>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 //ImageService-----------------------------------------------
 builder.Services.AddScoped<IImageService, ImageService>();
+//Storage--------------------------------------------------
+builder.Services.AddScoped<IFileStorage, LocalFileStorage>();
 //OrderService---------------------------------------------
 builder.Services.AddScoped<IOrderService, OrderService>();
 //ToastService---------------------------------------------

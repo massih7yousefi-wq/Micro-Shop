@@ -74,9 +74,19 @@ namespace OnlineShop.API.Controllers
             int id,
             [FromBody] updateCategoryDto dto)
         {
-            await _categoryService.UpdateAsync(id, dto);
+            try
+            {
+                await _categoryService.UpdateAsync(id, dto);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new
+                {
+                    message = "Category not found."
+                });
+            }
         }
         //Delete-----------------------------------------
         [HttpDelete("{id}")]

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//usings----------------------------
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.API.DTOs;
 using OnlineShop.API.Models;
 using OnlineShop.API.Services.Interfaces;
@@ -16,7 +17,7 @@ namespace OnlineShop.API.Controllers
             _productsService = productsService;
         }
 
-        // Get All Products
+        //Get All Products---------------------------
         [HttpGet]
         public async Task<ActionResult<List<ProductDto>>> GetAll()
         {
@@ -24,7 +25,7 @@ namespace OnlineShop.API.Controllers
             return Ok(products);
         }
 
-        // Search + Sort + Pagination
+        //Search + Sort + Pagination-------------------------
         [HttpGet("search")]
         public async Task<ActionResult<ProductResult>> GetProducts(
             string? searchTerm,
@@ -45,7 +46,7 @@ namespace OnlineShop.API.Controllers
             return Ok(result);
         }
 
-        // Get Product By Id
+        //Get Product By Id----------------------------
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> GetById(int id)
         {
@@ -59,7 +60,7 @@ namespace OnlineShop.API.Controllers
             return Ok(product);
         }
 
-        // Create Product
+        //Create Product----------------------------
         [HttpPost]
         public async Task<ActionResult<ProductDto>> Create(
     [FromForm] CreateProductDto dto)
@@ -73,39 +74,67 @@ namespace OnlineShop.API.Controllers
                 new { id = product.Id },
                 createdProduct);
         }
-        // Update Product
+        //Update Product--------------------------
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             int id,
             [FromForm] UpdateProductDto dto)
         {
-            await _productsService.UpdateAsync(id, dto);
+            try
+            {
+                await _productsService.UpdateAsync(id, dto);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    message = ex.Message
+                });
+            }
         }
-
-        // Delete Product
+        //Delete Product-----------------------------
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _productsService.DeleteAsync(id);
-
-            return Ok(new
+            try
             {
-                message = "Product deleted successfully."
-            });
-        }
+                await _productsService.DeleteAsync(id);
 
-        // Delete Single Image
+                return Ok(new
+                {
+                    message = "Product deleted successfully."
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+        //Delete Single Image----------------------------------
         [HttpDelete("image/{imageId}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {
-            await _productsService.DeleteImageAsync(imageId);
-
-            return Ok(new
+            try
             {
-                message = "Image deleted successfully."
-            });
+                await _productsService.DeleteImageAsync(imageId);
+
+                return Ok(new
+                {
+                    message = "Image deleted successfully."
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    message = ex.Message
+                });
+            }
         }
     }
 }

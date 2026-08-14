@@ -21,7 +21,6 @@ namespace OnlineShop.API.Services.Interfaces
             int pageNumber,
             int pageSize);
 
-        Task<List<ProductDto>> GetShopProductsAsync();
         Task<ProductImage?> GetImageAsync(int imageId);
 
         Task DeleteImageAsync(int imageId);

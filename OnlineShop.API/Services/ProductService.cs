@@ -4,13 +4,12 @@ using OnlineShop.API.Data;
 using OnlineShop.API.Models;
 using OnlineShop.API.Services.Interfaces;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 using OnlineShop.API.Helpers;
 using OnlineShop.API.DTOs;
 
 namespace OnlineShop.API.Services
 {
-    //-----------------------------------------------
+    //Constructor----------------------------------
     public class ProductService : IProductsService
     {
         private readonly IDbContextFactory<AppDbContext> _contextFactory;
@@ -31,8 +30,7 @@ namespace OnlineShop.API.Services
             try
             {
                 return await context.Products
-                    .Include(p => p.Category)
-                    .Include(p => p.Images)
+                    .AsNoTracking()
                     .Select(p => new ProductDto
                     {
                         Id = p.Id,
@@ -64,8 +62,7 @@ namespace OnlineShop.API.Services
             try
             {
                 return await context.Products
-                     .Include(p => p.Category)
-                     .Include(p => p.Images)
+                     .AsNoTracking()
                      .Where(p => p.Id == id)
                      .Select(p => new ProductDto 
                      {
@@ -109,7 +106,15 @@ namespace OnlineShop.API.Services
                 if (priceError != null)
                     throw new Exception(priceError);
 
-                if (dto.Images != null && dto.Images.Count > 5)
+                var categoryExists = await context.Categories
+                    .AnyAsync(c => c.Id == dto.CategoryId);
+
+                if (!categoryExists)
+                {
+                    throw new KeyNotFoundException("Category not found.");
+                }
+
+                if (dto.Images?.Count > 5)
                     throw new Exception("Maximum 5 images are allowed.");
 
                 //---------------- Create Product ----------------
@@ -124,7 +129,7 @@ namespace OnlineShop.API.Services
 
                 //---------------- Upload Images ----------------
 
-                if (dto.Images != null && dto.Images.Any())
+                if (dto.Images?.Count > 0)
                 {
                     bool isFirst = true;
 
@@ -174,8 +179,9 @@ namespace OnlineShop.API.Services
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (product == null)
-                    throw new Exception("Product not found.");
-
+                {
+                    throw new KeyNotFoundException("Product not found.");
+                }
                 //---------------- Validation ----------------
 
                 var nameError = ValidationHelper.ValidateName(dto.Name);
@@ -188,19 +194,29 @@ namespace OnlineShop.API.Services
                 if (priceError != null)
                     throw new Exception(priceError);
 
+                var categoryExists = await context.Categories
+                    .AnyAsync(c => c.Id == dto.CategoryId);
+
+                if (!categoryExists)
+                {
+                    throw new KeyNotFoundException("Category not found.");
+                }
+
                 //---------------- Basic Info ----------------
 
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.Price = dto.Price;
                 product.CategoryId = dto.CategoryId;
-                
+
 
                 //---------------- Delete Images ----------------
 
+                var imagesToDelete = new List<ProductImage>();
+
                 if (dto.DeletedImageIds != null && dto.DeletedImageIds.Any())
                 {
-                    var imagesToDelete = product.Images
+                    imagesToDelete = product.Images
                         .Where(i => dto.DeletedImageIds.Contains(i.Id))
                         .ToList();
 
@@ -211,12 +227,10 @@ namespace OnlineShop.API.Services
                         context.ProductImages.Remove(image);
                     }
                 }
-
                 //---------------- Max Images ----------------
 
                 int currentImages =
-                    product.Images.Count -
-                    (dto.DeletedImageIds?.Count ?? 0);
+                    product.Images.Count - imagesToDelete.Count;
 
                 int newImages =
                     dto.NewImages?.Count ?? 0;
@@ -253,12 +267,13 @@ namespace OnlineShop.API.Services
                     var mainImage = product.Images
                         .FirstOrDefault(i => i.Id == dto.MainImageId.Value);
 
-                    if (mainImage != null)
+                    if (mainImage == null)
                     {
-                        mainImage.IsMain = true;
+                        throw new KeyNotFoundException("Main image not found.");
                     }
-                }
 
+                    mainImage.IsMain = true;
+                }
                 //---------------- First Image Main ----------------
 
                 if (product.Images.Any() &&
@@ -289,8 +304,9 @@ namespace OnlineShop.API.Services
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (product == null)
-                    throw new Exception("Product not found.");
-
+                {
+                    throw new KeyNotFoundException("Product not found.");
+                }
                 foreach (var image in product.Images)
                 {
                     await _imageService.DeleteAsync(image.ImageUrl);
@@ -323,11 +339,14 @@ namespace OnlineShop.API.Services
             int pageNumber,
             int pageSize )
         {
+            pageNumber = Math.Max(pageNumber, 1);
+            pageSize = Math.Clamp(pageSize, 1, 100);
+
             using var context = _contextFactory.CreateDbContext();
             try
             {
                 IQueryable<Product> query = context.Products
-                    .Include(p => p.Category);
+                    .AsNoTracking();
                 //Search--------------------
                 if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
@@ -344,12 +363,12 @@ namespace OnlineShop.API.Services
                 query = sortColumn switch
                 {
                     "Name" => sortAscending
-                    ? query.OrderBy(p => p.Name)
-                    : query.OrderByDescending(p => p.Name),
+                        ? query.OrderBy(p => p.Name).ThenBy(p => p.Id)
+                        : query.OrderByDescending(p => p.Name).ThenByDescending(p => p.Id),
 
                     "Price" => sortAscending
-                    ? query.OrderBy(p => p.Price)
-                    : query.OrderByDescending(p => p.Price),
+                        ? query.OrderBy(p => p.Price).ThenBy(p => p.Id)
+                        : query.OrderByDescending(p => p.Price).ThenByDescending(p => p.Id),
 
                     _ => sortAscending
                     ? query.OrderBy(p => p.Id)
@@ -363,24 +382,24 @@ namespace OnlineShop.API.Services
                             (double)totalCount / pageSize);
                 //pagination--------------------
                 var products = await query
-                    .Include(p => p.Images)
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
-                    .Select(p => new ProductDto 
+                    .Select(p => new ProductDto
                     {
                         Id = p.Id,
                         Name = p.Name,
                         Description = p.Description,
                         Price = p.Price,
                         CategoryId = p.CategoryId,
-                        CategoryName = p.Category != null ? p.Category.Name : String.Empty,
+                        CategoryName = p.Category != null
+                            ? p.Category.Name
+                            : String.Empty,
                         Images = p.Images.Select(img => new ProductImageDto
                         {
                             Id = img.Id,
                             ImageUrl = img.ImageUrl,
                             IsMain = img.IsMain
                         }).ToList()
-
                     })
                     .ToListAsync();
                 return new ProductResult
@@ -397,39 +416,6 @@ namespace OnlineShop.API.Services
                 throw;
             }
         }
-        //Get_Shop_Product-----------------------------------
-        public async Task<List<ProductDto>> GetShopProductsAsync() 
-        {
-            using var context = _contextFactory.CreateDbContext();
-            try
-            {
-                return await context.Products
-                    .Include(p => p.Category)
-                    .Include(p => p.Images)
-                    .Select(p => new ProductDto
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Price = p.Price,
-                        CategoryId = p.CategoryId,
-                        CategoryName = p.Category != null ? p.Category.Name : String.Empty,
-                        Images = p.Images.Select(img => new ProductImageDto
-                        {
-                            Id = img.Id,
-                            ImageUrl = img.ImageUrl,
-                            IsMain = img.IsMain
-                        }).ToList()
-                    })
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex,
-                    "Error while getting shop products");
-                throw;
-            }
-        }
         //Find_Entity-------------------------------------
         public async Task<Product?> FindEntityAsync(int id)
         {
@@ -442,7 +428,10 @@ namespace OnlineShop.API.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error while finding product entity with id {id}");
+                _logger.LogError(
+                    ex,
+                    "Error while finding product entity with id {ProductId}",
+                    id);
                 throw;
             }
         }
@@ -453,6 +442,7 @@ namespace OnlineShop.API.Services
 
 
             return await context.ProductImages
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == imageId);
         }
 
@@ -470,7 +460,9 @@ namespace OnlineShop.API.Services
                     .FirstOrDefaultAsync(i => i.Id == imageId);
 
                 if (image == null)
-                    throw new Exception("Image not found.");
+                {
+                    throw new KeyNotFoundException("Image not found.");
+                }
 
                 bool wasMain = image.IsMain;
 
