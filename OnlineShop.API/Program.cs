@@ -6,6 +6,7 @@ using OnlineShop.API.Services;
 using OnlineShop.API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using OnlineShop.API.Services.Storage;
+using Supabase;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,8 +43,26 @@ builder.Services.AddScoped<CartState>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 //ImageService-----------------------------------------------
 builder.Services.AddScoped<IImageService, ImageService>();
-//Storage--------------------------------------------------
-builder.Services.AddScoped<IFileStorage, LocalFileStorage>();
+// Supabase------------------------------------------------
+var supabaseUrl = builder.Configuration["Supabase:Url"];
+var supabaseKey = builder.Configuration["Supabase:Key"];
+
+if (string.IsNullOrWhiteSpace(supabaseUrl))
+    throw new InvalidOperationException("Supabase URL is not configured.");
+
+if (string.IsNullOrWhiteSpace(supabaseKey))
+    throw new InvalidOperationException("Supabase Key is not configured.");
+
+var supabaseClient = new Supabase.Client(
+    supabaseUrl,
+    supabaseKey);
+
+await supabaseClient.InitializeAsync();
+
+builder.Services.AddSingleton(supabaseClient);
+
+// Storage-------------------------------------------------
+builder.Services.AddScoped<IFileStorage, SupabaseFileStorage>();
 //OrderService---------------------------------------------
 builder.Services.AddScoped<IOrderService, OrderService>();
 //ToastService---------------------------------------------
