@@ -38,12 +38,7 @@ export const productService = {
 
         const response = await api.post<Product>(
             "/products",
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
+            formData
         );
 
         return response.data;
@@ -56,12 +51,7 @@ export const productService = {
 
         await api.put(
             `/products/${id}`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
+            formData
         );
     },
     //Delete--------------------------------------------
