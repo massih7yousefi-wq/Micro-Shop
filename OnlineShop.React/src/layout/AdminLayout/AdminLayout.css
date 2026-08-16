@@ -1,21 +1,397 @@
-.admin-layout{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    background:#f8fafc;
+/* =========================================
+   ADMIN LAYOUT
+========================================= */
+
+.admin-layout {
+    min-height:
+            100vh;
+
+    display:
+            flex;
+
+    flex-direction:
+            column;
+
+    background:
+            #f8fbff;
+
+    color:
+            var(--color-text);
+
+    overflow:
+            hidden;
 }
 
 
-.Admin-body{
-    display:flex;
-    flex:1;
-    width:100%;
+/* =========================================
+   BODY
+========================================= */
+
+.admin-body {
+    flex:
+            1;
+
+    min-height:
+            0;
+
+    display:
+            flex;
+
+    position:
+            relative;
+
+    margin-top:
+            72px;
+
+    margin-left:
+            250px;
 }
 
 
-.admin-Content{
-    flex:1;
-    padding:24px;
-    overflow-x:auto;
-    background:#f8fafc;
+/* =========================================
+   CONTENT
+========================================= */
+
+.admin-content {
+    position:
+            relative;
+
+    flex:
+            1;
+
+    min-width:
+            0;
+
+    min-height:
+            calc(100vh - 72px);
+
+    overflow-x:
+            hidden;
+
+    overflow-y:
+            auto;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #f8fbff 50%,
+                    #f3f8ff 100%
+            );
+
+    scrollbar-width:
+            thin;
+
+    scrollbar-color:
+            rgba(37, 99, 235, 0.18)
+            transparent;
+}
+
+
+/* =========================================
+   CONTENT BACKGROUND GRID
+========================================= */
+
+.admin-content::before {
+    content:
+            "";
+
+    position:
+            fixed;
+
+    inset:
+            72px 0 0 250px;
+
+    pointer-events:
+            none;
+
+    opacity:
+            0.35;
+
+    background-image:
+            linear-gradient(
+                    rgba(37, 99, 235, 0.035) 1px,
+                    transparent 1px
+            ),
+            linear-gradient(
+                    90deg,
+                    rgba(37, 99, 235, 0.035) 1px,
+                    transparent 1px
+            );
+
+    background-size:
+            48px 48px;
+
+    mask-image:
+            linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 85%
+            );
+
+    -webkit-mask-image:
+            linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 85%
+            );
+}
+
+
+/* =========================================
+   CONTENT INNER
+========================================= */
+
+.admin-content-inner {
+    position:
+            relative;
+
+    z-index:
+            2;
+
+    width:
+            100%;
+
+    max-width:
+            1600px;
+
+    min-height:
+            100%;
+
+    margin:
+            0 auto;
+
+    padding:
+            42px 38px 42px;
+
+    animation:
+            admin-content-in
+            500ms
+            var(--ease-out);
+}
+
+
+/* =========================================
+   CONTENT CHILDREN
+========================================= */
+
+.admin-content-inner > * {
+    width:
+            100%;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.admin-content::-webkit-scrollbar {
+    width:
+            7px;
+}
+
+
+.admin-content::-webkit-scrollbar-track {
+    background:
+            transparent;
+}
+
+
+.admin-content::-webkit-scrollbar-thumb {
+    border-radius:
+            999px;
+
+    background:
+            rgba(37, 99, 235, 0.15);
+}
+
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+    background:
+            rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.admin-layout > .admin-footer {
+    position:
+            relative;
+
+    z-index:
+            30;
+
+    flex-shrink:
+            0;
+
+    margin-left:
+            250px;
+}
+
+
+/* =========================================
+   CONTENT ENTRY
+========================================= */
+
+@keyframes admin-content-in {
+
+    from {
+        opacity:
+                0;
+
+        transform:
+                translateY(10px);
+    }
+
+    to {
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
+    }
+}
+
+
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+
+@media (max-width: 1200px) {
+
+    .admin-content-inner {
+        padding:
+                30px;
+    }
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .admin-body {
+        margin-left:
+                220px;
+    }
+
+
+    .admin-content::before {
+        left:
+                220px;
+    }
+
+
+    .admin-content-inner {
+        padding:
+                26px 22px 35px;
+    }
+
+
+    .admin-layout > .admin-footer {
+        margin-left:
+                220px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .admin-layout {
+        overflow:
+                visible;
+    }
+
+
+    .admin-body {
+        margin-left:
+                72px;
+    }
+
+
+    .admin-content {
+        min-height:
+                auto;
+
+        overflow:
+                visible;
+    }
+
+
+    .admin-content::before {
+        left:
+                72px;
+
+        top:
+                72px;
+    }
+
+
+    .admin-content-inner {
+        padding:
+                22px 18px 30px;
+    }
+
+
+    .admin-layout > .admin-footer {
+        margin-left:
+                72px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .admin-body {
+        margin-left:
+                64px;
+    }
+
+
+    .admin-content::before {
+        left:
+                64px;
+    }
+
+
+    .admin-content-inner {
+        padding:
+                18px 14px 26px;
+    }
+
+
+    .admin-layout > .admin-footer {
+        margin-left:
+                64px;
+    }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .admin-content-inner {
+        animation:
+                none !important;
+    }
+
 }

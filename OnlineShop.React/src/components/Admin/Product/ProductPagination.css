@@ -1,31 +1,382 @@
+
+/* =========================================
+   PAGINATION
+========================================= */
+
 .product-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 12px 0;
+    min-height:
+            64px;
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            space-between;
+
+    gap:
+            20px;
+
+    padding:
+            0 4px;
+
+    animation:
+            pagination-in
+            500ms
+            var(--ease-out);
 }
+
+
+/* =========================================
+   Summary
+========================================= */
+
+.pagination-summary {
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            8px;
+}
+
+
+.pagination-summary-label {
+    color:
+            var(--color-text);
+
+    font-size:
+            9px;
+
+    font-weight:
+            800;
+
+    letter-spacing:
+            0.04em;
+}
+
+
+.pagination-summary-divider {
+    width:
+            1px;
+
+    height:
+            15px;
+
+    background:
+            var(--color-border);
+}
+
+
+.pagination-summary-value {
+    color:
+            var(--color-text-light);
+
+    font-size:
+            9px;
+
+    font-weight:
+            650;
+}
+
+
+/* =========================================
+   Controls
+========================================= */
+
+.pagination-controls {
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            6px;
+}
+
+
+/* =========================================
+   Buttons
+========================================= */
+
 .pagination-button {
-    padding: 8px 18px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    background-color: white;
-    color: #334155;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s ease;
+    min-height:
+            34px;
+
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    gap:
+            6px;
+
+    padding:
+            0 11px;
+
+    border:
+            1px solid var(--color-border);
+
+    border-radius:
+            9px;
+
+    background:
+            rgba(255, 255, 255, 0.75);
+
+    color:
+            var(--color-text-secondary);
+
+    font-size:
+            9px;
+
+    font-weight:
+            750;
+
+    cursor:
+            pointer;
+
+    transition:
+            transform 300ms var(--ease-smooth),
+            color 250ms ease,
+            background-color 250ms ease,
+            border-color 250ms ease,
+            box-shadow 300ms ease;
 }
+
+
 .pagination-button:hover:not(:disabled) {
-    background-color: #f8fafc;
-    border-color: #cbd5e1;
+    border-color:
+            rgba(37, 99, 235, 0.14);
+
+    background:
+            #ffffff;
+
+    color:
+            var(--color-primary);
+
+    transform:
+            translateY(-2px);
+
+    box-shadow:
+            0 7px 18px
+            rgba(37, 99, 235, 0.08);
 }
+
+
+.pagination-button:active:not(:disabled) {
+    transform:
+            translateY(0);
+}
+
+
+/* =========================================
+   Icon
+========================================= */
+
+.pagination-button-icon {
+    font-size:
+            12px;
+
+    line-height:
+            1;
+
+    transition:
+            transform 250ms var(--ease-smooth);
+}
+
+
+.pagination-button-previous:hover
+.pagination-button-icon {
+    transform:
+            translateX(-2px);
+}
+
+
+.pagination-button-next:hover
+.pagination-button-icon {
+    transform:
+            translateX(2px);
+}
+
+
+/* =========================================
+   Disabled
+========================================= */
+
 .pagination-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
+    opacity:
+            0.42;
+
+    cursor:
+            not-allowed;
+
+    background:
+            #f8fafc;
+
+    box-shadow:
+            none;
+
+    transform:
+            none;
 }
-.pagination-info {
-    font-size: 14px;
-    color: #64748b;
-    font-weight: 500;
+
+
+/* =========================================
+   Current Page
+========================================= */
+
+.pagination-current {
+    width:
+            34px;
+
+    height:
+            34px;
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    border:
+            1px solid rgba(37, 99, 235, 0.10);
+
+    border-radius:
+            9px;
+
+    background:
+            #eff6ff;
+
+    color:
+            var(--color-primary);
+
+    font-size:
+            9px;
+
+    font-weight:
+            850;
+
+    box-shadow:
+            0 5px 14px
+            rgba(37, 99, 235, 0.07);
 }
+
+
+/* =========================================
+   Animation
+========================================= */
+
+@keyframes pagination-in {
+
+    from {
+        opacity:
+                0;
+
+        transform:
+                translateY(8px);
+    }
+
+    to {
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
+    }
+}
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 600px) {
+
+    .product-pagination {
+        flex-direction:
+                column;
+
+        align-items:
+                stretch;
+
+        gap:
+                12px;
+
+        padding:
+                12px 0;
+    }
+
+    .pagination-summary {
+        justify-content:
+                center;
+    }
+
+    .pagination-controls {
+        justify-content:
+                center;
+    }
+
+    .pagination-button {
+        flex:
+                1;
+
+        min-width:
+                110px;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .pagination-summary {
+        gap:
+                6px;
+    }
+
+    .pagination-summary-label,
+    .pagination-summary-value {
+        font-size:
+                8px;
+    }
+
+    .pagination-button {
+        min-width:
+                90px;
+
+        padding:
+                0 8px;
+
+        font-size:
+                8px;
+    }
+}
+
+
+/* =========================================
+   Reduced Motion
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .product-pagination,
+    .pagination-button {
+        animation:
+                none !important;
+
+        transition:
+                none !important;
+    }
+}
+

@@ -97,7 +97,7 @@ const CreateProductPage = () => {
     };
 
 
-   //send_form-------------------------------------
+    //send_form-------------------------------------
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
     ) => {
@@ -155,7 +155,7 @@ const CreateProductPage = () => {
 
 
 
-   //Body--------------------------------------------
+    //Body--------------------------------------------
     return (
 
         <div className="create-product-page">
@@ -286,58 +286,58 @@ const CreateProductPage = () => {
 
 
                     <button type="button"
-                        className="add-image-button"
-                        onClick={() => fileInputRef.current?.click()}>
+                            className="add-image-button"
+                            onClick={() => fileInputRef.current?.click()}>
                         + Add Image
                     </button>
                     <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    hidden
-                    onChange={handleImageChange}/>
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        hidden
+                        onChange={handleImageChange}/>
                 </div>
 
-                    {
-                        images.length > 0 && (
+                {
+                    images.length > 0 && (
 
-                            <div className="image-preview">
+                        <div className="image-preview">
 
-                                {
-                                    images.map((image, index) => (
+                            {
+                                images.map((image, index) => (
 
-                                        <div
-                                            key={index}
-                                            className="preview-item"
+                                    <div
+                                        key={index}
+                                        className="preview-item"
+                                    >
+
+                                        <img
+                                            src={image.preview}
+                                            alt={image.file.name}
+                                        />
+
+                                        <p>
+                                            {image.file.name}
+                                        </p>
+
+                                        <button
+                                            type="button"
+                                            className="remove-image-button"
+                                            onClick={() => removeImage(index)}
                                         >
+                                            ✕
+                                        </button>
 
-                                            <img
-                                                src={image.preview}
-                                                alt={image.file.name}
-                                            />
+                                    </div>
 
-                                            <p>
-                                                {image.file.name}
-                                            </p>
+                                ))
+                            }
 
-                                            <button
-                                                type="button"
-                                                className="remove-image-button"
-                                                onClick={() => removeImage(index)}
-                                            >
-                                                ✕
-                                            </button>
+                        </div>
 
-                                        </div>
-
-                                    ))
-                                }
-
-                            </div>
-
-                        )
-                    }
+                    )
+                }
 
 
                 <div className="form-actions">

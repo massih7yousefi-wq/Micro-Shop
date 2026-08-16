@@ -1,26 +1,382 @@
+/* =========================================
+   PRODUCT SEARCH
+========================================= */
+
 .product-search {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 8px;
+    width: 100%;
+
+    animation:
+            product-search-in
+            550ms
+            var(--ease-out);
 }
-.product-search-input {
-    flex: 1;
-    max-width: 400px;
+
+
+/* =========================================
+   Search Box
+========================================= */
+
+.product-search-box {
+    position: relative;
+
+    width: 100%;
+    max-width: 360px;
+
     height: 44px;
-    padding: 0 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 15px;
-    color: #0f172a;
-    background-color: white;
-    outline: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+
+    align-items: center;
+
+    border:
+            1px solid var(--color-border);
+
+    border-radius:
+            12px;
+
+    background:
+            rgba(255, 255, 255, 0.78);
+
+    box-shadow:
+            0 5px 18px
+            rgba(15, 23, 42, 0.035);
+
+    backdrop-filter:
+            blur(10px);
+
+    -webkit-backdrop-filter:
+            blur(10px);
+
+    transition:
+            border-color 300ms ease,
+            box-shadow 300ms ease,
+            background-color 300ms ease,
+            transform 300ms var(--ease-smooth);
 }
-.product-search-input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+
+
+/* =========================================
+   Focus
+========================================= */
+
+.product-search-box:focus-within {
+    border-color:
+            rgba(37, 99, 235, 0.28);
+
+    background:
+            rgba(255, 255, 255, 0.95);
+
+    box-shadow:
+            0 0 0 4px
+            rgba(37, 99, 235, 0.055),
+            0 10px 28px
+            rgba(37, 99, 235, 0.07);
+
+    transform:
+            translateY(-1px);
 }
+
+
+/* =========================================
+   Search Icon
+========================================= */
+
+.product-search-icon {
+    width:
+            42px;
+
+    flex-shrink:
+            0;
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    color:
+            var(--color-text-light);
+
+    font-size:
+            20px;
+
+    line-height:
+            1;
+
+    pointer-events:
+            none;
+
+    transition:
+            color 250ms ease,
+            transform 250ms var(--ease-smooth);
+}
+
+
+.product-search-box:focus-within
+.product-search-icon {
+    color:
+            var(--color-primary);
+
+    transform:
+            scale(1.05);
+}
+
+
+/* =========================================
+   Input
+========================================= */
+
+.product-search-input {
+    width:
+            100%;
+
+    height:
+            100%;
+
+    min-width:
+            0;
+
+    padding:
+            0 8px 0 0;
+
+    border:
+            none;
+
+    outline:
+            none;
+
+    background:
+            transparent;
+
+    color:
+            var(--color-text);
+
+    font-family:
+            inherit;
+
+    font-size:
+            11px;
+
+    font-weight:
+            650;
+}
+
+
 .product-search-input::placeholder {
-    color: #94a3b8;
+    color:
+            var(--color-text-light);
+
+    font-weight:
+            550;
+
+    transition:
+            color 200ms ease;
+}
+
+
+.product-search-box:focus-within
+.product-search-input::placeholder {
+    color:
+            rgba(100, 116, 139, 0.55);
+}
+
+
+/* =========================================
+   Clear Button
+========================================= */
+
+.product-search-clear {
+    width:
+            28px;
+
+    height:
+            28px;
+
+    margin-right:
+            7px;
+
+    flex-shrink:
+            0;
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    border:
+            none;
+
+    border-radius:
+            8px;
+
+    background:
+            transparent;
+
+    color:
+            var(--color-text-light);
+
+    font-family:
+            inherit;
+
+    font-size:
+            17px;
+
+    line-height:
+            1;
+
+    cursor:
+            pointer;
+
+    transition:
+            background-color 200ms ease,
+            color 200ms ease,
+            transform 250ms var(--ease-smooth);
+}
+
+
+.product-search-clear:hover {
+    background:
+            #eff6ff;
+
+    color:
+            var(--color-primary);
+
+    transform:
+            rotate(90deg);
+}
+
+
+.product-search-clear:active {
+    transform:
+            scale(0.9);
+}
+
+
+/* =========================================
+   Hint
+========================================= */
+
+.product-search-hint {
+    margin-right:
+            11px;
+
+    padding:
+            4px 7px;
+
+    border:
+            1px solid rgba(148, 163, 184, 0.14);
+
+    border-radius:
+            6px;
+
+    background:
+            #f8fafc;
+
+    color:
+            var(--color-text-light);
+
+    font-size:
+            7px;
+
+    font-weight:
+            750;
+
+    letter-spacing:
+            0.04em;
+
+    white-space:
+            nowrap;
+}
+
+
+/* =========================================
+   Animation
+========================================= */
+
+@keyframes product-search-in {
+
+    from {
+        opacity:
+                0;
+
+        transform:
+                translateY(8px);
+    }
+
+    to {
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
+    }
+}
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 700px) {
+
+    .product-search-box {
+        max-width:
+                none;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .product-search-box {
+        height:
+                42px;
+
+        border-radius:
+                11px;
+    }
+
+    .product-search-icon {
+        width:
+                38px;
+
+        font-size:
+                18px;
+    }
+
+    .product-search-input {
+        font-size:
+                10px;
+    }
+
+    .product-search-hint {
+        display:
+                none;
+    }
+}
+
+
+/* =========================================
+   Reduced Motion
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .product-search,
+    .product-search-box,
+    .product-search-icon,
+    .product-search-clear {
+        animation:
+                none !important;
+
+        transition:
+                none !important;
+    }
 }

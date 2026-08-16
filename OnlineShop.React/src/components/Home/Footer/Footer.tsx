@@ -5,33 +5,59 @@ const Footer = () => {
     return (
         <footer className="site-footer">
 
+            <div className="site-footer__glow" />
 
             <div className="footer-container">
 
+                {/* Brand */}
+                <div className="footer-brand">
 
-                <div className="footer-section">
+                    <Link
+                        to="/"
+                        className="footer-logo"
+                    >
+                        <span className="footer-logo__mark">
 
-                    <h3 className="footer-title">
-                        Micro Shop
-                    </h3>
+                            <span className="footer-logo__line footer-logo__line--left" />
+                            <span className="footer-logo__line footer-logo__line--center" />
+                            <span className="footer-logo__line footer-logo__line--right" />
 
+                        </span>
 
-                    <p className="footer-text">
-                        Your trusted online shopping destination.
-                        Quality products with simple shopping experience.
+                        <span className="footer-logo__text">
+                            <span className="footer-logo__name">
+                                Micro
+                            </span>
+
+                            <span className="footer-logo__shop">
+                                Shop
+                            </span>
+                        </span>
+                    </Link>
+
+                    <p className="footer-brand__description">
+                        A modern shopping experience built around
+                        quality products, simple navigation and
+                        effortless discovery.
                     </p>
+
+                    <div className="footer-brand__status">
+                        <span className="footer-status__dot" />
+
+                        <span>
+                            Shopping made simple
+                        </span>
+                    </div>
 
                 </div>
 
 
+                {/* Explore */}
+                <div className="footer-column">
 
-
-                <div className="footer-section">
-
-                    <h3 className="footer-title">
-                        Quick Links
-                    </h3>
-
+                    <span className="footer-column__title">
+                        Explore
+                    </span>
 
                     <Link
                         to="/"
@@ -40,14 +66,12 @@ const Footer = () => {
                         Home
                     </Link>
 
-
                     <Link
                         to="/products"
                         className="footer-link"
                     >
                         Products
                     </Link>
-
 
                     <Link
                         to="/categories"
@@ -59,44 +83,103 @@ const Footer = () => {
                 </div>
 
 
+                {/* Company */}
+                <div className="footer-column">
 
+                    <span className="footer-column__title">
+                        Company
+                    </span>
 
+                    <Link
+                        to="/products"
+                        className="footer-link"
+                    >
+                        New Arrivals
+                    </Link>
 
-                <div className="footer-section">
+                    <Link
+                        to="/products"
+                        className="footer-link"
+                    >
+                        Featured
+                    </Link>
 
-                    <h3 className="footer-title">
-                        Contact
-                    </h3>
-
-
-                    <p className="footer-text">
-                        Email: support@microshop.com
-                    </p>
-
-
-                    <p className="footer-text">
-                        Phone: +98 930 558 9409
-                    </p>
-
+                    <Link
+                        to="/cart"
+                        className="footer-link"
+                    >
+                        Shopping Cart
+                    </Link>
 
                 </div>
 
 
+                {/* Contact */}
+                <div className="footer-column footer-contact">
+
+                    <span className="footer-column__title">
+                        Get in touch
+                    </span>
+
+                    <a
+                        href="mailto:support@microshop.com"
+                        className="footer-contact__item"
+                    >
+                        <span className="footer-contact__icon">
+                            @
+                        </span>
+
+                        <span>
+                            support@microshop.com
+                        </span>
+                    </a>
+
+                    <a
+                        href="tel:+989305589409"
+                        className="footer-contact__item"
+                    >
+                        <span className="footer-contact__icon">
+                            +
+                        </span>
+
+                        <span>
+                            +98 930 558 9409
+                        </span>
+                    </a>
+
+                </div>
 
             </div>
 
 
-
+            {/* Bottom */}
             <div className="footer-bottom">
 
-                © 2026 Micro Shop. All rights reserved.
+                <div className="footer-bottom__container">
+
+                    <span>
+                        © 2026 Micro Shop
+                    </span>
+
+                    <span className="footer-bottom__separator">
+                        /
+                    </span>
+
+                    <span>
+                        All rights reserved.
+                    </span>
+
+                    <span className="footer-bottom__made">
+                        Built with care
+                        <span>♥</span>
+                    </span>
+
+                </div>
 
             </div>
 
-
         </footer>
-
     );
-
 };
+
 export default Footer;

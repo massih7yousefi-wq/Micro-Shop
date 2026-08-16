@@ -1,0 +1,220 @@
+/* =========================================================
+   CATEGORY FILTER
+========================================================= */
+
+.category-filter {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Hide scrollbar */
+
+.category-filter::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================================
+   FILTER ITEM
+========================================================= */
+
+.category-filter__item {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    min-height: 42px;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 11px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 650;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+            color 0.25s ease,
+            background-color 0.25s ease,
+            border-color 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.25s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.category-filter__item:hover {
+    color: #2563eb;
+
+    background: #ffffff;
+
+    border-color: #e2e8f0;
+
+    box-shadow:
+            0 5px 15px rgba(15, 23, 42, 0.05);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ACTIVE
+========================================================= */
+
+.category-filter__item.active {
+    color: #ffffff;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+            );
+
+    border-color: #2563eb;
+
+    box-shadow:
+            0 7px 18px rgba(37, 99, 235, 0.22);
+}
+
+
+.category-filter__item.active:hover {
+    color: #ffffff;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+            );
+
+    border-color: #2563eb;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ACTIVE GLOW
+========================================================= */
+
+.category-filter__item.active::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 1px;
+
+    border-radius: 10px;
+
+    background:
+            linear-gradient(
+                    120deg,
+                    rgba(255, 255, 255, 0.15),
+                    transparent 45%
+            );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.category-filter__item:focus-visible {
+    outline: none;
+
+    box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+/* =========================================================
+   ACTIVE PRESS
+========================================================= */
+
+.category-filter__item:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .category-filter {
+        gap: 6px;
+
+        padding: 6px;
+
+        border-radius: 14px;
+    }
+
+
+    .category-filter__item {
+        min-height: 40px;
+
+        padding: 0 15px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .category-filter {
+        border-radius: 13px;
+    }
+
+
+    .category-filter__item {
+        min-height: 38px;
+
+        padding: 0 14px;
+
+        font-size: 12px;
+    }
+
+}

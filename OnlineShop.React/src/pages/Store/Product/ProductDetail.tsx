@@ -196,13 +196,13 @@ function ProductDetail() {
                                         type="button"
                                         key={image.id}
                                         className={`product-detail__thumbnail ${
-    selectedImage?.id === image.id
-        ? "product-detail__thumbnail--active"
-        : ""
-}`}
-                                        onClick={() =>
-                                            setSelectedImage(image)
-                                        }
+                                            selectedImage?.id === image.id
+                                                ? "product-detail__thumbnail--active"
+                                                : ""
+                                        }`}
+                                        onClick={() => setSelectedImage(image)}
+                                        aria-label={`View image ${image.id + 1} of ${product.name}`}
+                                        aria-pressed={selectedImage?.id === image.id}
                                     >
 
                                         <img

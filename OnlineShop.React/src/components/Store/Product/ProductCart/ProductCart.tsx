@@ -1,68 +1,151 @@
-//imports--------------------------------------
 import type { Product } from "../../../../models/Product/Product.ts";
 
 import { Link } from "react-router-dom";
+
 import "./ProductCart.css";
-//props----------------------------
+
+
 interface ProductCartProps {
     product: Product;
 }
-//component-------------------------------------------------
-function ProductCart({ product }: ProductCartProps) {
-    //register_image--------------------------
+
+
+function ProductCart({
+                         product
+                     }: ProductCartProps) {
+
     const mainImage =
         product.images.find(
             (image) => image.isMain
         ) ?? product.images[0];
-    return (
-        <article
-            className="product-card"
-        >
 
-            <div className="product-card__image">
+
+    return (
+        <article className="product-card">
+
+
+            {/* Image */}
+
+            <Link
+                to={`/products/${product.id}`}
+                className="product-card__media"
+                aria-label={`View ${product.name}`}
+            >
 
                 {mainImage ? (
+
                     <img
                         src={mainImage.imageUrl}
                         alt={product.name}
+                        className="product-card__image"
                     />
+
                 ) : (
-                    <div className="product-card__image-placeholder">
-                        No Image
+
+                    <div className="product-card__placeholder">
+
+                        <span className="product-card__placeholder-icon">
+                            ◇
+                        </span>
+
+                        <span>
+                            No image
+                        </span>
+
                     </div>
+
                 )}
 
-            </div>
 
+                {/* Category */}
 
-            <div className="product-card__content">
-
-                <span className="product-card__category">
+                <span className="product-card__badge">
                     {product.categoryName}
                 </span>
 
-                <h3>
-                    {product.name}
-                </h3>
+
+                {/* Hover overlay */}
+
+                <span className="product-card__overlay">
+
+                    <span className="product-card__overlay-text">
+                        View Product
+                    </span>
+
+                    <span className="product-card__overlay-arrow">
+                        ↗
+                    </span>
+
+                </span>
+
+            </Link>
+
+
+            {/* Content */}
+
+            <div className="product-card__content">
+
+
+                <div className="product-card__heading">
+
+                    <span className="product-card__eyebrow">
+                        Featured
+                    </span>
+
+
+                    <h3 className="product-card__title">
+
+                        <Link
+                            to={`/products/${product.id}`}
+                        >
+                            {product.name}
+                        </Link>
+
+                    </h3>
+
+                </div>
+
 
                 <div className="product-card__footer">
 
-                    <span className="product-card__price">
-                        ${product.price.toFixed(2)}
-                    </span>
+
+                    <div className="product-card__price-wrapper">
+
+                        <span className="product-card__price-label">
+                            Price
+                        </span>
+
+                        <span className="product-card__price">
+                            ${product.price.toFixed(2)}
+                        </span>
+
+                    </div>
+
 
                     <Link
                         to={`/products/${product.id}`}
                         className="product-card__link"
                     >
-                        View Product →
+
+                        <span>
+                            Details
+                        </span>
+
+                        <span className="product-card__link-arrow">
+                            →
+                        </span>
+
                     </Link>
 
+
                 </div>
+
 
             </div>
 
         </article>
     );
 }
+
+
 export default ProductCart;

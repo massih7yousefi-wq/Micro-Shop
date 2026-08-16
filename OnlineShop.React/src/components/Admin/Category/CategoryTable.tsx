@@ -1,17 +1,13 @@
-//imports----------------------------------------
 import { useNavigate } from "react-router-dom";
 import type { Category } from "../../../models/Category/Category";
 import "./CategoryTable.css";
 
-//prop---------------------------------------------------
 interface CategoryTableProps {
     categories: Category[];
     onDelete: (id: number) => void;
     onSort: (column: string) => void;
 }
 
-
-//component----------------------------------------------------
 const CategoryTable = ({
                            categories,
                            onDelete,
@@ -19,77 +15,176 @@ const CategoryTable = ({
                        }: CategoryTableProps) => {
 
     const navigate = useNavigate();
-    if (categories.length === 0) {
-//body-------------------------------------
-        return (
 
+
+    if (categories.length === 0) {
+        return (
             <div className="category-empty-state">
 
-                <p>
-                    No categories found.
-                </p>
+                <div className="category-empty-icon">
+                    ◫
+                </div>
+
+                <div className="category-empty-content">
+                    <strong>No categories found</strong>
+
+                    <p>
+                        There are no categories available right now.
+                    </p>
+                </div>
 
             </div>
-
         );
-
     }
 
 
-
     return (
+        <div className="category-table-wrapper">
 
-        <div className="category-table-container">
+            <div className="category-table-container">
 
-            <table className="category-table">
+                <table className="category-table">
 
+                    <thead className="category-table-head">
 
-                <thead>
+                    <tr>
 
-                <tr>
-
-                    <th onClick={() => onSort("Id")}>ID</th>
-
-                    <th onClick={()=>onSort("Name")}>Name</th>
-
-                    <th onClick={() => onSort("ProductCount")}>Product</th>
-
-                    <th>Actions</th>
-
-                </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                {
-                    categories.map(category => (
-
-                        <tr key={category.id}>
+                        <th
+                            className="
+                                    category-table-heading
+                                    category-table-sortable
+                                    category-table-id-heading
+                                "
+                            onClick={() => onSort("Id")}
+                        >
+                            <span>ID</span>
+                            <span className="category-sort-indicator">
+                                    ↕
+                                </span>
+                        </th>
 
 
-                            <td>
-                                {category.id}
+                        <th
+                            className="
+                                    category-table-heading
+                                    category-table-sortable
+                                "
+                            onClick={() => onSort("Name")}
+                        >
+                            <span>Name</span>
+                            <span className="category-sort-indicator">
+                                    ↕
+                                </span>
+                        </th>
+
+
+                        <th
+                            className="
+                                    category-table-heading
+                                    category-table-sortable
+                                "
+                            onClick={() => onSort("ProductCount")}
+                        >
+                            <span>Products</span>
+                            <span className="category-sort-indicator">
+                                    ↕
+                                </span>
+                        </th>
+
+
+                        <th
+                            className="
+                                    category-table-heading
+                                    category-table-actions-heading
+                                "
+                        >
+                            Actions
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {categories.map((category) => (
+
+                        <tr
+                            key={category.id}
+                            className="category-table-row"
+                        >
+
+                            {/* ID */}
+                            <td
+                                className="
+                                        category-table-cell
+                                        category-table-id
+                                    "
+                            >
+                                #{category.id}
                             </td>
 
 
-                            <td className="category-name">
+                            {/* Name */}
+                            <td
+                                className="
+                                        category-table-cell
+                                        category-name
+                                    "
+                            >
+                                <div className="category-name-content">
 
-                                {category.name}
+                                    <div className="category-name-icon">
+                                        {category.name
+                                            ?.charAt(0)
+                                            .toUpperCase() || "C"}
+                                    </div>
 
+                                    <div className="category-name-info">
+
+                                        <strong>
+                                            {category.name}
+                                        </strong>
+
+                                        <span>
+                                                Category #{category.id}
+                                            </span>
+
+                                    </div>
+
+                                </div>
                             </td>
 
-                            <td>{category.productCount}</td>
+
+                            {/* Products */}
+                            <td
+                                className="
+                                        category-table-cell
+                                        category-product-count-cell
+                                    "
+                            >
+                                    <span className="category-product-count">
+                                        {category.productCount}
+                                    </span>
+
+                                <span className="category-product-label">
+                                        products
+                                    </span>
+                            </td>
 
 
-                            <td>
+                            {/* Actions */}
+                            <td className="category-table-cell">
 
                                 <div className="category-actions">
 
-
                                     <button
-                                        className="edit-button"
+                                        type="button"
+                                        className="
+                                                category-action-button
+                                                category-edit-button
+                                            "
                                         onClick={() =>
                                             navigate(
                                                 `/admin/categories/edit/${category.id}`
@@ -100,19 +195,21 @@ const CategoryTable = ({
                                     </button>
 
 
-
                                     <button
-                                        className="delete-button"
+                                        type="button"
+                                        className="
+                                                category-action-button
+                                                category-delete-button
+                                            "
                                         onClick={() => {
 
-                                            if (
+                                            const confirmed =
                                                 window.confirm(
                                                     "Are you sure you want to delete this category?"
-                                                )
-                                            ) {
+                                                );
 
+                                            if (confirmed) {
                                                 onDelete(category.id);
-
                                             }
 
                                         }}
@@ -120,27 +217,22 @@ const CategoryTable = ({
                                         Delete
                                     </button>
 
-
                                 </div>
 
                             </td>
 
-
                         </tr>
 
-                    ))
-                }
+                    ))}
 
-                </tbody>
+                    </tbody>
 
+                </table>
 
-            </table>
+            </div>
 
         </div>
-
     );
-
 };
-
 
 export default CategoryTable;

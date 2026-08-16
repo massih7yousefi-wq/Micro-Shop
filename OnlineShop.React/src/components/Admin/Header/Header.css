@@ -1,131 +1,712 @@
-.admin-header{
-    background-color: #0f172a;
-    border-bottom: 1px solid #1e293b;
-    padding: 0 28px;
-    height: 68px;
-    display: flex;
-    align-items: center;
+/* =========================================
+   ADMIN HEADER
+========================================= */
+
+.admin-header {
+    position: fixed;
+
     top: 0;
-    position: sticky;
-    z-index: 100;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border-radius:8px;
+    left: 250px;
+    right: 0;
+
+    height: 72px;
+
+    box-sizing: border-box;
+
+    z-index: var(--z-header);
+
+    border-bottom:
+            1px solid rgba(226, 232, 240, 0.75);
+
+    background:
+            rgba(255, 255, 255, 0.82);
+
+    backdrop-filter:
+            blur(18px);
+
+    -webkit-backdrop-filter:
+            blur(18px);
+
+    box-shadow:
+            0 8px 30px
+            rgba(15, 23, 42, 0.025);
 }
-.admin-header-container{
+
+
+/* =========================================
+   Container
+========================================= */
+
+.admin-header-container {
     width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding:
+            0 28px;
+
     display: flex;
+
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
 }
-/*Left------------------------------------*/
-.Header-header-left{
+
+
+/* =========================================
+   Left
+========================================= */
+
+.admin-header-left {
     display: flex;
+
     align-items: center;
+
+    min-width: 0;
 }
-.Admin-header-logo{
-    display: flex;
+
+
+/* =========================================
+   Logo
+========================================= */
+
+.admin-header-logo {
+    display: inline-flex;
+
     align-items: center;
-    gap: 12px;
+
+    gap: 11px;
+
+    text-decoration: none;
+
+    min-width: 0;
 }
-.admin-header-logo-icon{
-    font-size: 26px;
-    color: #f8fafc;
-}
-.admin-header-logo-text{
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-.admin-header-title{
-    font-size: 17px;
-    font-weight: 700;
-    color: #f8fafc;
-}
-.admin-header-subtitle{
-    font-size: 12px;
-    color: #94a3b8;
-    font-weight: 500;
-}
-/*right-------------------------*/
-.admin-header-right{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.admin-header-action-btn{
+
+
+/* =========================================
+   Logo Mark
+========================================= */
+
+.admin-logo-mark {
     position: relative;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    border: none;
-    background-color: #1e293b;
-    color: #e2e8f0;
-    font-size: 18px;
-    cursor: pointer;
+
+    width: 40px;
+    height: 40px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
 
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 13px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #2563eb 0%,
+                    #3b82f6 55%,
+                    #60a5fa 100%
+            );
+
+    box-shadow:
+            0 8px 20px
+            rgba(37, 99, 235, 0.24);
+
+    transform: translateZ(0);
+
+    transition:
+            transform 450ms var(--ease-smooth),
+            box-shadow 450ms var(--ease-smooth);
 }
-.admin-header-action-btn:hover{
-    background-color: #334155;
+
+
+/* =========================================
+   Logo Shine
+========================================= */
+
+.admin-logo-mark::before {
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+    height: 70px;
+
+    top: -42px;
+    left: -42px;
+
+    background:
+            radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.45),
+                    transparent 65%
+            );
+
+    transition:
+            transform 600ms var(--ease-smooth);
 }
+
+
+/* =========================================
+   Logo Lines
+========================================= */
+
+.admin-logo-line {
+    position: absolute;
+
+    width: 3px;
+    height: 20px;
+
+    border-radius: 999px;
+
+    background:
+            #ffffff;
+
+    transform-origin: center;
+
+    transition:
+            transform 450ms var(--ease-smooth);
+}
+
+
+.admin-logo-line--left {
+    transform:
+            translateX(-8px)
+            rotate(28deg);
+}
+
+
+.admin-logo-line--center {
+    height: 15px;
+
+    transform:
+            translateY(1px)
+            rotate(0deg);
+}
+
+
+.admin-logo-line--right {
+    transform:
+            translateX(8px)
+            rotate(-28deg);
+}
+
+
+/* =========================================
+   Logo Hover
+========================================= */
+
+.admin-header-logo:hover .admin-logo-mark {
+    transform:
+            translateY(-2px)
+            rotate(-3deg)
+            scale(1.04);
+
+    box-shadow:
+            0 14px 30px
+            rgba(37, 99, 235, 0.30);
+}
+
+
+.admin-header-logo:hover .admin-logo-mark::before {
+    transform:
+            translate(55px, 55px);
+}
+
+
+.admin-header-logo:hover .admin-logo-line--left {
+    transform:
+            translateX(-8px)
+            rotate(20deg);
+}
+
+
+.admin-header-logo:hover .admin-logo-line--right {
+    transform:
+            translateX(8px)
+            rotate(-20deg);
+}
+
+
+/* =========================================
+   Logo Text
+========================================= */
+
+.admin-header-logo-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    line-height: 1;
+
+    min-width: 0;
+}
+
+
+.admin-header-title {
+    color:
+            var(--color-text);
+
+    font-size: 14px;
+
+    font-weight: 850;
+
+    letter-spacing:
+            -0.035em;
+}
+
+
+.admin-header-subtitle {
+    color:
+            var(--color-text-light);
+
+    font-size: 8px;
+
+    font-weight: 750;
+
+    letter-spacing:
+            0.13em;
+
+    text-transform:
+            uppercase;
+}
+
+
+/* =========================================
+   Right
+========================================= */
+
+.admin-header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   Notification
+========================================= */
+
+.admin-header-action-btn {
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    border:
+            1px solid var(--color-border);
+
+    border-radius: 12px;
+
+    background:
+            rgba(255, 255, 255, 0.7);
+
+    color:
+            var(--color-text-secondary);
+
+    cursor: pointer;
+
+    transition:
+            color 250ms ease,
+            background-color 250ms ease,
+            border-color 250ms ease,
+            transform 300ms var(--ease-smooth),
+            box-shadow 300ms ease;
+}
+
+
+.admin-header-action-btn:hover {
+    color:
+            var(--color-primary);
+
+    border-color:
+            rgba(37, 99, 235, 0.14);
+
+    background:
+            #ffffff;
+
+    transform:
+            translateY(-2px);
+
+    box-shadow:
+            0 8px 22px
+            rgba(37, 99, 235, 0.09);
+}
+
+
+.admin-header-action-icon {
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+.admin-header-action-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* =========================================
+   Badge
+========================================= */
+
 .admin-header-action-badge {
     position: absolute;
-    top: 6px;
-    right: 6px;
-    background-color: #ef4444;
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+
+    top: -4px;
+    right: -4px;
+
+    min-width: 17px;
+    height: 17px;
+
+    padding:
+            0 4px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
-    border: 2px solid #0f172a;
+
+    box-sizing: border-box;
+
+    border:
+            2px solid #ffffff;
+
+    border-radius: 999px;
+
+    background:
+            var(--color-primary);
+
+    color:
+            #ffffff;
+
+    font-size: 8px;
+
+    font-weight: 850;
+
+    box-shadow:
+            0 4px 10px
+            rgba(37, 99, 235, 0.22);
+
+    animation:
+            header-badge-pulse
+            2.5s
+            ease-in-out
+            infinite;
 }
-.admin-header-profile-btn{
+
+
+/* =========================================
+   Profile
+========================================= */
+
+.admin-header-profile-btn {
+    min-height: 46px;
+
     display: flex;
+
     align-items: center;
+
     gap: 10px;
-    background-color: #1e293b;
-    border: none;
-    border-radius: 12px;
-    padding: 6px 14px 6px 6px;
+
+    padding:
+            5px 9px 5px 5px;
+
+    box-sizing: border-box;
+
+    border:
+            1px solid transparent;
+
+    border-radius: 13px;
+
+    background:
+            transparent;
+
+    color: inherit;
+
     cursor: pointer;
-    transition: all 0.2s ease;
+
+    transition:
+            background-color 250ms ease,
+            border-color 250ms ease,
+            box-shadow 300ms ease;
 }
-.admin-header-profile-btn:hover{
-    background-color: #334155;
+
+
+.admin-header-profile-btn:hover {
+    border-color:
+            rgba(37, 99, 235, 0.08);
+
+    background:
+            rgba(239, 246, 255, 0.65);
+
+    box-shadow:
+            0 8px 22px
+            rgba(15, 23, 42, 0.04);
 }
-.admin-header-profile-info{
+
+
+/* =========================================
+   Avatar
+========================================= */
+
+.admin-header-avatar {
+    width: 35px;
+    height: 35px;
+
     display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #eff6ff
+            );
+
+    border:
+            1px solid
+            rgba(37, 99, 235, 0.10);
+
+    color:
+            var(--color-primary);
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    box-shadow:
+            0 6px 16px
+            rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================================
+   Profile Info
+========================================= */
+
+.admin-header-profile-info {
+    display: flex;
+
     flex-direction: column;
+
     align-items: flex-start;
-    line-height: 1.25;
+
+    gap: 2px;
+
+    min-width: 0;
 }
-.admin-header-profile-name{
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #f1f5f9;
+
+
+.admin-header-profile-name {
+    color:
+            var(--color-text);
+
+    font-size: 10px;
+
+    font-weight: 850;
 }
-.admin-header-profile-role{
-    font-size: 11.5px;
-    color: #94a3b8;
+
+
+.admin-header-profile-role {
+    color:
+            var(--color-text-light);
+
+    font-size: 8px;
+
+    font-weight: 650;
+
+    letter-spacing:
+            0.03em;
 }
-/*res--------------------------------------*/
-@media (max-width: 640px){
-    .admin-header{
-        padding: 0 16px;
-        height: 60px;
+
+
+/* =========================================
+   Arrow
+========================================= */
+
+.admin-header-profile-arrow {
+    margin-left: 3px;
+
+    color:
+            var(--color-text-light);
+
+    font-size: 12px;
+
+    transition:
+            transform 300ms var(--ease-smooth),
+            color 250ms ease;
+}
+
+
+.admin-header-profile-btn:hover
+.admin-header-profile-arrow {
+    color:
+            var(--color-primary);
+
+    transform:
+            translateY(2px);
+}
+
+
+/* =========================================
+   Animation
+========================================= */
+
+@keyframes header-badge-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+
+        box-shadow:
+                0 4px 10px
+                rgba(37, 99, 235, 0.22);
     }
-    .admin-header-profile-info{
-        display: none;
+
+    50% {
+        transform: scale(1.08);
+
+        box-shadow:
+                0 5px 14px
+                rgba(37, 99, 235, 0.30);
     }
-    .admin-header-subtitle{
-        display: none;
+}
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 900px) {
+
+    .admin-header {
+        left:
+                220px;
     }
+
+
+    .admin-header-container {
+        padding:
+                0 20px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .admin-header {
+        left:
+                72px;
+    }
+
+
+    .admin-header-container {
+        padding:
+                0 14px;
+    }
+
+
+    .admin-header-profile-info,
+    .admin-header-profile-arrow {
+        display:
+                none;
+    }
+
+
+    .admin-header-profile-btn {
+        padding:
+                4px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .admin-header {
+        left:
+                64px;
+    }
+
+
+    .admin-header-title,
+    .admin-header-subtitle {
+        display:
+                none;
+    }
+
+
+    .admin-logo-mark {
+        width:
+                35px;
+
+        height:
+                35px;
+    }
+
+
+    .admin-header-container {
+        padding:
+                0 10px;
+    }
+
+}
+
+
+/* =========================================
+   Reduced Motion
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .admin-header *,
+    .admin-header::before,
+    .admin-header::after {
+        animation:
+                none !important;
+
+        transition:
+                none !important;
+    }
+
 }

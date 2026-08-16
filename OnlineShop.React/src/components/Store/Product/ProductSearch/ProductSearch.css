@@ -1,24 +1,274 @@
+/* =========================================================
+   PRODUCT SEARCH
+========================================================= */
+
 .store-product-search {
     width: 100%;
-    margin-bottom: 35px;
 }
-.store-product-search__input {
+
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.store-product-search__box {
+    position: relative;
+
     width: 100%;
-    padding: 14px 18px;
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 15px;
+
     background: #ffffff;
-    color: #0f172a;
-    font-size: 14px;
-    outline: none;
+
+    box-shadow:
+            0 4px 15px rgba(15, 23, 42, 0.035);
+
     transition:
             border-color 0.25s ease,
-            box-shadow 0.25s ease;
+            box-shadow 0.25s ease,
+            transform 0.25s ease;
 }
+
+
+/* Focus */
+
+.store-product-search__box:focus-within {
+    border-color: #93c5fd;
+
+    box-shadow:
+            0 0 0 4px rgba(37, 99, 235, 0.08),
+            0 10px 25px rgba(15, 23, 42, 0.06);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SEARCH ICON
+========================================================= */
+
+.store-product-search__icon {
+    width: 50px;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: #94a3b8;
+
+    transition:
+            color 0.25s ease,
+            transform 0.25s ease;
+}
+
+
+.store-product-search__icon svg {
+    width: 19px;
+    height: 19px;
+
+    display: block;
+}
+
+
+.store-product-search__box:focus-within
+.store-product-search__icon {
+    color: #2563eb;
+
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.store-product-search__input {
+    min-width: 0;
+    flex: 1;
+
+    height: 52px;
+
+    padding: 0 8px 0 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 550;
+}
+
+
 .store-product-search__input::placeholder {
     color: #94a3b8;
+
+    font-weight: 500;
 }
-.store-product-search__input:focus {
-    border-color: #93c5fd;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+
+
+.store-product-search__input::-webkit-search-cancel-button {
+    display: none;
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+========================================================= */
+
+.store-product-search__shortcut {
+    width: 28px;
+    height: 28px;
+
+    margin-right: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+
+    background: #f8fafc;
+
+    color: #94a3b8;
+
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 700;
+
+    transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+}
+
+
+.store-product-search__box:focus-within
+.store-product-search__shortcut {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+.store-product-search__clear {
+    width: 32px;
+    height: 32px;
+
+    margin-right: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+}
+
+
+.store-product-search__clear svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+.store-product-search__clear:hover {
+    background: #fee2e2;
+
+    color: #dc2626;
+
+    transform: rotate(90deg);
+}
+
+
+.store-product-search__clear:active {
+    transform: rotate(90deg) scale(0.9);
+}
+
+
+/* =========================================================
+   VALUE STATE
+========================================================= */
+
+.store-product-search__box.has-value {
+    border-color: #cbd5e1;
+}
+
+
+.store-product-search__box.has-value
+.store-product-search__icon {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.store-product-search__clear:focus-visible {
+    outline: none;
+
+    box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .store-product-search__box {
+        min-height: 50px;
+
+        border-radius: 13px;
+    }
+
+
+    .store-product-search__input {
+        height: 48px;
+
+        font-size: 13px;
+    }
+
+
+    .store-product-search__icon {
+        width: 46px;
+    }
+
+
+    .store-product-search__shortcut {
+        display: none;
+    }
+
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { productService } from "../../../services/productService";
 import type { Product } from "../../../models/Product/Product";
-import ProductCard from "../../../components/Store/Product/ProductCart/ProductCart";
+import ProductCart from "../../../components/Store/Product/ProductCart/ProductCart";
 import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
 
@@ -40,9 +40,20 @@ function FeaturedProducts() {
         return (
             <section className="featured-products">
                 <div className="featured-products__container">
-                    <div className="featured-products__loading">
-                        Loading products...
+
+                    <div className="featured-products__heading">
+                        <span className="featured-products__eyebrow">
+                            Featured
+                        </span>
+
+                        <h2>Featured Products</h2>
                     </div>
+
+                    <div className="featured-products__loading">
+                        <span className="featured-products__loader" />
+                        <span>Loading products...</span>
+                    </div>
+
                 </div>
             </section>
         );
@@ -52,9 +63,11 @@ function FeaturedProducts() {
         return (
             <section className="featured-products">
                 <div className="featured-products__container">
+
                     <div className="featured-products__error">
                         {error}
                     </div>
+
                 </div>
             </section>
         );
@@ -63,49 +76,76 @@ function FeaturedProducts() {
     return (
         <section className="featured-products">
 
+            <div className="featured-products__background" />
+
             <div className="featured-products__container">
 
+                {/* Header */}
                 <div className="featured-products__header">
 
-                    <div>
+                    <div className="featured-products__heading">
 
                         <span className="featured-products__eyebrow">
-                            Featured
+                            Featured Collection
                         </span>
 
                         <h2>
-                            Featured Products
+                            Products worth
+                            <span> discovering.</span>
                         </h2>
 
                         <p>
-                            Explore our latest products and discover
-                            something you'll love.
+                            A carefully selected collection of our
+                            most popular products.
                         </p>
 
                     </div>
 
+
+                    <button
+                        type="button"
+                        className="featured-products__desktop-link"
+                        onClick={() => navigate("/products")}
+                    >
+                        <span>View all products</span>
+                        <span className="featured-products__desktop-arrow">
+                            →
+                        </span>
+                    </button>
+
                 </div>
 
 
+                {/* Products */}
                 <div className="featured-products__list">
 
-                    {products.map((product) => (
-                        <ProductCard
+                    {products.map((product, index) => (
+                        <div
+                            className="featured-products__item"
                             key={product.id}
-                            product={product}
-                        />
+                            style={{
+                                "--card-index": index,
+                            } as React.CSSProperties}
+                        >
+                            <ProductCart product={product} />
+                        </div>
                     ))}
 
                 </div>
 
 
+                {/* Mobile / bottom CTA */}
                 <div className="featured-products__action">
 
                     <button
                         type="button"
                         onClick={() => navigate("/products")}
                     >
-                        View All Products
+                        <span>Explore all products</span>
+
+                        <span className="featured-products__action-arrow">
+                            →
+                        </span>
                     </button>
 
                 </div>
@@ -117,6 +157,4 @@ function FeaturedProducts() {
 }
 
 export default FeaturedProducts;
-
-
 

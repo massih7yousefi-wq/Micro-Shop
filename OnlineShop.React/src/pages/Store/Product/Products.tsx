@@ -52,15 +52,18 @@ function Products() {
     }, []);
     //handleCategoryChange---------------------
     const handleCategoryChange = (newCategoryId?: number) => {
+        const params = new URLSearchParams(searchParams);
 
         if (newCategoryId === undefined) {
-            setSearchParams({});
-            return;
+            params.delete("categoryId");
+        } else {
+            params.set(
+                "categoryId",
+                String(newCategoryId)
+            );
         }
 
-        setSearchParams({
-            categoryId: String(newCategoryId),
-        });
+        setSearchParams(params);
     };
     // Loading---------------------------------------
     if (loading) {

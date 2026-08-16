@@ -1,76 +1,821 @@
-.categories-page{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
+
+/* =========================================
+  CATEGORIES PAGE
+========================================= */
+
+.categories-page {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding-top: 24px;
+
+    color:
+            var(--color-text);
+
+    animation:
+            categories-page-in
+            450ms
+            var(--ease-out);
 }
-.categories-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:22px 28px;
-    background:#ffffff;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    box-shadow:
-            0 10px 25px rgba(15,23,42,.05);
-}
-.categories-title{
-    margin:0;
-    font-size:28px;
-    font-weight:700;
-    color:#0f172a;
-}
-.add-category-button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    height:42px;
-    padding:0 18px;
-    border:none;
-    border-radius:10px;
-    background:#2563eb;
-    color:#ffffff;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:
-            background-color .2s,
-            transform .2s,
-            box-shadow .2s;
-}
-.add-category-button:hover{
-    background:#1d4ed8;
-    transform:translateY(-1px);
-    box-shadow:
-            0 8px 20px rgba(37,99,235,.25);
-}
-.add-category-button:active{
-    transform:translateY(0);
-}
-.loading-text,
-.error-text{
-    padding:60px 0;
-    text-align:center;
-    font-size:18px;
-    font-weight:600;
-    color:#64748b;
+/* =========================================
+   Page Header
+========================================= */
+
+.categories-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 3px;
 }
 
-.error-text{
-    color:#dc2626;
+
+.categories-title {
+    position: relative;
+
+    margin: 0;
+
+    color:
+            var(--color-text);
+
+    font-size: 19px;
+
+    font-weight: 850;
+
+    letter-spacing:
+            -0.035em;
+
+    line-height: 1.2;
 }
-@media(max-width:768px){
-    .categories-header{
-        flex-direction:column;
-        align-items:stretch;
-        gap:18px;
-        padding:20px;
+
+
+.categories-title::after {
+    content: "";
+
+    display: block;
+
+    width: 29px;
+    height: 3px;
+
+    margin-top: 9px;
+
+    border-radius: 999px;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #60a5fa
+            );
+
+    box-shadow:
+            0 4px 10px
+            rgba(37, 99, 235, 0.16);
+}
+
+
+/* =========================================
+   Add Category Button
+========================================= */
+
+.add-category-button {
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding:
+            0 15px;
+
+    border:
+            1px solid
+            rgba(37, 99, 235, 0.18);
+
+    border-radius: 11px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6
+            );
+
+    color:
+            #ffffff;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 850;
+
+    letter-spacing:
+            -0.005em;
+
+    cursor: pointer;
+
+    box-shadow:
+            0 8px 20px
+            rgba(37, 99, 235, 0.16);
+
+    transition:
+            background 250ms ease,
+            border-color 250ms ease,
+            transform 300ms var(--ease-smooth),
+            box-shadow 300ms ease;
+}
+
+
+.add-category-button:hover {
+    border-color:
+            rgba(37, 99, 235, 0.25);
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #1d4ed8,
+                    #2563eb
+            );
+
+    transform:
+            translateY(-2px);
+
+    box-shadow:
+            0 12px 27px
+            rgba(37, 99, 235, 0.23);
+}
+
+
+.add-category-button:active {
+    transform:
+            translateY(0);
+}
+
+
+.add-category-button:focus-visible {
+    outline:
+            3px solid
+            rgba(37, 99, 235, 0.16);
+
+    outline-offset:
+            2px;
+}
+
+
+/* =========================================
+   Search Section
+========================================= */
+
+.categories-page > :global(.category-search) {
+    width: 100%;
+}
+
+
+/*
+   Fallback styling for the search component's
+   common direct structure.
+*/
+
+.categories-page input[type="search"],
+.categories-page input[type="text"] {
+    transition:
+            border-color 250ms ease,
+            background-color 250ms ease,
+            box-shadow 300ms ease;
+}
+
+
+.categories-page input[type="search"]:focus,
+.categories-page input[type="text"]:focus {
+    border-color:
+            rgba(37, 99, 235, 0.34);
+
+    background:
+            #ffffff;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(37, 99, 235, 0.06),
+            0 8px 20px
+            rgba(37, 99, 235, 0.035);
+
+    outline:
+            none;
+}
+
+
+/* =========================================
+   Table Area
+========================================= */
+
+.categories-page > :is(
+    .category-table,
+    [class*="category-table"]
+) {
+    width: 100%;
+
+    border:
+            1px solid
+            rgba(37, 99, 235, 0.065);
+
+    border-radius: 16px;
+
+    background:
+            rgba(255, 255, 255, 0.84);
+
+    backdrop-filter:
+            blur(16px);
+
+    -webkit-backdrop-filter:
+            blur(16px);
+
+    box-shadow:
+            0 14px 38px
+            rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   Generic Table Enhancement
+========================================= */
+
+.categories-page table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    color:
+            var(--color-text);
+}
+
+
+.categories-page thead th {
+    height: 43px;
+
+    padding:
+            0 15px;
+
+    border-bottom:
+            1px solid
+            rgba(37, 99, 235, 0.065);
+
+    background:
+            rgba(248, 250, 252, 0.72);
+
+    color:
+            var(--color-text-light);
+
+    font-size: 8px;
+
+    font-weight: 850;
+
+    letter-spacing:
+            0.045em;
+
+    text-transform:
+            uppercase;
+
+    text-align: left;
+}
+
+
+.categories-page tbody td {
+    padding:
+            13px 15px;
+
+    border-bottom:
+            1px solid
+            rgba(15, 23, 42, 0.045);
+
+    color:
+            var(--color-text-secondary);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    transition:
+            background-color 220ms ease;
+}
+
+
+.categories-page tbody tr:last-child td {
+    border-bottom:
+            none;
+}
+
+
+.categories-page tbody tr {
+    transition:
+            background-color 220ms ease;
+}
+
+
+.categories-page tbody tr:hover {
+    background:
+            rgba(239, 246, 255, 0.48);
+}
+
+
+.categories-page tbody tr:hover td {
+    color:
+            var(--color-text);
+}
+
+
+/* =========================================
+   Sortable Table Headers
+========================================= */
+
+.categories-page th[role="button"],
+.categories-page th[onclick],
+.categories-page thead th.sortable {
+    cursor:
+            pointer;
+
+    transition:
+            color 200ms ease,
+            background-color 200ms ease;
+}
+
+
+.categories-page th[role="button"]:hover,
+.categories-page th[onclick]:hover,
+.categories-page thead th.sortable:hover {
+    color:
+            var(--color-primary);
+
+    background:
+            rgba(239, 246, 255, 0.72);
+}
+
+
+/* =========================================
+   Table Action Buttons
+========================================= */
+
+.categories-page table button {
+    min-width: 29px;
+    min-height: 29px;
+
+    border:
+            1px solid
+            rgba(15, 23, 42, 0.07);
+
+    border-radius: 8px;
+
+    background:
+            rgba(255, 255, 255, 0.72);
+
+    color:
+            var(--color-text-secondary);
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    cursor: pointer;
+
+    transition:
+            color 200ms ease,
+            background-color 200ms ease,
+            border-color 200ms ease,
+            transform 250ms var(--ease-smooth),
+            box-shadow 250ms ease;
+}
+
+
+.categories-page table button:hover {
+    color:
+            var(--color-primary);
+
+    border-color:
+            rgba(37, 99, 235, 0.12);
+
+    background:
+            #ffffff;
+
+    transform:
+            translateY(-1px);
+
+    box-shadow:
+            0 5px 14px
+            rgba(37, 99, 235, 0.07);
+}
+
+
+/* =========================================
+   Pagination
+========================================= */
+
+.categories-page > :is(
+    .category-pagination,
+    [class*="category-pagination"]
+) {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+            3px 0 2px;
+}
+
+
+.categories-page > :is(
+    .category-pagination,
+    [class*="category-pagination"]
+) button {
+    min-width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+            0 9px;
+
+    border:
+            1px solid
+            var(--color-border);
+
+    border-radius: 9px;
+
+    background:
+            rgba(255, 255, 255, 0.72);
+
+    color:
+            var(--color-text-secondary);
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+            color 200ms ease,
+            background-color 200ms ease,
+            border-color 200ms ease,
+            transform 250ms var(--ease-smooth),
+            box-shadow 250ms ease;
+}
+
+
+.categories-page > :is(
+    .category-pagination,
+    [class*="category-pagination"]
+) button:hover:not(:disabled) {
+    color:
+            var(--color-primary);
+
+    border-color:
+            rgba(37, 99, 235, 0.14);
+
+    background:
+            #ffffff;
+
+    transform:
+            translateY(-1px);
+
+    box-shadow:
+            0 6px 16px
+            rgba(37, 99, 235, 0.07);
+}
+
+
+.categories-page > :is(
+    .category-pagination,
+    [class*="category-pagination"]
+) button:disabled {
+    cursor:
+            not-allowed;
+
+    opacity:
+            0.42;
+}
+
+
+/* =========================================
+   Loading State
+========================================= */
+
+.loading-text,
+.error-text {
+    width: 100%;
+
+    min-height: 260px;
+
+    margin: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+            1px solid
+            rgba(37, 99, 235, 0.06);
+
+    border-radius: 16px;
+
+    background:
+            rgba(255, 255, 255, 0.72);
+
+    color:
+            var(--color-text-light);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing:
+            0.01em;
+
+    box-shadow:
+            0 12px 35px
+            rgba(15, 23, 42, 0.035);
+
+    animation:
+            categories-state-in
+            350ms
+            var(--ease-out);
+}
+
+
+.loading-text::after {
+    content: "";
+
+    width: 13px;
+    height: 13px;
+
+    margin-left: 9px;
+
+    border:
+            2px solid
+            rgba(37, 99, 235, 0.12);
+
+    border-top-color:
+            var(--color-primary);
+
+    border-radius:
+            50%;
+
+    animation:
+            categories-spinner
+            700ms
+            linear
+            infinite;
+}
+
+
+/* =========================================
+   Error State
+========================================= */
+
+.error-text {
+    border-color:
+            rgba(220, 38, 38, 0.08);
+
+    background:
+            rgba(254, 242, 242, 0.68);
+
+    color:
+            #b91c1c;
+}
+
+
+/* =========================================
+   Page Animation
+========================================= */
+
+@keyframes categories-page-in {
+
+    from {
+        opacity:
+                0;
+
+        transform:
+                translateY(8px);
     }
-    .categories-title{
-        font-size:24px;
-    }
-    .add-category-button{
-        width:100%;
+
+    to {
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
     }
 }
+
+
+@keyframes categories-state-in {
+
+    from {
+        opacity:
+                0;
+
+        transform:
+                translateY(6px);
+    }
+
+    to {
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
+    }
+}
+
+
+@keyframes categories-spinner {
+
+    to {
+        transform:
+                rotate(360deg);
+    }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .categories-page {
+        gap:
+                16px;
+    }
+
+    .categories-title {
+        font-size:
+                18px;
+    }
+
+    .categories-page thead th,
+    .categories-page tbody td {
+        padding-left:
+                12px;
+
+        padding-right:
+                12px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .categories-page {
+        gap:
+                14px;
+    }
+
+
+    .categories-header {
+        align-items:
+                flex-start;
+
+        flex-direction:
+                column;
+
+        gap:
+                13px;
+    }
+
+
+    .categories-title {
+        font-size:
+                17px;
+    }
+
+
+    .add-category-button {
+        width:
+                100%;
+    }
+
+
+    .categories-page > :is(
+        .category-table,
+        [class*="category-table"]
+    ) {
+        border-radius:
+                13px;
+
+        overflow-x:
+                auto;
+
+        -webkit-overflow-scrolling:
+                touch;
+    }
+
+
+    .categories-page table {
+        min-width:
+                620px;
+    }
+
+
+    .categories-page thead th {
+        height:
+                40px;
+    }
+
+
+    .categories-page tbody td {
+        padding:
+                11px 12px;
+    }
+
+
+    .categories-page > :is(
+        .category-pagination,
+        [class*="category-pagination"]
+    ) {
+        overflow-x:
+                auto;
+
+        justify-content:
+                flex-start;
+
+        padding:
+                2px 1px 4px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .categories-title {
+        font-size:
+                16px;
+    }
+
+
+    .categories-page {
+        gap:
+                12px;
+    }
+
+
+    .loading-text,
+    .error-text {
+        min-height:
+                220px;
+
+        border-radius:
+                13px;
+    }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .categories-page *,
+    .categories-page::before,
+    .categories-page::after {
+        animation:
+                none !important;
+
+        transition:
+                none !important;
+    }
+}
+

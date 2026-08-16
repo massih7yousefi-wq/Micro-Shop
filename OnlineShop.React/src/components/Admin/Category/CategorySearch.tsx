@@ -1,39 +1,112 @@
-//imports-------------------------------
+import { useEffect, useState } from "react";
 import "./CategorySearch.css";
 
-//props-----------------------------------
+
+// Props
 interface CategorySearchProps {
-
     searchTerm?: string;
-
     onSearchChange: (value: string) => void;
-
 }
 
-//component------------------------------------------
+
+// Component
 const CategorySearch = ({
-                            searchTerm,
+                            searchTerm = "",
                             onSearchChange,
                         }: CategorySearchProps) => {
-//Body-----------------------------------------------------
+
+    const [focused, setFocused] = useState(false);
+    const [localValue, setLocalValue] = useState(searchTerm);
+
+
+    /*
+     * Keep local value synced with parent
+     */
+    useEffect(() => {
+        setLocalValue(searchTerm);
+    }, [searchTerm]);
+
+
+    const handleChange = (
+        value: string
+    ) => {
+
+        setLocalValue(value);
+        onSearchChange(value);
+
+    };
+
+
+    const handleClear = () => {
+
+        setLocalValue("");
+        onSearchChange("");
+
+    };
+
+
     return (
 
-        <div className="category-search">
+        <div
+            className={`category-search ${
+                focused
+                    ? "category-search-focused"
+                    : ""
+            }`}
+        >
 
-            <input
-                className="category-search-input"
-                type="text"
-                placeholder="Search Categories..."
-                value={searchTerm}
-                onChange={(e) =>
-                    onSearchChange(e.target.value)
-                }
-            />
+            <div className="category-search-inner">
+
+                {/* Search Icon */}
+                <span
+                    className="category-search-icon"
+                    aria-hidden="true"
+                >
+                    ⌕
+                </span>
+
+
+                {/* Input */}
+                <input
+                    className="category-search-input"
+                    type="text"
+                    placeholder="Search categories..."
+                    value={localValue}
+                    onFocus={() =>
+                        setFocused(true)
+                    }
+                    onBlur={() =>
+                        setFocused(false)
+                    }
+                    onChange={(e) =>
+                        handleChange(
+                            e.target.value
+                        )
+                    }
+                />
+
+
+                {/* Clear */}
+                {localValue.length > 0 && (
+
+                    <button
+                        type="button"
+                        className="category-search-clear"
+                        onMouseDown={(e) =>
+                            e.preventDefault()
+                        }
+                        onClick={handleClear}
+                        aria-label="Clear search"
+                    >
+                        ×
+                    </button>
+
+                )}
+
+            </div>
 
         </div>
-
     );
-
 };
 
 

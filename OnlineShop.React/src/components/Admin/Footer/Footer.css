@@ -1,64 +1,205 @@
-.admin-footer{
-    background-color: #0f172a;
-    border-top: 1px solid #1e293b;
-    padding: 18px 32px;
-    color: #94a3b8;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border-radius:8px;
+
+/* =========================================
+   ADMIN FOOTER
+========================================= */
+
+.admin-footer {
+    position: relative;
+
+    margin-left: 250px;
+
+    border-top:
+            1px solid rgba(37, 99, 235, 0.07);
+
+    background:
+            rgba(255, 255, 255, 0.55);
+
+    backdrop-filter:
+            blur(12px);
+
+    -webkit-backdrop-filter:
+            blur(12px);
 }
-.admin-footer-container{
-    max-width: 1400px;
-    margin: 0 auto;
+
+
+/* =========================================
+   Container
+========================================= */
+
+.admin-footer-container {
+    min-height: 58px;
+
     display: flex;
+
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+
+    gap: 20px;
+
+    padding:
+            0 28px;
 }
-.admin-footer-left{
-    display: flex;
-    align-items: center;
-}
-.admin-footer-copyright{
+
+
+/* =========================================
+   Copyright
+========================================= */
+
+.admin-footer-copyright {
     margin: 0;
-    font-size: 13.5px;
-    color: #94a3b8;
-}
-.admin-footer-copyright span{
-    color: #e2e8f0;
+
+    color:
+            var(--color-text-light);
+
+    font-size: 9px;
+
     font-weight: 600;
+
+    line-height: 1.5;
 }
-.admin-footer-right{
+
+
+.admin-footer-copyright span {
+    color:
+            var(--color-text-secondary);
+
+    font-weight: 800;
+
+    transition:
+            color 250ms ease;
+}
+
+
+.admin-footer-copyright:hover span {
+    color:
+            var(--color-primary);
+}
+
+
+/* =========================================
+   Right
+========================================= */
+
+.admin-footer-right {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 }
-.admin-footer-link{
-    color: #94a3b8;
+
+
+/* =========================================
+   Links
+========================================= */
+
+.admin-footer-link {
+    color:
+            var(--color-text-light);
+
+    font-size: 9px;
+
+    font-weight: 650;
+
     text-decoration: none;
-    font-size: 13px;
-    transition: color 0.2s ease;
+
+    white-space: nowrap;
+
+    transition:
+            color 250ms ease;
 }
-.admin-footer-link:hover{
-    color: #3b82f6 ;
+
+
+.admin-footer-link:hover {
+    color:
+            var(--color-primary);
 }
-.admin-footer-separator{
-    color: #475569;
-    font-size: 12px;
+
+
+/* =========================================
+   Separator
+========================================= */
+
+.admin-footer-separator {
+    color:
+            var(--color-border-strong);
+
+    font-size: 8px;
+
     user-select: none;
 }
-/*res--------------------------------*/
-@media (max-width: 640px){
-    .admin-footer{
-        padding: 16px 20px;
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 900px) {
+
+    .admin-footer {
+        margin-left: 220px;
     }
-    .admin-footer-container{
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    .admin-footer-right{
-        justify-content: center;
+
+    .admin-footer-container {
+        padding:
+                0 20px;
     }
 }
+
+
+@media (max-width: 700px) {
+
+    .admin-footer {
+        margin-left: 72px;
+    }
+
+    .admin-footer-container {
+        min-height: auto;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        padding:
+                15px 14px;
+    }
+
+    .admin-footer-right {
+        gap: 8px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .admin-footer-container {
+        align-items: center;
+    }
+
+    .admin-footer-right {
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    .admin-footer-copyright {
+        text-align: center;
+    }
+}
+
+
+/* =========================================
+   Reduced Motion
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .admin-footer * {
+        animation: none !important;
+
+        transition: none !important;
+    }
+}
+

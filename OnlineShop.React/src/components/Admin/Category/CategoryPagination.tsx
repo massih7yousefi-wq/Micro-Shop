@@ -1,57 +1,101 @@
-//imports-------------------------------------
 import "./CategoryPagination.css";
 
-//prop-----------------------------------
+
+// Props
 interface CategoryPaginationProps {
-
     currentPage: number;
-
     totalPages: number;
-
     onPrevious: () => void;
-
     onNext: () => void;
-
 }
 
-//component---------------------------------------------
+
+// Component
 const CategoryPagination = ({
                                 currentPage,
                                 totalPages,
                                 onPrevious,
                                 onNext,
                             }: CategoryPaginationProps) => {
-//Body---------------------------------------------------------------
+
+    const hasPages = totalPages > 0;
+
+    const isFirstPage =
+        currentPage <= 1;
+
+    const isLastPage =
+        currentPage >= totalPages;
+
+
     return (
 
         <div className="category-pagination">
 
+            {/* Previous */}
             <button
-                className="pagination-button"
+                type="button"
+                className="pagination-button pagination-button-prev"
                 onClick={onPrevious}
-                disabled={currentPage === 1}
+                disabled={!hasPages || isFirstPage}
+                aria-label="Previous page"
             >
-                Previous
+                <span
+                    className="pagination-button-icon"
+                    aria-hidden="true"
+                >
+                    ←
+                </span>
+
+                <span>
+                    Previous
+                </span>
             </button>
 
 
-            <span className="pagination-info">
-                Page {currentPage} of {totalPages}
-            </span>
+            {/* Page Info */}
+            <div className="pagination-info">
+
+                <span className="pagination-info-label">
+                    Page
+                </span>
+
+                <span className="pagination-current">
+                    {hasPages ? currentPage : 0}
+                </span>
+
+                <span className="pagination-info-label">
+                    of
+                </span>
+
+                <span className="pagination-total">
+                    {hasPages ? totalPages : 0}
+                </span>
+
+            </div>
 
 
+            {/* Next */}
             <button
-                className="pagination-button"
+                type="button"
+                className="pagination-button pagination-button-next"
                 onClick={onNext}
-                disabled={currentPage === totalPages}
+                disabled={!hasPages || isLastPage}
+                aria-label="Next page"
             >
-                Next
+                <span>
+                    Next
+                </span>
+
+                <span
+                    className="pagination-button-icon"
+                    aria-hidden="true"
+                >
+                    →
+                </span>
             </button>
 
         </div>
-
     );
-
 };
 
 

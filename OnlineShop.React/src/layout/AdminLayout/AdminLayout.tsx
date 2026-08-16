@@ -1,24 +1,51 @@
-//imports------------------------------------
+// imports ------------------------------------
 import { Outlet } from "react-router-dom";
-import Header from "../../components/Admin/Header/Header"
-import Footer from "../../components/Admin/Footer/Footer"
-import Sidebar from "../../components/Admin/Sidebar/Sidebar"
-import "./AdminLayout.css"
-//Page--------------------------------------------
+
+import Header from "../../components/Admin/Header/Header";
+import Footer from "../../components/Admin/Footer/Footer";
+import Sidebar from "../../components/Admin/Sidebar/Sidebar";
+
+import "./AdminLayout.css";
+
+
+// Page ---------------------------------------
 const AdminLayout = () => {
+
     return (
-        <>
-            <div className="admin-layout">
+
+        <div className="admin-layout">
+
+            {/* Header */}
             <Header />
-         <div className="Admin-body">
-            <Sidebar />
-            <main className="admin-Content">
-                <Outlet/>
+
+
+            {/* Main Body */}
+            <div className="admin-body">
+
+                {/* Sidebar */}
+                <Sidebar />
+
+
+                {/* Content */}
+                <main className="admin-content">
+
+                    <div className="admin-content-inner">
+
+                        <Outlet />
+
+                    </div>
+
                 </main>
+
             </div>
+
+
+            {/* Footer */}
             <Footer />
-            </div>
-        </>
+
+        </div>
     );
-}
+};
+
+
 export default AdminLayout;
