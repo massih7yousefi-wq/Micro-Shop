@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.API.DTOs;
 using OnlineShop.API.Models;
 using OnlineShop.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineShop.API.Controllers
 {
@@ -61,9 +62,10 @@ namespace OnlineShop.API.Controllers
         }
 
         //Create Product----------------------------
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ProductDto>> Create(
-    [FromForm] CreateProductDto dto)
+            [FromForm] CreateProductDto dto)
         {
             var product = await _productsService.CreateAsync(dto);
 
@@ -74,7 +76,9 @@ namespace OnlineShop.API.Controllers
                 new { id = product.Id },
                 createdProduct);
         }
+
         //Update Product--------------------------
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             int id,
@@ -94,7 +98,9 @@ namespace OnlineShop.API.Controllers
                 });
             }
         }
+
         //Delete Product-----------------------------
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -115,7 +121,9 @@ namespace OnlineShop.API.Controllers
                 });
             }
         }
+
         //Delete Single Image----------------------------------
+        [Authorize(Roles = "Admin")]
         [HttpDelete("image/{imageId}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {

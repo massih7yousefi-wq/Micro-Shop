@@ -2,27 +2,25 @@
 
 namespace OnlineShop.API.Models
 {
-    public class RegisterModel
+    public class ResetPasswordModel
     {
-        [Required]
-        [MinLength(3)]
-        [MaxLength(50)]
-        public string UserName { get; set; } = string.Empty;
-
         [Required]
         [EmailAddress]
         [MaxLength(256)]
         public string Email { get; set; } = string.Empty;
 
         [Required]
+        public string Token { get; set; } = string.Empty;
+
+        [Required]
         [MinLength(8)]
         [MaxLength(128)]
         [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
+        public string NewPassword { get; set; } = string.Empty;
 
         [Required]
-        [Compare(nameof(Password))]
+        [Compare(nameof(NewPassword))]
         [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; } = string.Empty;
+        public string ConfirmNewPassword { get; set; } = string.Empty;
     }
 }
