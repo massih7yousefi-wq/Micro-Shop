@@ -1,34 +1,101 @@
-import { Routes, Route } from "react-router-dom";
+import {
+    Routes,
+    Route,
+} from "react-router-dom";
 
-import StoreLayout from "./layout/StoreLayout/StoreLayout";
+import StoreLayout
+    from "./layout/StoreLayout/StoreLayout";
 
-import Home from "./pages/Home/Home";
+import Home
+    from "./pages/Home/Home";
 
-// Store--------------------------------------
-import StoreProducts from "./pages/Store/Product/Products";
-import StoreProductDetail from "./pages/Store/Product/ProductDetail";
-// Admin---------------------------------------
-import AdminLayout from "./layout/AdminLayout/AdminLayout";
+// Auth--------------------------------------------------------
 
-// Product Admin----------------------------------------------
-import Products from "./pages/Admin/Products/Products";
-import CreateProduct from "./pages/Admin/Products/CreateProduct";
-import EditProduct from "./pages/Admin/Products/EditProduct";
-import ProductDetail from "./pages/Admin/Products/ProductDetail";
+import Login
+    from "./pages/Auth/Login/Login";
 
-// Category Admin--------------------------------------------------
-import Categories from "./pages/Admin/Categories/Categories";
-import CreateCategory from "./pages/Admin/Categories/CreateCategory";
-import EditCategory from "./pages/Admin/Categories/EditCategory";
-//component----------------------------------
+import Register
+    from "./pages/Auth/Register/Registerts";
+
+import ForgotPassword
+    from "./pages/Auth/ForgotPassword/ForgotPassword";
+
+import ResetPassword
+    from "./pages/Auth/ResetPassword/ResetPassword";
+
+import ConfirmEmail
+    from "./pages/Auth/ConfirmEmail/ConfirmEmail";
+
+// Account-----------------------------------------------------
+
+import ChangePassword
+    from "./pages/Account/ChangePassword/ChangePassword";
+
+// Store-------------------------------------------------------
+
+import StoreProducts
+    from "./pages/Store/Product/Products";
+
+import StoreProductDetail
+    from "./pages/Store/Product/ProductDetail";
+
+// Admin-------------------------------------------------------
+
+import AdminLayout
+    from "./layout/AdminLayout/AdminLayout";
+
+import Users
+    from "./pages/Admin/Users/Users";
+
+import Products
+    from "./pages/Admin/Products/Products";
+
+import CreateProduct
+    from "./pages/Admin/Products/CreateProduct";
+
+import EditProduct
+    from "./pages/Admin/Products/EditProduct";
+
+import ProductDetail
+    from "./pages/Admin/Products/ProductDetail";
+
+import Categories
+    from "./pages/Admin/Categories/Categories";
+
+import CreateCategory
+    from "./pages/Admin/Categories/CreateCategory";
+
+import EditCategory
+    from "./pages/Admin/Categories/EditCategory";
+
+// Routes------------------------------------------------------
+
+import ProtectedRoute
+    from "./routes/ProtectedRoute";
+
+import AdminRoute
+    from "./routes/AdminRoute";
+
+// App---------------------------------------------------------
+
 function App() {
+
     return (
         <Routes>
 
-            {/* Store------------------------------------ */}
-            <Route path="/" element={<StoreLayout />}>
+            {/* ==================================================
+                Public Store
+            ================================================== */}
 
-                <Route index element={<Home />} />
+            <Route
+                path="/"
+                element={<StoreLayout />}
+            >
+
+                <Route
+                    index
+                    element={<Home />}
+                />
 
                 <Route
                     path="products"
@@ -37,52 +104,140 @@ function App() {
 
                 <Route
                     path="products/:id"
-                    element={<StoreProductDetail />}
+                    element={
+                        <StoreProductDetail />
+                    }
                 />
 
             </Route>
 
 
-            {/* Admin------------------------------------------- */}
-            <Route path="/admin" element={<AdminLayout />}>
+            {/* ==================================================
+                Public Authentication
+            ================================================== */}
 
-                {/* Products------------------------------------- */}
+            <Route
+                path="/login"
+                element={<Login />}
+            />
+
+            <Route
+                path="/register"
+                element={<Register />}
+            />
+
+            <Route
+                path="/forgot-password"
+                element={<ForgotPassword />}
+            />
+
+            <Route
+                path="/reset-password"
+                element={<ResetPassword />}
+            />
+
+            <Route
+                path="/confirm-email"
+                element={<ConfirmEmail />}
+            />
+
+
+            {/* ==================================================
+                Protected User Routes
+            ================================================== */}
+
+            <Route
+                element={<ProtectedRoute />}
+            >
+
                 <Route
-                    path="products"
-                    element={<Products />}
+                    path="/account/change-password"
+                    element={
+                        <ChangePassword />
+                    }
                 />
 
-                <Route
-                    path="products/create"
-                    element={<CreateProduct />}
-                />
-
-                <Route
-                    path="products/edit/:id"
-                    element={<EditProduct />}
-                />
-
-                <Route
-                    path="products/:id"
-                    element={<ProductDetail />}
-                />
+            </Route>
 
 
-                {/* Categories------------------------------- */}
-                <Route
-                    path="categories"
-                    element={<Categories />}
-                />
+            {/* ==================================================
+                Protected Admin Routes
+            ================================================== */}
+
+            <Route
+                element={<AdminRoute />}
+            >
 
                 <Route
-                    path="categories/create"
-                    element={<CreateCategory />}
-                />
+                    path="/admin"
+                    element={<AdminLayout />}
+                >
 
-                <Route
-                    path="categories/edit/:id"
-                    element={<EditCategory />}
-                />
+                    {/* ------------------------------------------
+                        Users
+                    ------------------------------------------ */}
+
+                    <Route
+                        path="users"
+                        element={<Users />}
+                    />
+
+
+                    {/* ------------------------------------------
+                        Products
+                    ------------------------------------------ */}
+
+                    <Route
+                        path="products"
+                        element={<Products />}
+                    />
+
+                    <Route
+                        path="products/create"
+                        element={
+                            <CreateProduct />
+                        }
+                    />
+
+                    <Route
+                        path="products/edit/:id"
+                        element={
+                            <EditProduct />
+                        }
+                    />
+
+                    <Route
+                        path="products/:id"
+                        element={
+                            <ProductDetail />
+                        }
+                    />
+
+
+                    {/* ------------------------------------------
+                        Categories
+                    ------------------------------------------ */}
+
+                    <Route
+                        path="categories"
+                        element={<Categories />}
+                    />
+
+                    <Route
+                        path="categories/create"
+                        element={
+                            <CreateCategory />
+                        }
+                    />
+
+                    <Route
+                        path="categories/edit/:id"
+                        element={
+                            <EditCategory />
+                        }
+                    />
+
+                </Route>
 
             </Route>
 
@@ -91,3 +246,4 @@ function App() {
 }
 
 export default App;
+

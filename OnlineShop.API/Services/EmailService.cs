@@ -10,6 +10,7 @@ namespace OnlineShop.API.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<EmailService> _logger;
+
         //EmailService----------------------------------
         public EmailService(
             IConfiguration configuration,
@@ -18,6 +19,7 @@ namespace OnlineShop.API.Services
             _configuration = configuration;
             _logger = logger;
         }
+
         //SendEmail------------------------------------
         public async Task SendEmailAsync(
             string to,
@@ -37,7 +39,7 @@ namespace OnlineShop.API.Services
             var port =
                 _configuration
                     .GetValue<int?>("Email:Port")
-                ?? 587;
+                ?? 465;
 
             var message = new MimeMessage();
 
@@ -60,10 +62,12 @@ namespace OnlineShop.API.Services
 
             try
             {
+                smtp.Timeout = 15000;
+
                 await smtp.ConnectAsync(
                     host,
                     port,
-                    SecureSocketOptions.StartTls);
+                    SecureSocketOptions.SslOnConnect);
 
                 await smtp.AuthenticateAsync(
                     email,
@@ -92,6 +96,7 @@ namespace OnlineShop.API.Services
                 }
             }
         }
+
         //GetRequiredConfiguration----------------   
         private string GetRequiredConfiguration(
             string key)
