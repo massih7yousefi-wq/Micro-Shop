@@ -505,7 +505,10 @@ app.UseSwaggerUI();
 // HTTPS
 // ================================================================
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 
 // ================================================================
