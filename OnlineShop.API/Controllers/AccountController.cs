@@ -13,17 +13,16 @@ namespace OnlineShop.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IJwtService _jwtService;
-        private readonly ILogger<AccountController> _logger;
+
         //AccountController-----------------------------
         public AccountController(
             IAccountService accountService,
-            IJwtService jwtService,
-            ILogger<AccountController> logger)
+            IJwtService jwtService)
         {
             _accountService = accountService;
             _jwtService = jwtService;
-            _logger = logger;
         }
+
         //Register--------------------------
         [AllowAnonymous]
         [HttpPost("register")]
@@ -51,9 +50,10 @@ namespace OnlineShop.API.Controllers
                 new
                 {
                     message =
-                        "Registration successful. Please check your email."
+                        "Registration successful."
                 });
         }
+
         //Login-----------------------------------
         [AllowAnonymous]
         [HttpPost("login")]
@@ -75,97 +75,7 @@ namespace OnlineShop.API.Controllers
 
             return Ok(response);
         }
-        //ConfirmEmail----------------------------------
-        [AllowAnonymous]
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(
-            [FromQuery] string userId,
-            [FromQuery] string token)
-        {
-            if (string.IsNullOrWhiteSpace(userId) ||
-                string.IsNullOrWhiteSpace(token))
-            {
-                return BadRequest(
-                    new
-                    {
-                        message =
-                            "Invalid email confirmation request."
-                    });
-            }
 
-            var result =
-                await _accountService.ConfirmEmailAsync(
-                    userId,
-                    token);
-
-            if (!result.Succeeded)
-            {
-                return BadRequest(
-                    new
-                    {
-                        message =
-                            "Email confirmation failed.",
-                        errors = result.Errors.Select(e => new
-                        {
-                            e.Code,
-                            e.Description
-                        })
-                    });
-            }
-
-            return Ok(
-                new
-                {
-                    message =
-                        "Email confirmed successfully."
-                });
-        }
-        //ForgotPassword-------------------------------
-        [AllowAnonymous]
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(
-            [FromBody] ForgotPasswordModel model)
-        {
-            await _accountService.ForgotPasswordAsync(model);
-
-            return Ok(
-                new
-                {
-                    message =
-                        "If the email exists and is confirmed, a password reset link has been sent."
-                });
-        }
-        //ResetPassword--------------------------------
-        [AllowAnonymous]
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(
-            [FromBody] ResetPasswordModel model)
-        {
-            var result =
-                await _accountService.ResetPasswordAsync(model);
-
-            if (!result.Succeeded)
-            {
-                return BadRequest(
-                    new
-                    {
-                        message =
-                            "Password reset failed.",
-                        errors = result.Errors.Select(e => new
-                        {
-                            e.Code,
-                            e.Description
-                        })
-                    });
-            }
-
-            return Ok(
-                new
-                {
-                    message =
-                        "Password reset successfully."
-                });
-        }
         //ChangePassword---------------------------------
         [Authorize]
         [HttpPost("change-password")]
@@ -206,6 +116,7 @@ namespace OnlineShop.API.Controllers
                         "Password changed successfully. Please login again."
                 });
         }
+
         //Refresh----------------------------------
         [AllowAnonymous]
         [HttpPost("refresh")]
@@ -228,6 +139,7 @@ namespace OnlineShop.API.Controllers
 
             return Ok(response);
         }
+
         //Logout---------------------------
         [AllowAnonymous]
         [HttpPost("logout")]
@@ -243,6 +155,7 @@ namespace OnlineShop.API.Controllers
                     message = "Logged out successfully."
                 });
         }
+
         //GetCurrentUser------------------------
         [Authorize]
         [HttpGet("me")]
@@ -272,6 +185,7 @@ namespace OnlineShop.API.Controllers
                             .ToList()
                 });
         }
+
         //Admin-----------------------------------
         [Authorize(Roles = "Admin")]
         [HttpGet("admin")]
@@ -287,6 +201,7 @@ namespace OnlineShop.API.Controllers
                             ClaimTypes.Name)
                 });
         }
+
         //GetCurrentUserId-------------------
         private string? GetCurrentUserId()
         {

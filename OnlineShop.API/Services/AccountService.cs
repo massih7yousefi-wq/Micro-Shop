@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.API.Data;
 using OnlineShop.API.Models;
@@ -13,26 +12,20 @@ namespace OnlineShop.API.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
         private readonly IJwtService _jwtService;
-        private readonly IEmailService _emailService;
         private readonly ILogger<AccountService> _logger;
-        private readonly IConfiguration _configuration;
 
         public AccountService(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IDbContextFactory<AppDbContext> dbContextFactory,
             IJwtService jwtService,
-            IEmailService emailService,
-            ILogger<AccountService> logger,
-            IConfiguration configuration)
+            ILogger<AccountService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _dbContextFactory = dbContextFactory;
             _jwtService = jwtService;
-            _emailService = emailService;
             _logger = logger;
-            _configuration = configuration;
         }
 
         // ============================================================
@@ -47,30 +40,6 @@ namespace OnlineShop.API.Services
 
             var userName =
                 model.UserName.Trim();
-
-            // --------------------------------------------------------
-            // Validate required configuration BEFORE creating user
-            // --------------------------------------------------------
-
-            var frontendUrl =
-                GetRequiredConfiguration(
-                    "Frontend:BaseUrl");
-
-            if (!Uri.TryCreate(
-                    frontendUrl,
-                    UriKind.Absolute,
-                    out var frontendUri) ||
-                (frontendUri.Scheme != Uri.UriSchemeHttp &&
-                 frontendUri.Scheme != Uri.UriSchemeHttps))
-            {
-                return IdentityResult.Failed(
-                    new IdentityError
-                    {
-                        Code = "InvalidFrontendUrl",
-                        Description =
-                            "The frontend URL configuration is invalid."
-                    });
-            }
 
             // --------------------------------------------------------
             // Duplicate email check
@@ -117,7 +86,9 @@ namespace OnlineShop.API.Services
                 {
                     UserName = userName,
                     Email = email,
-                    EmailConfirmed = false
+
+                    // Email verification is disabled.
+                    EmailConfirmed = true
                 };
 
             var result =
@@ -157,118 +128,11 @@ namespace OnlineShop.API.Services
             }
 
             // --------------------------------------------------------
-            // Generate confirmation token
-            // --------------------------------------------------------
-
-            string confirmationToken;
-
-            try
-            {
-                confirmationToken =
-                    await _userManager
-                        .GenerateEmailConfirmationTokenAsync(user);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    ex,
-                    "Failed to generate email confirmation token for user {UserId}.",
-                    user.Id);
-
-                await DeleteUserAfterRegistrationFailureAsync(
-                    user,
-                    "Confirmation token generation failed.");
-
-                return IdentityResult.Failed(
-                    new IdentityError
-                    {
-                        Code = "ConfirmationTokenGenerationFailed",
-                        Description =
-                            "Unable to create the email confirmation request."
-                    });
-            }
-
-            // --------------------------------------------------------
-            // Build confirmation URL
-            // --------------------------------------------------------
-
-            var confirmationUrl =
-                $"{frontendUri.ToString().TrimEnd('/')}/confirm-email" +
-                $"?userId={Uri.EscapeDataString(user.Id)}" +
-                $"&token={Uri.EscapeDataString(confirmationToken)}";
-
-            var safeUserName =
-                WebUtility.HtmlEncode(user.UserName);
-
-            // --------------------------------------------------------
-            // Send confirmation email
-            // --------------------------------------------------------
-
-            try
-            {
-                await _emailService.SendEmailAsync(
-                    user.Email!,
-                    "Confirm your MicroShop account",
-                    $"""
-                    <h2>Welcome to MicroShop</h2>
-
-                    <p>Hello {safeUserName},</p>
-
-                    <p>
-                        Thank you for registering with MicroShop.
-                    </p>
-
-                    <p>
-                        Please confirm your email address:
-                    </p>
-
-                    <p>
-                        <a href="{confirmationUrl}">
-                            Confirm Email
-                        </a>
-                    </p>
-
-                    <p>
-                        If you did not create this account,
-                        you can safely ignore this email.
-                    </p>
-                    """);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    ex,
-                    "Registration email failed for user {UserId}. Rolling back user creation.",
-                    user.Id);
-
-                var deleted =
-                    await DeleteUserAfterRegistrationFailureAsync(
-                        user,
-                        "Registration email sending failed.");
-
-                if (!deleted)
-                {
-                    _logger.LogCritical(
-                        "User {UserId} could not be removed after registration email failure. " +
-                        "The account may remain unconfirmed in the database.",
-                        user.Id);
-                }
-
-                return IdentityResult.Failed(
-                    new IdentityError
-                    {
-                        Code = "RegistrationEmailFailed",
-                        Description =
-                            "Registration could not be completed because the confirmation email could not be sent."
-                    });
-            }
-
-            // --------------------------------------------------------
             // Registration completed
             // --------------------------------------------------------
 
             _logger.LogInformation(
-                "User {UserId} registered successfully and confirmation email was sent.",
+                "User {UserId} registered successfully.",
                 user.Id);
 
             return IdentityResult.Success;
@@ -345,160 +209,6 @@ namespace OnlineShop.API.Services
                 user.Id);
 
             return response;
-        }
-
-        // ============================================================
-        // Confirm Email
-        // ============================================================
-
-        public async Task<IdentityResult> ConfirmEmailAsync(
-            string userId,
-            string token)
-        {
-            var user =
-                await _userManager.FindByIdAsync(userId);
-
-            if (user is null)
-            {
-                return IdentityResult.Failed(
-                    new IdentityError
-                    {
-                        Code = "UserNotFound",
-                        Description = "User not found."
-                    });
-            }
-
-            var result =
-                await _userManager.ConfirmEmailAsync(
-                    user,
-                    token);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation(
-                    "Email confirmed for user {UserId}.",
-                    user.Id);
-            }
-
-            return result;
-        }
-
-        // ============================================================
-        // Forgot Password
-        // ============================================================
-
-        public async Task<bool> ForgotPasswordAsync(
-            ForgotPasswordModel model)
-        {
-            var email =
-                model.Email.Trim().ToLowerInvariant();
-
-            var user =
-                await _userManager.FindByEmailAsync(email);
-
-            // Prevent account enumeration
-            if (user is null)
-            {
-                return true;
-            }
-
-            if (!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                return true;
-            }
-
-            var token =
-                await _userManager
-                    .GeneratePasswordResetTokenAsync(user);
-
-            var frontendUrl =
-                GetRequiredConfiguration(
-                    "Frontend:BaseUrl");
-
-            var resetUrl =
-                $"{frontendUrl.TrimEnd('/')}/reset-password" +
-                $"?email={Uri.EscapeDataString(user.Email!)}" +
-                $"&token={Uri.EscapeDataString(token)}";
-
-            var safeUserName =
-                WebUtility.HtmlEncode(user.UserName);
-
-            try
-            {
-                await _emailService.SendEmailAsync(
-                    user.Email!,
-                    "Reset your MicroShop password",
-                    $"""
-                    <h2>MicroShop Password Reset</h2>
-
-                    <p>Hello {safeUserName},</p>
-
-                    <p>
-                        We received a request to reset your password.
-                    </p>
-
-                    <p>
-                        <a href="{resetUrl}">
-                            Reset Password
-                        </a>
-                    </p>
-
-                    <p>
-                        If you did not request this,
-                        you can safely ignore this email.
-                    </p>
-                    """);
-
-                _logger.LogInformation(
-                    "Password reset email sent for user {UserId}.",
-                    user.Id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    ex,
-                    "Failed to send password reset email for user {UserId}.",
-                    user.Id);
-
-                // Keep account-enumeration protection.
-                // The controller can still return the same generic response.
-            }
-
-            return true;
-        }
-
-        // ============================================================
-        // Reset Password
-        // ============================================================
-
-        public async Task<IdentityResult> ResetPasswordAsync(
-            ResetPasswordModel model)
-        {
-            var user =
-                await _userManager.FindByEmailAsync(
-                    model.Email.Trim().ToLowerInvariant());
-
-            if (user is null)
-            {
-                return InvalidResetRequest();
-            }
-
-            var result =
-                await _userManager.ResetPasswordAsync(
-                    user,
-                    model.Token,
-                    model.NewPassword);
-
-            if (result.Succeeded)
-            {
-                await RevokeAllRefreshTokensAsync(
-                    user.Id);
-
-                await _userManager.ResetAccessFailedCountAsync(
-                    user);
-            }
-
-            return result;
         }
 
         // ============================================================
@@ -623,32 +333,6 @@ namespace OnlineShop.API.Services
         // ============================================================
         // Helpers
         // ============================================================
-
-        private string GetRequiredConfiguration(
-            string key)
-        {
-            var value =
-                _configuration[key];
-
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new InvalidOperationException(
-                    $"Configuration '{key}' is not configured.");
-            }
-
-            return value;
-        }
-
-        private static IdentityResult InvalidResetRequest()
-        {
-            return IdentityResult.Failed(
-                new IdentityError
-                {
-                    Code = "InvalidResetRequest",
-                    Description =
-                        "Invalid password reset request."
-                });
-        }
 
         private void LogIdentityErrors(
             IdentityResult result,

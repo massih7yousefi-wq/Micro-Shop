@@ -1,82 +1,62 @@
-﻿//usings-----------------------------------------
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+﻿// Usings ---------------------------------------------------------
 using OnlineShop.API.Services.Interfaces;
+using Resend;
 
 namespace OnlineShop.API.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly IResend _resend;
         private readonly IConfiguration _configuration;
         private readonly ILogger<EmailService> _logger;
 
-        //EmailService----------------------------------
+
+        // EmailService --------------------------------------------
         public EmailService(
+            IResend resend,
             IConfiguration configuration,
             ILogger<EmailService> logger)
         {
+            _resend = resend;
             _configuration = configuration;
             _logger = logger;
         }
 
-        //SendEmail------------------------------------
+
+        // SendEmail ----------------------------------------------
         public async Task SendEmailAsync(
             string to,
             string subject,
             string body)
         {
-            var email =
-                GetRequiredConfiguration("Email:Username");
+            var fromEmail =
+                GetRequiredConfiguration(
+                    "Resend:FromEmail");
 
-            var password =
-                GetRequiredConfiguration("Email:Password");
-
-            var host =
-                _configuration["Email:Host"]
-                ?? "smtp.gmail.com";
-
-            var port =
-                _configuration
-                    .GetValue<int?>("Email:Port")
-                ?? 465;
-
-            var message = new MimeMessage();
-
-            message.From.Add(
-                new MailboxAddress(
-                    "MicroShop",
-                    email));
-
-            message.To.Add(
-                MailboxAddress.Parse(to));
-
-            message.Subject = subject;
-
-            message.Body = new TextPart("html")
-            {
-                Text = body
-            };
-
-            using var smtp = new SmtpClient();
 
             try
             {
-                smtp.Timeout = 15000;
+                var message =
+                    new EmailMessage();
 
-                await smtp.ConnectAsync(
-                    host,
-                    port,
-                    SecureSocketOptions.SslOnConnect);
+                message.From =
+                    $"MicroShop <{fromEmail}>";
 
-                await smtp.AuthenticateAsync(
-                    email,
-                    password);
+                message.To.Add(to);
 
-                await smtp.SendAsync(message);
+                message.Subject =
+                    subject;
+
+                message.HtmlBody =
+                    body;
+
+
+                await _resend.EmailSendAsync(
+                    message);
+
 
                 _logger.LogInformation(
-                    "Email sent to {Email}.",
+                    "Email sent successfully to {Email}.",
                     to);
             }
             catch (Exception ex)
@@ -88,20 +68,15 @@ namespace OnlineShop.API.Services
 
                 throw;
             }
-            finally
-            {
-                if (smtp.IsConnected)
-                {
-                    await smtp.DisconnectAsync(true);
-                }
-            }
         }
 
-        //GetRequiredConfiguration----------------   
+
+        // GetRequiredConfiguration ------------------------------
         private string GetRequiredConfiguration(
             string key)
         {
-            var value = _configuration[key];
+            var value =
+                _configuration[key];
 
             if (string.IsNullOrWhiteSpace(value))
             {

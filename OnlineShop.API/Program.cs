@@ -11,6 +11,8 @@ using OnlineShop.API.Services;
 using OnlineShop.API.Services.Interfaces;
 using OnlineShop.API.Services.Storage;
 
+using Resend;
+
 using Supabase;
 
 using System.Text;
@@ -351,6 +353,32 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     IJwtService,
     JwtService>();
+
+
+// ================================================================
+// Resend Email API
+// ================================================================
+
+builder.Services.AddOptions();
+
+builder.Services.AddHttpClient<ResendClient>();
+
+builder.Services.Configure<ResendClientOptions>(
+    options =>
+    {
+        var apiKey =
+            builder.Configuration["Resend:ApiKey"];
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new InvalidOperationException(
+                "Resend:ApiKey is not configured.");
+        }
+
+        options.ApiToken = apiKey;
+    });
+
+builder.Services.AddTransient<IResend, ResendClient>();
 
 
 // ================================================================
