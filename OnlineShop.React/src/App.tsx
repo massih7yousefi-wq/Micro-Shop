@@ -28,8 +28,20 @@ import ConfirmEmail
 
 // Account-----------------------------------------------------
 
+import Profile
+    from "./pages/Account/Profile/Profile";
+
 import ChangePassword
     from "./pages/Account/ChangePassword/ChangePassword";
+
+import Addresses
+    from "./pages/Account/Addresses/Addresses";
+
+import CreateAddress
+    from "./pages/Account/Addresses/CreateAddress";
+
+import EditAddress
+    from "./pages/Account/Addresses/EditAddress";
 
 // Store-------------------------------------------------------
 
@@ -150,10 +162,52 @@ function App() {
                 element={<ProtectedRoute />}
             >
 
+                {/* ------------------------------------------
+                    Profile
+                ------------------------------------------ */}
+
+                <Route
+                    path="/account/profile"
+                    element={
+                        <Profile />
+                    }
+                />
+
+
+                {/* ------------------------------------------
+                    Change Password
+                ------------------------------------------ */}
+
                 <Route
                     path="/account/change-password"
                     element={
                         <ChangePassword />
+                    }
+                />
+
+
+                {/* ------------------------------------------
+                    Addresses
+                ------------------------------------------ */}
+
+                <Route
+                    path="/account/addresses"
+                    element={
+                        <Addresses />
+                    }
+                />
+
+                <Route
+                    path="/account/addresses/create"
+                    element={
+                        <CreateAddress />
+                    }
+                />
+
+                <Route
+                    path="/account/addresses/edit/:id"
+                    element={
+                        <EditAddress />
                     }
                 />
 
@@ -246,4 +300,3 @@ function App() {
 }
 
 export default App;
-

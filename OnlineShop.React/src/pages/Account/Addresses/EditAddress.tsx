@@ -19,6 +19,8 @@ import type {
     UpdateAddressRequest,
 } from "../../../types/address";
 
+import "./EditAddress.css";
+
 
 export default function EditAddress() {
 
@@ -121,25 +123,25 @@ export default function EditAddress() {
 
                 setForm({
                     recipientName:
-                        address.recipientName,
+                    address.recipientName,
 
                     recipientPhone:
-                        address.recipientPhone,
+                    address.recipientPhone,
 
                     addressLine:
-                        address.addressLine,
+                    address.addressLine,
 
                     city:
-                        address.city,
+                    address.city,
 
                     state:
-                        address.state,
+                    address.state,
 
                     postalCode:
-                        address.postalCode,
+                    address.postalCode,
 
                     isDefault:
-                        address.isDefault,
+                    address.isDefault,
                 });
 
             } catch (err) {
@@ -198,6 +200,8 @@ export default function EditAddress() {
                         : value,
             })
         );
+
+        setError("");
     };
 
 
@@ -242,6 +246,7 @@ export default function EditAddress() {
                 addressId,
                 {
                     ...form,
+
                     recipientName:
                         form.recipientName.trim(),
 
@@ -289,14 +294,16 @@ export default function EditAddress() {
     if (loading) {
 
         return (
-            <section>
+            <section className="edit-address-page">
 
-                <h1>
-                    Edit Address
-                </h1>
+                <div className="edit-address-loading">
 
-                <div>
-                    Loading address...
+                    <span className="edit-address-loading__spinner" />
+
+                    <span>
+                        Loading address...
+                    </span>
+
                 </div>
 
             </section>
@@ -309,23 +316,31 @@ export default function EditAddress() {
     if (error && !form.recipientName) {
 
         return (
-            <section>
+            <section className="edit-address-page">
 
-                <h1>
-                    Edit Address
-                </h1>
+                <div className="edit-address-error">
 
-                <div
-                    role="alert"
-                >
-                    {error}
+                    <div className="edit-address-error__icon">
+                        !
+                    </div>
+
+                    <h1>
+                        Unable to load address
+                    </h1>
+
+                    <p>
+                        {error}
+                    </p>
+
+                    <Link
+                        to="/account/addresses"
+                        className="edit-address-back"
+                    >
+                        <span>←</span>
+                        Back to Addresses
+                    </Link>
+
                 </div>
-
-                <Link
-                    to="/account/addresses"
-                >
-                    Back to Addresses
-                </Link>
 
             </section>
         );
@@ -335,245 +350,424 @@ export default function EditAddress() {
     // Render --------------------------------------------------
 
     return (
-        <section>
+        <section className="edit-address-page">
 
-            <header>
+            {/* ==================================================
+                Header
+            ================================================== */}
 
-                <h1>
-                    Edit Address
-                </h1>
+            <header className="edit-address-header animate-fade-up">
 
-                <Link
-                    to="/account/addresses"
-                >
-                    Back to Addresses
-                </Link>
+                <div>
+
+                    <Link
+                        to="/account/addresses"
+                        className="edit-address-back"
+                    >
+                        <span>←</span>
+                        Back to Addresses
+                    </Link>
+
+                    <div className="edit-address-heading">
+
+                        <div className="edit-address-heading__icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"
+                                />
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h1>
+                                Edit Address
+                            </h1>
+
+                            <p>
+                                Update your shipping information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </header>
 
 
-            {/* Error ------------------------------------------ */}
+            {/* ==================================================
+                Error
+            ================================================== */}
 
             {error && (
                 <div
+                    className="edit-address-message"
                     role="alert"
                 >
-                    {error}
+
+                    <span className="edit-address-message__icon">
+                        !
+                    </span>
+
+                    <span>
+                        {error}
+                    </span>
+
                 </div>
             )}
 
 
-            {/* Form ------------------------------------------- */}
+            {/* ==================================================
+                Form Card
+            ================================================== */}
 
-            <form
-                onSubmit={handleSubmit}
-            >
+            <div className="edit-address-card animate-fade-up">
 
-                {/* Recipient Name ----------------------------- */}
+                <div className="edit-address-card__header">
 
-                <div>
+                    <div>
 
-                    <label htmlFor="recipientName">
-                        Recipient Name
-                    </label>
+                        <span className="edit-address-card__eyebrow">
+                            SHIPPING DETAILS
+                        </span>
 
-                    <input
-                        id="recipientName"
-                        name="recipientName"
-                        type="text"
-                        value={
-                            form.recipientName
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="name"
-                        required
-                    />
+                        <h2>
+                            Address Information
+                        </h2>
+
+                        <p>
+                            Make sure your delivery information is accurate.
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                {/* Recipient Phone ---------------------------- */}
+                <form
+                    className="edit-address-form"
+                    onSubmit={handleSubmit}
+                >
 
-                <div>
+                    {/* ==================================================
+                        Recipient
+                    ================================================== */}
 
-                    <label htmlFor="recipientPhone">
-                        Recipient Phone
-                    </label>
+                    <div className="edit-address-form__section">
 
-                    <input
-                        id="recipientPhone"
-                        name="recipientPhone"
-                        type="tel"
-                        value={
-                            form.recipientPhone
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={30}
-                        autoComplete="tel"
-                        required
-                    />
+                        <div className="edit-address-form__section-header">
 
-                </div>
+                            <span className="edit-address-form__number">
+                                01
+                            </span>
+
+                            <div>
+
+                                <h3>
+                                    Recipient
+                                </h3>
+
+                                <p>
+                                    Who should receive this order?
+                                </p>
+
+                            </div>
+
+                        </div>
 
 
-                {/* Address Line ------------------------------- */}
+                        <div className="edit-address-form__grid">
 
-                <div>
+                            <div className="edit-address-field">
 
-                    <label htmlFor="addressLine">
+                                <label htmlFor="recipientName">
+                                    Recipient Name
+                                </label>
+
+                                <input
+                                    id="recipientName"
+                                    name="recipientName"
+                                    type="text"
+                                    value={
+                                        form.recipientName
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                    maxLength={100}
+                                    autoComplete="name"
+                                    placeholder="Enter recipient name"
+                                    required
+                                />
+
+                            </div>
+
+
+                            <div className="edit-address-field">
+
+                                <label htmlFor="recipientPhone">
+                                    Recipient Phone
+                                </label>
+
+                                <input
+                                    id="recipientPhone"
+                                    name="recipientPhone"
+                                    type="tel"
+                                    value={
+                                        form.recipientPhone
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                    maxLength={30}
+                                    autoComplete="tel"
+                                    placeholder="Enter phone number"
+                                    required
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* ==================================================
                         Address
-                    </label>
+                    ================================================== */}
 
-                    <textarea
-                        id="addressLine"
-                        name="addressLine"
-                        value={
-                            form.addressLine
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={500}
-                        autoComplete="street-address"
-                        required
-                    />
+                    <div className="edit-address-form__section">
 
-                </div>
+                        <div className="edit-address-form__section-header">
 
+                            <span className="edit-address-form__number">
+                                02
+                            </span>
 
-                {/* City ---------------------------------------- */}
+                            <div>
 
-                <div>
+                                <h3>
+                                    Delivery Address
+                                </h3>
 
-                    <label htmlFor="city">
-                        City
-                    </label>
+                                <p>
+                                    Where should we deliver your order?
+                                </p>
 
-                    <input
-                        id="city"
-                        name="city"
-                        type="text"
-                        value={
-                            form.city
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="address-level2"
-                        required
-                    />
+                            </div>
 
-                </div>
+                        </div>
 
 
-                {/* State --------------------------------------- */}
+                        <div className="edit-address-field">
 
-                <div>
+                            <label htmlFor="addressLine">
+                                Address
+                            </label>
 
-                    <label htmlFor="state">
-                        State
-                    </label>
+                            <textarea
+                                id="addressLine"
+                                name="addressLine"
+                                value={
+                                    form.addressLine
+                                }
+                                onChange={
+                                    handleChange
+                                }
+                                maxLength={500}
+                                autoComplete="street-address"
+                                placeholder="Enter your full address"
+                                required
+                            />
 
-                    <input
-                        id="state"
-                        name="state"
-                        type="text"
-                        value={
-                            form.state
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="address-level1"
-                        required
-                    />
-
-                </div>
+                        </div>
 
 
-                {/* Postal Code --------------------------------- */}
+                        <div className="edit-address-form__grid">
 
-                <div>
+                            <div className="edit-address-field">
 
-                    <label htmlFor="postalCode">
-                        Postal Code
-                    </label>
+                                <label htmlFor="city">
+                                    City
+                                </label>
 
-                    <input
-                        id="postalCode"
-                        name="postalCode"
-                        type="text"
-                        value={
-                            form.postalCode
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={30}
-                        autoComplete="postal-code"
-                        required
-                    />
+                                <input
+                                    id="city"
+                                    name="city"
+                                    type="text"
+                                    value={
+                                        form.city
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                    maxLength={100}
+                                    autoComplete="address-level2"
+                                    placeholder="Enter city"
+                                    required
+                                />
 
-                </div>
-
-
-                {/* Default Address ---------------------------- */}
-
-                <div>
-
-                    <label>
-
-                        <input
-                            type="checkbox"
-                            name="isDefault"
-                            checked={
-                                form.isDefault
-                            }
-                            onChange={
-                                handleChange
-                            }
-                        />
-
-                        Set as default address
-
-                    </label>
-
-                </div>
+                            </div>
 
 
-                {/* Actions ------------------------------------ */}
+                            <div className="edit-address-field">
 
-                <div>
+                                <label htmlFor="state">
+                                    State
+                                </label>
 
-                    <button
-                        type="submit"
-                        disabled={saving}
-                    >
-                        {
-                            saving
-                                ? "Saving..."
-                                : "Save Changes"
-                        }
-                    </button>
+                                <input
+                                    id="state"
+                                    name="state"
+                                    type="text"
+                                    value={
+                                        form.state
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                    maxLength={100}
+                                    autoComplete="address-level1"
+                                    placeholder="Enter state"
+                                    required
+                                />
 
-                    <Link
-                        to="/account/addresses"
-                    >
-                        Cancel
-                    </Link>
+                            </div>
 
-                </div>
 
-            </form>
+                            <div className="edit-address-field">
+
+                                <label htmlFor="postalCode">
+                                    Postal Code
+                                </label>
+
+                                <input
+                                    id="postalCode"
+                                    name="postalCode"
+                                    type="text"
+                                    value={
+                                        form.postalCode
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                    maxLength={30}
+                                    autoComplete="postal-code"
+                                    placeholder="Enter postal code"
+                                    required
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* ==================================================
+                        Default Address
+                    ================================================== */}
+
+                    <div className="edit-address-default">
+
+                        <label
+                            className="edit-address-default__label"
+                        >
+
+                            <input
+                                type="checkbox"
+                                name="isDefault"
+                                checked={
+                                    form.isDefault
+                                }
+                                onChange={
+                                    handleChange
+                                }
+                            />
+
+                            <span className="edit-address-default__checkbox">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="m5 12 4 4L19 6"
+                                    />
+                                </svg>
+                            </span>
+
+                            <span className="edit-address-default__content">
+
+                                <strong>
+                                    Set as default address
+                                </strong>
+
+                                <small>
+                                    Use this address automatically during checkout.
+                                </small>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    {/* ==================================================
+                        Actions
+                    ================================================== */}
+
+                    <div className="edit-address-actions">
+
+                        <Link
+                            to="/account/addresses"
+                            className="edit-address-cancel"
+                        >
+                            Cancel
+                        </Link>
+
+                        <button
+                            type="submit"
+                            className="edit-address-save"
+                            disabled={saving}
+                        >
+
+                            {saving ? (
+                                <>
+                                    <span className="edit-address-save__spinner" />
+
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="m5 12 4 4L19 6"
+                                        />
+                                    </svg>
+
+                                    Save Changes
+                                </>
+                            )}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </section>
     );
 }
-

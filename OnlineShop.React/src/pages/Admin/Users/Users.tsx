@@ -47,6 +47,8 @@ import DeleteUserModal
 import UserStatusModal
     from "./components/UserStatusModal";
 
+import "./Users.css";
+
 
 type ModalType =
     | "details"
@@ -128,7 +130,7 @@ export default function Users() {
 
 
     // Search
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     useEffect(() => {
 
@@ -141,7 +143,7 @@ export default function Users() {
 
 
     // Open Modal
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const openModal = (
         user: AdminUser,
@@ -157,7 +159,7 @@ export default function Users() {
 
 
     // Close Modal
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const closeModal = () => {
 
@@ -172,7 +174,7 @@ export default function Users() {
 
 
     // Update User
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const handleUpdate =
         async (
@@ -211,7 +213,7 @@ export default function Users() {
 
 
     // Change Role
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const handleChangeRole =
         async (
@@ -250,7 +252,7 @@ export default function Users() {
 
 
     // Set Active
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const handleSetActive =
         async () => {
@@ -287,7 +289,7 @@ export default function Users() {
 
 
     // Set Lock
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const handleSetLock =
         async () => {
@@ -324,7 +326,7 @@ export default function Users() {
 
 
     // Delete User
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     const handleDelete =
         async () => {
@@ -372,138 +374,284 @@ export default function Users() {
 
 
     // Render
-    // ------------------------------------------------------------
+    // --------------------------------------------------------
 
     return (
-        <section>
+        <section className="admin-users">
 
-            <header>
+            <div className="admin-users__background">
 
-                <h1>
-                    Users
-                </h1>
+                <div className="admin-users__glow admin-users__glow--one" />
 
-                <p>
-                    Total users: {totalCount}
-                </p>
+                <div className="admin-users__glow admin-users__glow--two" />
 
-            </header>
+                <div className="admin-users__grid" />
+
+            </div>
 
 
-            <UserSearch
-                value={search}
-                onChange={setSearch}
-            />
+            <div className="admin-users__container">
+
+                {/* Header ------------------------------------ */}
+
+                <header className="admin-users__header">
+
+                    <div className="admin-users__heading">
+
+                        <div className="admin-users__icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                                />
+
+                                <circle
+                                    cx="9"
+                                    cy="7"
+                                    r="4"
+                                />
+
+                                <path
+                                    d="M22 21v-2a4 4 0 0 0-3-3.87"
+                                />
+
+                                <path
+                                    d="M16 3.13a4 4 0 0 1 0 7.75"
+                                />
+                            </svg>
+
+                        </div>
 
 
-            {loading && (
-                <p>
-                    Loading users...
-                </p>
-            )}
+                        <div>
+
+                            <span className="admin-users__eyebrow">
+                                ADMINISTRATION
+                            </span>
+
+                            <h1>
+                                Users
+                            </h1>
+
+                            <p>
+                                Manage accounts, roles, access and user status.
+                            </p>
+
+                        </div>
+
+                    </div>
 
 
-            {error && (
-                <div>
+                    <div className="admin-users__total">
 
-                    <p>
-                        {error}
-                    </p>
+                        <span>
+                            Total Users
+                        </span>
 
-                    <button
-                        type="button"
-                        onClick={() => {
-                            void refetch();
-                        }}
-                    >
-                        Retry
-                    </button>
+                        <strong>
+                            {totalCount}
+                        </strong>
+
+                    </div>
+
+                </header>
+
+
+                {/* Toolbar ----------------------------------- */}
+
+                <div className="admin-users__toolbar">
+
+                    <UserSearch
+                        value={search}
+                        onChange={setSearch}
+                    />
+
+                    <div className="admin-users__result">
+
+                        <span className="admin-users__result-dot" />
+
+                        {loading
+                            ? "Updating users..."
+                            : `${users.length} users displayed`}
+
+                    </div>
 
                 </div>
-            )}
 
 
-            {!loading &&
-                !error && (
+                {/* Loading ---------------------------------- */}
 
-                    <UserTable
-                        users={users}
+                {loading && (
+                    <div className="admin-users__loading">
 
-                        onView={(user) =>
-                            openModal(
-                                user,
-                                "details"
-                            )
-                        }
+                        <span className="admin-users__spinner" />
 
-                        onEdit={(user) =>
-                            openModal(
-                                user,
-                                "edit"
-                            )
-                        }
+                        <div>
 
-                        onRole={(user) =>
-                            openModal(
-                                user,
-                                "role"
-                            )
-                        }
+                            <strong>
+                                Loading users
+                            </strong>
 
-                        onActive={(user) => {
+                            <span>
+                                Fetching the latest account data...
+                            </span>
 
-                            openModal(
-                                user,
-                                "status"
-                            );
+                        </div>
 
-                            setStatusAction(
-                                "active"
-                            );
-                        }}
-
-                        onLock={(user) => {
-
-                            openModal(
-                                user,
-                                "status"
-                            );
-
-                            setStatusAction(
-                                "lock"
-                            );
-                        }}
-
-                        onDelete={(user) =>
-                            openModal(
-                                user,
-                                "delete"
-                            )
-                        }
-                    />
-
+                    </div>
                 )}
 
 
-            {!loading &&
-                !error && (
+                {/* Error ------------------------------------ */}
 
-                    <UserPagination
-                        currentPage={
-                            currentPage
-                        }
+                {error && (
+                    <div className="admin-users__error">
 
-                        totalPages={
-                            totalPages
-                        }
+                        <div className="admin-users__error-icon">
 
-                        onPageChange={
-                            setCurrentPage
-                        }
-                    />
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9"
+                                />
 
+                                <path
+                                    d="M12 8v4"
+                                />
+
+                                <path
+                                    d="M12 16h.01"
+                                />
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Unable to load users
+                            </strong>
+
+                            <p>
+                                {error}
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            onClick={() => {
+                                void refetch();
+                            }}
+                        >
+                            Retry
+                        </button>
+
+                    </div>
                 )}
 
+
+                {/* Table ------------------------------------ */}
+
+                {!loading &&
+                    !error && (
+
+                        <div className="admin-users__table-card">
+
+                            <UserTable
+                                users={users}
+
+                                onView={(user) =>
+                                    openModal(
+                                        user,
+                                        "details"
+                                    )
+                                }
+
+                                onEdit={(user) =>
+                                    openModal(
+                                        user,
+                                        "edit"
+                                    )
+                                }
+
+                                onRole={(user) =>
+                                    openModal(
+                                        user,
+                                        "role"
+                                    )
+                                }
+
+                                onActive={(user) => {
+
+                                    openModal(
+                                        user,
+                                        "status"
+                                    );
+
+                                    setStatusAction(
+                                        "active"
+                                    );
+                                }}
+
+                                onLock={(user) => {
+
+                                    openModal(
+                                        user,
+                                        "status"
+                                    );
+
+                                    setStatusAction(
+                                        "lock"
+                                    );
+                                }}
+
+                                onDelete={(user) =>
+                                    openModal(
+                                        user,
+                                        "delete"
+                                    )
+                                }
+                            />
+
+                        </div>
+                    )}
+
+
+                {/* Pagination ------------------------------- */}
+
+                {!loading &&
+                    !error && (
+
+                        <UserPagination
+                            currentPage={
+                                currentPage
+                            }
+
+                            totalPages={
+                                totalPages
+                            }
+
+                            onPageChange={
+                                setCurrentPage
+                            }
+                        />
+
+                    )}
+
+            </div>
+
+
+            {/* Modals ----------------------------------------- */}
 
             <UserDetailsModal
                 user={
@@ -655,12 +803,12 @@ function extractApiError(
             data as IdentityError[];
 
         return identityErrors
-            .map(
-                item =>
-                    item.description
-            )
-            .filter(Boolean)
-            .join(", ")
+                .map(
+                    item =>
+                        item.description
+                )
+                .filter(Boolean)
+                .join(", ")
             ||
             "Request failed.";
     }
@@ -693,7 +841,7 @@ function extractApiError(
 
     switch (
         error.response?.status
-    ) {
+        ) {
 
         case 400:
             return "Invalid request.";
@@ -714,4 +862,3 @@ function extractApiError(
             return "Request failed.";
     }
 }
-

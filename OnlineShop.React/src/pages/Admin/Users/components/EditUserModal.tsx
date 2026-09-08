@@ -8,22 +8,21 @@ import type {
     AdminUpdateUserModel,
 } from "../../../../types/adminUser";
 
+
 interface EditUserModalProps {
     user: AdminUser | null;
 
+    loading: boolean;
 
-loading: boolean;
+    error: string | null;
 
-error: string | null;
+    onClose: () => void;
 
-onClose: () => void;
-
-onSubmit: (
-    model: AdminUpdateUserModel
-) => Promise<void>;
-
-
+    onSubmit: (
+        model: AdminUpdateUserModel
+    ) => Promise<void>;
 }
+
 
 export default function EditUserModal({
                                           user,
@@ -33,161 +32,246 @@ export default function EditUserModal({
                                           onSubmit,
                                       }: EditUserModalProps) {
 
+    const [userName, setUserName] =
+        useState("");
 
-const [userName, setUserName] =
-    useState("");
+    const [email, setEmail] =
+        useState("");
 
-const [email, setEmail] =
-    useState("");
-
-const [phoneNumber, setPhoneNumber] =
-    useState("");
+    const [phoneNumber, setPhoneNumber] =
+        useState("");
 
 
-useEffect(() => {
+    useEffect(() => {
+
+        if (!user) {
+            return;
+        }
+
+        setUserName(user.userName);
+        setEmail(user.email);
+        setPhoneNumber(
+            user.phoneNumber ?? ""
+        );
+
+    }, [user]);
+
 
     if (!user) {
-        return;
+        return null;
     }
 
-    setUserName(user.userName);
-    setEmail(user.email);
-    setPhoneNumber(
-        user.phoneNumber ?? ""
-    );
 
-}, [user]);
+    const handleSubmit = async (
+        event: React.FormEvent
+    ) => {
 
+        event.preventDefault();
 
-if (!user) {
-    return null;
-}
-
-
-const handleSubmit = async (
-    event: React.FormEvent
-) => {
-
-    event.preventDefault();
-
-    await onSubmit({
-        userName: userName.trim(),
-        email: email.trim(),
-        phoneNumber:
-            phoneNumber.trim() || null,
-    });
-};
+        await onSubmit({
+            userName: userName.trim(),
+            email: email.trim(),
+            phoneNumber:
+                phoneNumber.trim() || null,
+        });
+    };
 
 
-return (
-    <div
-        role="dialog"
-        aria-modal="true"
-    >
+    return (
+        <div
+            className="admin-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-user-title"
+        >
 
-        <div>
-
-            <h2>
-                Edit User
-            </h2>
-
-
-            {error && (
-                <p>
-                    {error}
-                </p>
-            )}
+            <div
+                className="admin-modal__backdrop"
+                onClick={onClose}
+            />
 
 
-            <form
-                onSubmit={handleSubmit}
-            >
+            <div className="admin-modal__panel">
 
-                <div>
+                <div className="admin-modal__header">
 
-                    <label>
-                        Username
-                    </label>
+                    <div className="admin-modal__title-group">
 
-                    <input
-                        value={userName}
-                        onChange={(event) =>
-                            setUserName(
-                                event.target.value
-                            )
-                        }
-                        minLength={3}
-                        maxLength={50}
-                        required
-                    />
+                        <div className="admin-modal__icon admin-modal__icon--primary">
 
-                </div>
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M12 20h9"
+                                />
+
+                                <path
+                                    d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"
+                                />
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                USER MANAGEMENT
+                            </span>
+
+                            <h2 id="edit-user-title">
+                                Edit User
+                            </h2>
+
+                        </div>
+
+                    </div>
 
 
-                <div>
-
-                    <label>
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) =>
-                            setEmail(
-                                event.target.value
-                            )
-                        }
-                        maxLength={256}
-                        required
-                    />
+                    <button
+                        type="button"
+                        className="admin-modal__close"
+                        onClick={onClose}
+                        disabled={loading}
+                        aria-label="Close"
+                    >
+                        ×
+                    </button>
 
                 </div>
 
 
-                <div>
+                <div className="admin-modal__body">
 
-                    <label>
-                        Phone
-                    </label>
+                    <div className="admin-modal__user-reference">
 
-                    <input
-                        value={phoneNumber}
-                        onChange={(event) =>
-                            setPhoneNumber(
-                                event.target.value
-                            )
-                        }
-                        maxLength={30}
-                    />
+                        <div className="admin-modal__avatar">
+                            {user.userName
+                                .charAt(0)
+                                .toUpperCase()}
+                        </div>
+
+                        <div>
+                            <strong>
+                                {user.userName}
+                            </strong>
+
+                            <span>
+                                User ID #{user.id}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    {error && (
+                        <div className="admin-modal__error">
+                            {error}
+                        </div>
+                    )}
+
+
+                    <form
+                        className="admin-modal__form"
+                        onSubmit={handleSubmit}
+                    >
+
+                        <div className="admin-form-field">
+
+                            <label>
+                                Username
+                            </label>
+
+                            <input
+                                value={userName}
+                                onChange={(event) =>
+                                    setUserName(
+                                        event.target.value
+                                    )
+                                }
+                                minLength={3}
+                                maxLength={50}
+                                autoComplete="username"
+                                required
+                            />
+
+                        </div>
+
+
+                        <div className="admin-form-field">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(event) =>
+                                    setEmail(
+                                        event.target.value
+                                    )
+                                }
+                                maxLength={256}
+                                autoComplete="email"
+                                required
+                            />
+
+                        </div>
+
+
+                        <div className="admin-form-field">
+
+                            <label>
+                                Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                value={phoneNumber}
+                                onChange={(event) =>
+                                    setPhoneNumber(
+                                        event.target.value
+                                    )
+                                }
+                                maxLength={30}
+                                autoComplete="tel"
+                            />
+
+                        </div>
+
+
+                        <div className="admin-modal__actions">
+
+                            <button
+                                type="button"
+                                className="admin-modal-button admin-modal-button--secondary"
+                                onClick={onClose}
+                                disabled={loading}
+                            >
+                                Cancel
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                className="admin-modal-button admin-modal-button--primary"
+                                disabled={loading}
+                            >
+                                {loading
+                                    ? "Saving..."
+                                    : "Save Changes"}
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
-
-                <button
-                    type="button"
-                    onClick={onClose}
-                    disabled={loading}
-                >
-                    Cancel
-                </button>
-
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                >
-                    {loading
-                        ? "Saving..."
-                        : "Save"}
-                </button>
-
-            </form>
+            </div>
 
         </div>
-
-    </div>
-);
-
-
+    );
 }

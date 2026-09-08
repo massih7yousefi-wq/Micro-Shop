@@ -7,15 +7,17 @@ interface UserPaginationProps {
     ) => void;
 }
 
+
 export default function UserPagination({
-    currentPage,
-    totalPages,
-    onPageChange,
-}: UserPaginationProps) {
+                                           currentPage,
+                                           totalPages,
+                                           onPageChange,
+                                       }: UserPaginationProps) {
 
     if (totalPages <= 1) {
         return null;
     }
+
 
     const canGoPrevious =
         currentPage > 1;
@@ -25,7 +27,7 @@ export default function UserPagination({
 
 
     return (
-        <div>
+        <div className="admin-pagination">
 
             <button
                 type="button"
@@ -36,13 +38,36 @@ export default function UserPagination({
                     )
                 }
             >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="m15 18-6-6 6-6"
+                    />
+                </svg>
+
                 Previous
+
             </button>
 
 
-            <span>
-                Page {currentPage} of {totalPages}
-            </span>
+            <div className="admin-pagination__info">
+
+                <span>
+                    Page
+                </span>
+
+                <strong>
+                    {currentPage}
+                </strong>
+
+                <span>
+                    of {totalPages}
+                </span>
+
+            </div>
 
 
             <button
@@ -54,10 +79,20 @@ export default function UserPagination({
                     )
                 }
             >
+
                 Next
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="m9 18 6-6-6-6"
+                    />
+                </svg>
+
             </button>
 
         </div>
     );
 }
-

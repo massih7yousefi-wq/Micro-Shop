@@ -1,18 +1,62 @@
-import { NavLink, Link } from "react-router-dom";
-import { useState } from "react";
+import {
+    NavLink,
+    Link,
+    useNavigate,
+} from "react-router-dom";
+
+import {
+    useState,
+} from "react";
+
+import {
+    useAuth,
+} from "../../../auth/AuthContext";
+
 import "./Header.css";
 
+
 const Header = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+
+    const [menuOpen, setMenuOpen] =
+        useState(false);
+
+    const {
+        user,
+        isAuthenticated,
+        logout,
+    } = useAuth();
+
+    const navigate =
+        useNavigate();
+
 
     const closeMenu = () => {
         setMenuOpen(false);
     };
 
+
+    const handleLogout = async () => {
+
+        closeMenu();
+
+        await logout();
+
+        navigate("/login");
+    };
+
+
+    const isAdmin =
+        user?.roles?.some(
+            role =>
+                role.toLowerCase() === "admin"
+        ) ?? false;
+
+
     return (
         <header className="site-header">
 
             <div className="site-header__inner">
+
 
                 {/* Logo */}
                 <Link
@@ -20,13 +64,20 @@ const Header = () => {
                     className="site-logo"
                     onClick={closeMenu}
                 >
+
                     <span className="site-logo__mark">
+
                         <span className="site-logo__line site-logo__line--left" />
+
                         <span className="site-logo__line site-logo__line--center" />
+
                         <span className="site-logo__line site-logo__line--right" />
+
                     </span>
 
+
                     <span className="site-logo__text">
+
                         <span className="site-logo__name">
                             Micro
                         </span>
@@ -34,47 +85,144 @@ const Header = () => {
                         <span className="site-logo__shop">
                             Shop
                         </span>
+
                     </span>
+
                 </Link>
 
 
-                {/* Desktop Navigation */}
+                {/* Navigation */}
                 <nav
                     className={`site-navigation ${
-                        menuOpen ? "site-navigation--open" : ""
+                        menuOpen
+                            ? "site-navigation--open"
+                            : ""
                     }`}
                 >
 
+
+                    {/* Home */}
                     <NavLink
                         to="/"
                         end
                         className={({ isActive }) =>
-                            `nav-link ${isActive ? "nav-link--active" : ""}`
+                            `nav-link ${
+                                isActive
+                                    ? "nav-link--active"
+                                    : ""
+                            }`
                         }
                         onClick={closeMenu}
                     >
-                        <span>Home</span>
+                        <span>
+                            Home
+                        </span>
                     </NavLink>
 
+
+                    {/* Products */}
                     <NavLink
                         to="/products"
                         className={({ isActive }) =>
-                            `nav-link ${isActive ? "nav-link--active" : ""}`
+                            `nav-link ${
+                                isActive
+                                    ? "nav-link--active"
+                                    : ""
+                            }`
                         }
                         onClick={closeMenu}
                     >
-                        <span>Products</span>
+                        <span>
+                            Products
+                        </span>
                     </NavLink>
 
-                    <NavLink
-                        to="/categories"
-                        className={({ isActive }) =>
-                            `nav-link ${isActive ? "nav-link--active" : ""}`
-                        }
-                        onClick={closeMenu}
-                    >
-                        <span>Categories</span>
-                    </NavLink>
+
+                    {/* Authenticated User */}
+                    {isAuthenticated && (
+                        <NavLink
+                            to="/account/profile"
+                            className={({ isActive }) =>
+                                `nav-link ${
+                                    isActive
+                                        ? "nav-link--active"
+                                        : ""
+                                }`
+                            }
+                            onClick={closeMenu}
+                        >
+                            <span>
+                                Manage Account
+                            </span>
+                        </NavLink>
+                    )}
+
+
+                    {/* Admin */}
+                    {isAuthenticated && isAdmin && (
+                        <Link
+                            to="/admin/users"
+                            className="nav-link nav-link--admin"
+                            onClick={closeMenu}
+                        >
+                            <span>
+                                Admin Panel
+                            </span>
+                        </Link>
+                    )}
+
+
+                    {/* Guest Authentication */}
+                    {!isAuthenticated && (
+                        <>
+                            <NavLink
+                                to="/login"
+                                className={({ isActive }) =>
+                                    `nav-link ${
+                                        isActive
+                                            ? "nav-link--active"
+                                            : ""
+                                    }`
+                                }
+                                onClick={closeMenu}
+                            >
+                                <span>
+                                    Login
+                                </span>
+                            </NavLink>
+
+
+                            <NavLink
+                                to="/register"
+                                className={({ isActive }) =>
+                                    `nav-link ${
+                                        isActive
+                                            ? "nav-link--active"
+                                            : ""
+                                    }`
+                                }
+                                onClick={closeMenu}
+                            >
+                                <span>
+                                    Register
+                                </span>
+                            </NavLink>
+                        </>
+                    )}
+
+
+                    {/* Logout */}
+                    {isAuthenticated && (
+                        <button
+                            type="button"
+                            className="nav-link nav-link--logout"
+                            onClick={handleLogout}
+                        >
+                            <span>
+                                Logout
+                            </span>
+                        </button>
+                    )}
 
                 </nav>
 
@@ -82,19 +230,24 @@ const Header = () => {
                 {/* Actions */}
                 <div className="site-header__actions">
 
+
+                    {/* Cart */}
                     <Link
                         to="/cart"
                         className="cart-button"
                         aria-label="Shopping cart"
+                        onClick={closeMenu}
                     >
 
                         <span className="cart-button__icon">
+
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                                 aria-hidden="true"
                             >
+
                                 <path
                                     d="M3 4H5L7.2 15.2C7.3 15.7 7.7 16 8.2 16H18.4C18.9 16 19.3 15.7 19.4 15.2L21 8H6"
                                     stroke="currentColor"
@@ -116,12 +269,16 @@ const Header = () => {
                                     r="1.4"
                                     fill="currentColor"
                                 />
+
                             </svg>
+
                         </span>
+
 
                         <span className="cart-button__text">
                             Cart
                         </span>
+
 
                         <span className="cart-button__badge">
                             0
@@ -134,9 +291,15 @@ const Header = () => {
                     <button
                         type="button"
                         className={`menu-toggle ${
-                            menuOpen ? "menu-toggle--active" : ""
+                            menuOpen
+                                ? "menu-toggle--active"
+                                : ""
                         }`}
-                        onClick={() => setMenuOpen((prev) => !prev)}
+                        onClick={() =>
+                            setMenuOpen(
+                                prev => !prev
+                            )
+                        }
                         aria-label="Toggle navigation"
                         aria-expanded={menuOpen}
                     >
@@ -154,5 +317,6 @@ const Header = () => {
         </header>
     );
 };
+
 
 export default Header;

@@ -16,6 +16,8 @@ import type {
     AddressResponse,
 } from "../../../types/address";
 
+import "./Addresses.css";
+
 
 export default function Addresses() {
 
@@ -172,12 +174,18 @@ export default function Addresses() {
     if (loading) {
 
         return (
-            <section>
-                <h1>My Addresses</h1>
+            <section className="addresses-page">
 
-                <div>
-                    Loading addresses...
+                <div className="addresses-loading">
+
+                    <span className="addresses-loading__spinner" />
+
+                    <span>
+                        Loading your addresses...
+                    </span>
+
                 </div>
+
             </section>
         );
     }
@@ -186,46 +194,138 @@ export default function Addresses() {
     // Render --------------------------------------------------
 
     return (
-        <section>
+        <section className="addresses-page">
 
-            <header>
+            {/* ==================================================
+                Page Header
+            ================================================== */}
 
-                <h1>
-                    My Addresses
-                </h1>
+            <header className="addresses-header animate-fade-up">
+
+                <div className="addresses-header__content">
+
+                    <div className="addresses-header__icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                            />
+
+                            <circle
+                                cx="12"
+                                cy="10"
+                                r="2.5"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h1 className="addresses-header__title">
+                            My Addresses
+                        </h1>
+
+                        <p className="addresses-header__description">
+                            Manage your saved shipping addresses.
+                        </p>
+
+                    </div>
+
+                </div>
+
 
                 <Link
                     to="/account/addresses/create"
+                    className="addresses-add-button"
                 >
-                    Add New Address
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 5v14"
+                        />
+
+                        <path
+                            d="M5 12h14"
+                        />
+                    </svg>
+
+                    <span>
+                        Add New Address
+                    </span>
+
                 </Link>
 
             </header>
 
 
-            {/* Error ------------------------------------------ */}
+            {/* ==================================================
+                Error
+            ================================================== */}
 
             {error && (
                 <div
+                    className="addresses-message addresses-message--error animate-fade-up"
                     role="alert"
                 >
-                    {error}
+
+                    <span className="addresses-message__icon">
+                        !
+                    </span>
+
+                    <span>
+                        {error}
+                    </span>
+
                 </div>
             )}
 
 
-            {/* Empty State ------------------------------------ */}
+            {/* ==================================================
+                Empty State
+            ================================================== */}
 
             {addresses.length === 0 && !error && (
 
-                <div>
+                <div className="addresses-empty animate-scale-in">
+
+                    <div className="addresses-empty__icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                            />
+
+                            <circle
+                                cx="12"
+                                cy="10"
+                                r="2.5"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <h2>
+                        No saved addresses
+                    </h2>
 
                     <p>
-                        You don't have any saved addresses yet.
+                        Add an address to make your checkout
+                        faster and easier.
                     </p>
 
                     <Link
                         to="/account/addresses/create"
+                        className="addresses-empty__button"
                     >
                         Add Your First Address
                     </Link>
@@ -234,14 +334,16 @@ export default function Addresses() {
             )}
 
 
-            {/* Address List ----------------------------------- */}
+            {/* ==================================================
+                Address List
+            ================================================== */}
 
             {addresses.length > 0 && (
 
-                <div>
+                <div className="addresses-list">
 
                     {addresses.map(
-                        address => {
+                        (address, index) => {
 
                             const isActionLoading =
                                 actionLoadingId ===
@@ -250,65 +352,198 @@ export default function Addresses() {
                             return (
                                 <article
                                     key={address.id}
+                                    className="address-card animate-fade-up"
+                                    style={{
+                                        animationDelay:
+                                            `${index * 70}ms`,
+                                    }}
                                 >
 
-                                    <h2>
-                                        {address.recipientName}
-                                    </h2>
+                                    {/* Card Header ---------------- */}
+
+                                    <div className="address-card__header">
+
+                                        <div className="address-card__identity">
+
+                                            <div className="address-card__icon">
+
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                                                    />
+
+                                                    <circle
+                                                        cx="12"
+                                                        cy="10"
+                                                        r="2.5"
+                                                    />
+                                                </svg>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h2 className="address-card__name">
+                                                    {address.recipientName}
+                                                </h2>
+
+                                                <span className="address-card__label">
+                                                    Shipping Address
+                                                </span>
+
+                                            </div>
+
+                                        </div>
 
 
-                                    {address.isDefault && (
-                                        <span>
-                                            Default
-                                        </span>
-                                    )}
+                                        {address.isDefault && (
+                                            <span className="address-card__default">
+
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="m5 12 4 4L19 6"
+                                                    />
+                                                </svg>
+
+                                                Default
+
+                                            </span>
+                                        )}
+
+                                    </div>
 
 
-                                    <p>
-                                        {
-                                            address.recipientPhone
-                                        }
-                                    </p>
+                                    {/* Card Body ------------------ */}
 
-                                    <p>
-                                        {
-                                            address.addressLine
-                                        }
-                                    </p>
+                                    <div className="address-card__body">
 
-                                    <p>
-                                        {
-                                            address.city
-                                        },
-                                        {" "}
-                                        {
-                                            address.state
-                                        }
-                                    </p>
+                                        <div className="address-card__row">
 
-                                    <p>
-                                        {
-                                            address.postalCode
-                                        }
-                                    </p>
+                                            <span className="address-card__row-icon">
+
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M6 4h12v16H6z"
+                                                    />
+
+                                                    <path
+                                                        d="M9 8h6"
+                                                    />
+
+                                                    <path
+                                                        d="M9 12h6"
+                                                    />
+                                                </svg>
+
+                                            </span>
+
+                                            <span>
+                                                {address.addressLine}
+                                            </span>
+
+                                        </div>
 
 
-                                    {/* Actions ---------------- */}
+                                        <div className="address-card__details">
 
-                                    <div>
+                                            <div className="address-card__detail">
+
+                                                <span className="address-card__detail-label">
+                                                    City
+                                                </span>
+
+                                                <span className="address-card__detail-value">
+                                                    {address.city}
+                                                </span>
+
+                                            </div>
+
+
+                                            <div className="address-card__detail">
+
+                                                <span className="address-card__detail-label">
+                                                    State
+                                                </span>
+
+                                                <span className="address-card__detail-value">
+                                                    {address.state}
+                                                </span>
+
+                                            </div>
+
+
+                                            <div className="address-card__detail">
+
+                                                <span className="address-card__detail-label">
+                                                    Postal Code
+                                                </span>
+
+                                                <span className="address-card__detail-value">
+                                                    {address.postalCode}
+                                                </span>
+
+                                            </div>
+
+
+                                            <div className="address-card__detail">
+
+                                                <span className="address-card__detail-label">
+                                                    Phone
+                                                </span>
+
+                                                <span className="address-card__detail-value">
+                                                    {address.recipientPhone}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {/* Card Actions -------------- */}
+
+                                    <div className="address-card__actions">
 
                                         <Link
                                             to={
                                                 `/account/addresses/edit/${address.id}`
                                             }
+                                            className="address-action address-action--edit"
                                         >
+
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    d="M12 20h9"
+                                                />
+
+                                                <path
+                                                    d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"
+                                                />
+                                            </svg>
+
                                             Edit
+
                                         </Link>
 
 
                                         {!address.isDefault && (
                                             <button
                                                 type="button"
+                                                className="address-action address-action--default"
                                                 onClick={() =>
                                                     void handleSetDefault(
                                                         address.id
@@ -318,17 +553,31 @@ export default function Addresses() {
                                                     isActionLoading
                                                 }
                                             >
-                                                {
-                                                    isActionLoading
-                                                        ? "Updating..."
-                                                        : "Set Default"
-                                                }
+
+                                                {isActionLoading ? (
+                                                    <span className="address-button-spinner" />
+                                                ) : (
+                                                    <svg
+                                                        viewBox="0 0 24 24"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path
+                                                            d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"
+                                                        />
+                                                    </svg>
+                                                )}
+
+                                                {isActionLoading
+                                                    ? "Updating..."
+                                                    : "Set Default"}
+
                                             </button>
                                         )}
 
 
                                         <button
                                             type="button"
+                                            className="address-action address-action--delete"
                                             onClick={() =>
                                                 void handleDelete(
                                                     address.id
@@ -338,11 +587,40 @@ export default function Addresses() {
                                                 isActionLoading
                                             }
                                         >
-                                            {
-                                                isActionLoading
-                                                    ? "Processing..."
-                                                    : "Delete"
-                                            }
+
+                                            {isActionLoading ? (
+                                                <span className="address-button-spinner" />
+                                            ) : (
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M4 7h16"
+                                                    />
+
+                                                    <path
+                                                        d="M10 11v6"
+                                                    />
+
+                                                    <path
+                                                        d="M14 11v6"
+                                                    />
+
+                                                    <path
+                                                        d="M6 7l1 13h10l1-13"
+                                                    />
+
+                                                    <path
+                                                        d="M9 7V4h6v3"
+                                                    />
+                                                </svg>
+                                            )}
+
+                                            {isActionLoading
+                                                ? "Processing..."
+                                                : "Delete"}
+
                                         </button>
 
                                     </div>
@@ -358,4 +636,3 @@ export default function Addresses() {
         </section>
     );
 }
-

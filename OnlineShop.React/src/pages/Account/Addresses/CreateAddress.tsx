@@ -17,6 +17,8 @@ import type {
     CreateAddressRequest,
 } from "../../../types/address";
 
+import "../../../styles/account/AddressForm.css";
+
 
 export default function CreateAddress() {
 
@@ -137,246 +139,516 @@ export default function CreateAddress() {
     // Render --------------------------------------------------
 
     return (
-        <section>
+        <section className="address-page">
 
-            <header>
+            <div className="address-background">
 
-                <h1>
-                    Add New Address
-                </h1>
+                <div className="address-glow address-glow--one" />
 
-                <Link
-                    to="/account/addresses"
-                >
-                    Back to Addresses
-                </Link>
+                <div className="address-glow address-glow--two" />
 
-            </header>
+                <div className="address-grid" />
+
+            </div>
 
 
-            {/* Error ------------------------------------------ */}
+            <div className="address-container">
 
-            {error && (
-                <div
-                    role="alert"
-                >
-                    {error}
-                </div>
-            )}
+                <div className="address-card animate-scale-in">
 
+                    {/* Header ---------------------------------- */}
 
-            {/* Form ------------------------------------------- */}
+                    <header className="address-header">
 
-            <form
-                onSubmit={handleSubmit}
-            >
+                        <div className="address-header__main">
 
-                {/* Recipient Name ----------------------------- */}
+                            <div className="address-icon">
 
-                <div>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"
+                                    />
 
-                    <label htmlFor="recipientName">
-                        Recipient Name
-                    </label>
+                                    <circle
+                                        cx="12"
+                                        cy="10"
+                                        r="2.5"
+                                    />
+                                </svg>
 
-                    <input
-                        id="recipientName"
-                        name="recipientName"
-                        type="text"
-                        value={
-                            form.recipientName
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="name"
-                        required
-                    />
-
-                </div>
+                            </div>
 
 
-                {/* Recipient Phone ---------------------------- */}
+                            <div>
 
-                <div>
+                                <p className="address-eyebrow">
+                                    ACCOUNT
+                                </p>
 
-                    <label htmlFor="recipientPhone">
-                        Recipient Phone
-                    </label>
+                                <h1>
+                                    Add New Address
+                                </h1>
 
-                    <input
-                        id="recipientPhone"
-                        name="recipientPhone"
-                        type="tel"
-                        value={
-                            form.recipientPhone
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={30}
-                        autoComplete="tel"
-                        required
-                    />
+                                <p className="address-subtitle">
+                                    Save an address for a faster checkout.
+                                </p>
 
-                </div>
+                            </div>
+
+                        </div>
 
 
-                {/* Address Line ------------------------------- */}
+                        <Link
+                            className="address-back-link"
+                            to="/account/addresses"
+                        >
 
-                <div>
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M19 12H5"
+                                />
 
-                    <label htmlFor="addressLine">
-                        Address
-                    </label>
+                                <path
+                                    d="m12 19-7-7 7-7"
+                                />
+                            </svg>
 
-                    <textarea
-                        id="addressLine"
-                        name="addressLine"
-                        value={
-                            form.addressLine
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={500}
-                        autoComplete="street-address"
-                        required
-                    />
+                            <span>
+                                Back to Addresses
+                            </span>
 
-                </div>
+                        </Link>
 
-
-                {/* City ---------------------------------------- */}
-
-                <div>
-
-                    <label htmlFor="city">
-                        City
-                    </label>
-
-                    <input
-                        id="city"
-                        name="city"
-                        type="text"
-                        value={
-                            form.city
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="address-level2"
-                        required
-                    />
-
-                </div>
+                    </header>
 
 
-                {/* State --------------------------------------- */}
-
-                <div>
-
-                    <label htmlFor="state">
-                        State
-                    </label>
-
-                    <input
-                        id="state"
-                        name="state"
-                        type="text"
-                        value={
-                            form.state
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={100}
-                        autoComplete="address-level1"
-                        required
-                    />
-
-                </div>
+                    <div className="address-divider" />
 
 
-                {/* Postal Code --------------------------------- */}
+                    {/* Error ---------------------------------- */}
 
-                <div>
+                    {error && (
+                        <div
+                            className="address-error"
+                            role="alert"
+                        >
 
-                    <label htmlFor="postalCode">
-                        Postal Code
-                    </label>
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9"
+                                />
 
-                    <input
-                        id="postalCode"
-                        name="postalCode"
-                        type="text"
-                        value={
-                            form.postalCode
-                        }
-                        onChange={
-                            handleChange
-                        }
-                        maxLength={30}
-                        autoComplete="postal-code"
-                        required
-                    />
+                                <path
+                                    d="M12 8v4"
+                                />
 
-                </div>
+                                <path
+                                    d="M12 16h.01"
+                                />
+                            </svg>
 
+                            <span>
+                                {error}
+                            </span>
 
-                {/* Default Address ---------------------------- */}
-
-                <div>
-
-                    <label>
-
-                        <input
-                            type="checkbox"
-                            name="isDefault"
-                            checked={
-                                form.isDefault
-                            }
-                            onChange={
-                                handleChange
-                            }
-                        />
-
-                        Set as default address
-
-                    </label>
-
-                </div>
+                        </div>
+                    )}
 
 
-                {/* Actions ------------------------------------ */}
+                    {/* Form ----------------------------------- */}
 
-                <div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
+                    <form
+                        className="address-form"
+                        onSubmit={handleSubmit}
                     >
-                        {
-                            loading
-                                ? "Creating..."
-                                : "Create Address"
-                        }
-                    </button>
 
-                    <Link
-                        to="/account/addresses"
-                    >
-                        Cancel
-                    </Link>
+                        {/* Recipient -------------------------- */}
+
+                        <section className="address-form__section">
+
+                            <div className="address-form__section-header">
+
+                                <span className="address-form__section-number">
+                                    01
+                                </span>
+
+                                <div>
+
+                                    <h2>
+                                        Recipient Information
+                                    </h2>
+
+                                    <p>
+                                        Tell us who will receive this order.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="address-form__grid">
+
+                                <div className="address-field">
+
+                                    <label htmlFor="recipientName">
+                                        Recipient Name
+                                    </label>
+
+                                    <div className="address-input-wrapper">
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <circle
+                                                cx="12"
+                                                cy="8"
+                                                r="3"
+                                            />
+
+                                            <path
+                                                d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"
+                                            />
+                                        </svg>
+
+                                        <input
+                                            id="recipientName"
+                                            name="recipientName"
+                                            type="text"
+                                            value={
+                                                form.recipientName
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            maxLength={100}
+                                            autoComplete="name"
+                                            placeholder="John Doe"
+                                            required
+                                        />
+
+                                    </div>
+
+                                </div>
+
+
+                                <div className="address-field">
+
+                                    <label htmlFor="recipientPhone">
+                                        Recipient Phone
+                                    </label>
+
+                                    <div className="address-input-wrapper">
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <rect
+                                                x="7"
+                                                y="3"
+                                                width="10"
+                                                height="18"
+                                                rx="2"
+                                            />
+
+                                            <path
+                                                d="M10 6h4"
+                                            />
+
+                                            <path
+                                                d="M11 18h2"
+                                            />
+                                        </svg>
+
+                                        <input
+                                            id="recipientPhone"
+                                            name="recipientPhone"
+                                            type="tel"
+                                            value={
+                                                form.recipientPhone
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            maxLength={30}
+                                            autoComplete="tel"
+                                            placeholder="+1 555 000 0000"
+                                            required
+                                        />
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        {/* Address ----------------------------- */}
+
+                        <section className="address-form__section">
+
+                            <div className="address-form__section-header">
+
+                                <span className="address-form__section-number">
+                                    02
+                                </span>
+
+                                <div>
+
+                                    <h2>
+                                        Delivery Address
+                                    </h2>
+
+                                    <p>
+                                        Where should we deliver your order?
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="address-form__grid">
+
+                                <div className="address-field address-field--full">
+
+                                    <label htmlFor="addressLine">
+                                        Address
+                                    </label>
+
+                                    <div className="address-input-wrapper address-input-wrapper--textarea">
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                d="M4 10.5 12 4l8 6.5"
+                                            />
+
+                                            <path
+                                                d="M6.5 9.5V20h11V9.5"
+                                            />
+
+                                            <path
+                                                d="M10 20v-5h4v5"
+                                            />
+                                        </svg>
+
+                                        <textarea
+                                            id="addressLine"
+                                            name="addressLine"
+                                            value={
+                                                form.addressLine
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            maxLength={500}
+                                            autoComplete="street-address"
+                                            placeholder="Street address, apartment, suite, etc."
+                                            required
+                                        />
+
+                                    </div>
+
+                                </div>
+
+
+                                <div className="address-field">
+
+                                    <label htmlFor="city">
+                                        City
+                                    </label>
+
+                                    <input
+                                        id="city"
+                                        name="city"
+                                        type="text"
+                                        value={
+                                            form.city
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        maxLength={100}
+                                        autoComplete="address-level2"
+                                        placeholder="New York"
+                                        required
+                                    />
+
+                                </div>
+
+
+                                <div className="address-field">
+
+                                    <label htmlFor="state">
+                                        State
+                                    </label>
+
+                                    <input
+                                        id="state"
+                                        name="state"
+                                        type="text"
+                                        value={
+                                            form.state
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        maxLength={100}
+                                        autoComplete="address-level1"
+                                        placeholder="New York"
+                                        required
+                                    />
+
+                                </div>
+
+
+                                <div className="address-field">
+
+                                    <label htmlFor="postalCode">
+                                        Postal Code
+                                    </label>
+
+                                    <input
+                                        id="postalCode"
+                                        name="postalCode"
+                                        type="text"
+                                        value={
+                                            form.postalCode
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        maxLength={30}
+                                        autoComplete="postal-code"
+                                        placeholder="10001"
+                                        required
+                                    />
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        {/* Default ----------------------------- */}
+
+                        <section className="address-default">
+
+                            <label className="address-checkbox">
+
+                                <input
+                                    type="checkbox"
+                                    name="isDefault"
+                                    checked={
+                                        form.isDefault
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
+                                />
+
+                                <span className="address-checkbox__box">
+
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="m5 12 4 4L19 6"
+                                        />
+                                    </svg>
+
+                                </span>
+
+
+                                <span className="address-checkbox__content">
+
+                                    <strong>
+                                        Set as default address
+                                    </strong>
+
+                                    <small>
+                                        Use this address automatically during checkout.
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+                        </section>
+
+
+                        {/* Actions -------------------------------- */}
+
+                        <div className="address-actions">
+
+                            <Link
+                                className="address-button address-button--secondary"
+                                to="/account/addresses"
+                            >
+                                Cancel
+                            </Link>
+
+
+                            <button
+                                className="address-button address-button--primary"
+                                type="submit"
+                                disabled={loading}
+                            >
+
+                                {loading ? (
+                                    <>
+                                        <span className="address-spinner" />
+                                        Creating...
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                d="M12 5v14"
+                                            />
+
+                                            <path
+                                                d="m5 12 7 7 7-7"
+                                            />
+                                        </svg>
+
+                                        Create Address
+                                    </>
+                                )}
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
-            </form>
+            </div>
 
         </section>
     );
 }
-
-

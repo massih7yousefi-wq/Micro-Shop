@@ -26,6 +26,8 @@ import type {
     UserProfile,
 } from "../../../types/profile";
 
+import "./Profile.css";
+
 
 export default function Profile() {
 
@@ -93,11 +95,11 @@ export default function Profile() {
 
                 setForm({
                     firstName:
-                        data.firstName,
+                    data.firstName,
                     lastName:
-                        data.lastName,
+                    data.lastName,
                     phoneNumber:
-                        data.phoneNumber,
+                    data.phoneNumber,
                 });
 
             } catch (err) {
@@ -166,7 +168,6 @@ export default function Profile() {
         setSuccess("");
         setSaving(true);
 
-
         try {
 
             const updatedProfile =
@@ -180,11 +181,11 @@ export default function Profile() {
 
             setForm({
                 firstName:
-                    updatedProfile.firstName,
+                updatedProfile.firstName,
                 lastName:
-                    updatedProfile.lastName,
+                updatedProfile.lastName,
                 phoneNumber:
-                    updatedProfile.phoneNumber,
+                updatedProfile.phoneNumber,
             });
 
             setSuccess(
@@ -212,14 +213,20 @@ export default function Profile() {
 
         return (
             <AuthLayout
-                title="Your Profile"
-                subtitle="Manage your personal information"
+                title="Manage Account"
+                subtitle="Manage your account and personal information"
             >
 
-                <div className="auth-status">
+                <div className="profile-status">
 
-                    <div className="auth-loading">
-                        Loading your profile...
+                    <div className="profile-loader">
+
+                        <span className="profile-loader__spinner" />
+
+                        <span>
+                            Loading your profile...
+                        </span>
+
                     </div>
 
                 </div>
@@ -235,11 +242,11 @@ export default function Profile() {
 
         return (
             <AuthLayout
-                title="Your Profile"
-                subtitle="Manage your personal information"
+                title="Manage Account"
+                subtitle="Manage your account and personal information"
             >
 
-                <div className="auth-status">
+                <div className="profile-status">
 
                     {error && (
                         <div className="auth-error">
@@ -258,132 +265,398 @@ export default function Profile() {
 
     return (
         <AuthLayout
-            title="Your Profile"
-            subtitle="Manage your personal information"
+            title="Manage Account"
+            subtitle="Manage your account and personal information"
         >
 
-            <form
-                className="auth-form"
-                onSubmit={handleSubmit}
-            >
-
-                {/* Error --------------------------------------- */}
-
-                {error && (
-                    <div className="auth-error">
-                        {error}
-                    </div>
-                )}
+            <div className="profile-page">
 
 
-                {/* Success ------------------------------------- */}
+                {/* ==================================================
+                    Account Navigation
+                ================================================== */}
 
-                {success && (
-                    <div className="auth-success">
-                        {success}
-                    </div>
-                )}
-
-
-                {/* Username ------------------------------------ */}
-
-                <AuthInput
-                    id="userName"
-                    name="userName"
-                    type="text"
-                    label="Username"
-                    value={profile.userName}
-                    readOnly
-                    autoComplete="username"
-                />
-
-
-                {/* Email --------------------------------------- */}
-
-                <AuthInput
-                    id="email"
-                    name="email"
-                    type="email"
-                    label="Email"
-                    value={profile.email}
-                    readOnly
-                    autoComplete="email"
-                />
-
-
-                {/* First Name ---------------------------------- */}
-
-                <AuthInput
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    label="First Name"
-                    placeholder="Enter your first name"
-                    value={form.firstName}
-                    onChange={handleChange}
-                    autoComplete="given-name"
-                    maxLength={50}
-                    required
-                />
-
-
-                {/* Last Name ----------------------------------- */}
-
-                <AuthInput
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    label="Last Name"
-                    placeholder="Enter your last name"
-                    value={form.lastName}
-                    onChange={handleChange}
-                    autoComplete="family-name"
-                    maxLength={50}
-                    required
-                />
-
-
-                {/* Phone Number -------------------------------- */}
-
-                <AuthInput
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="tel"
-                    label="Phone Number"
-                    placeholder="Enter your phone number"
-                    value={form.phoneNumber ?? ""}
-                    onChange={handleChange}
-                    autoComplete="tel"
-                    maxLength={30}
-                />
-
-
-                {/* Submit -------------------------------------- */}
-
-                <AuthButton
-                    type="submit"
-                    loading={saving}
+                <nav
+                    className="account-navigation animate-fade-up"
+                    aria-label="Account navigation"
                 >
-                    Save Changes
-                </AuthButton>
 
-            </form>
+                    {/* Profile ------------------------------------- */}
+
+                    <Link
+                        to="/account/profile"
+                        className="account-navigation__item account-navigation__item--active"
+                    >
+
+                        <span className="account-navigation__icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M20 21a8 8 0 0 0-16 0"
+                                />
+                                <circle
+                                    cx="12"
+                                    cy="7"
+                                    r="4"
+                                />
+                            </svg>
+                        </span>
+
+                        <span className="account-navigation__content">
+
+                            <span className="account-navigation__title">
+                                Profile
+                            </span>
+
+                            <span className="account-navigation__description">
+                                Manage your personal information
+                            </span>
+
+                        </span>
+
+                        <span className="account-navigation__arrow">
+                            →
+                        </span>
+
+                    </Link>
 
 
-            {/* Account Navigation ----------------------------- */}
+                    {/* Change Password ---------------------------- */}
 
-            <div className="auth-footer">
+                    <Link
+                        to="/account/change-password"
+                        className="account-navigation__item"
+                    >
 
-                <Link
-                    to="/"
-                    className="auth-link"
+                        <span className="account-navigation__icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <rect
+                                    x="4"
+                                    y="10"
+                                    width="16"
+                                    height="10"
+                                    rx="2"
+                                />
+                                <path
+                                    d="M8 10V7a4 4 0 0 1 8 0v3"
+                                />
+                                <circle
+                                    cx="12"
+                                    cy="15"
+                                    r="1"
+                                />
+                            </svg>
+                        </span>
+
+                        <span className="account-navigation__content">
+
+                            <span className="account-navigation__title">
+                                Password & Security
+                            </span>
+
+                            <span className="account-navigation__description">
+                                Change your account password
+                            </span>
+
+                        </span>
+
+                        <span className="account-navigation__arrow">
+                            →
+                        </span>
+
+                    </Link>
+
+
+                    {/* Addresses ---------------------------------- */}
+
+                    <Link
+                        to="/account/addresses"
+                        className="account-navigation__item"
+                    >
+
+                        <span className="account-navigation__icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                                />
+                                <circle
+                                    cx="12"
+                                    cy="10"
+                                    r="2.5"
+                                />
+                            </svg>
+                        </span>
+
+                        <span className="account-navigation__content">
+
+                            <span className="account-navigation__title">
+                                Addresses
+                            </span>
+
+                            <span className="account-navigation__description">
+                                Manage your shipping addresses
+                            </span>
+
+                        </span>
+
+                        <span className="account-navigation__arrow">
+                            →
+                        </span>
+
+                    </Link>
+
+                </nav>
+
+
+                {/* ==================================================
+                    Profile Information
+                ================================================== */}
+
+                <section
+                    className="account-section animate-fade-up"
                 >
-                    Back to Store
-                </Link>
+
+                    <div className="account-section__header">
+
+                        <div className="account-section__heading">
+
+                            <div className="account-section__icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M20 21a8 8 0 0 0-16 0"
+                                    />
+                                    <circle
+                                        cx="12"
+                                        cy="7"
+                                        r="4"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div>
+
+                                <h2 className="account-section__title">
+                                    Profile Information
+                                </h2>
+
+                                <p className="account-section__description">
+                                    Update your personal information below.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        className="auth-form profile-form"
+                        onSubmit={handleSubmit}
+                    >
+
+                        {/* Error ----------------------------------- */}
+
+                        {error && (
+                            <div className="auth-error profile-message">
+                                <span className="profile-message__icon">
+                                    !
+                                </span>
+
+                                <span>
+                                    {error}
+                                </span>
+                            </div>
+                        )}
+
+
+                        {/* Success --------------------------------- */}
+
+                        {success && (
+                            <div className="auth-success profile-message">
+                                <span className="profile-message__icon">
+                                    ✓
+                                </span>
+
+                                <span>
+                                    {success}
+                                </span>
+                            </div>
+                        )}
+
+
+                        {/* Account Information --------------------- */}
+
+                        <div className="profile-form__group">
+
+                            <div className="profile-form__group-header">
+
+                                <span className="profile-form__eyebrow">
+                                    ACCOUNT
+                                </span>
+
+                                <span className="profile-form__hint">
+                                    Read-only information
+                                </span>
+
+                            </div>
+
+
+                            <div className="profile-form__grid">
+
+                                <div className="profile-readonly">
+
+                                    <AuthInput
+                                        id="userName"
+                                        name="userName"
+                                        type="text"
+                                        label="Username"
+                                        value={profile.userName}
+                                        readOnly
+                                        autoComplete="username"
+                                    />
+
+                                    <span className="profile-readonly__badge">
+                                        Read only
+                                    </span>
+
+                                </div>
+
+
+                                <div className="profile-readonly">
+
+                                    <AuthInput
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        label="Email"
+                                        value={profile.email}
+                                        readOnly
+                                        autoComplete="email"
+                                    />
+
+                                    <span className="profile-readonly__badge">
+                                        Read only
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* Personal Information -------------------- */}
+
+                        <div className="profile-form__group">
+
+                            <div className="profile-form__group-header">
+
+                                <span className="profile-form__eyebrow">
+                                    PERSONAL INFORMATION
+                                </span>
+
+                                <span className="profile-form__hint">
+                                    Keep your information up to date
+                                </span>
+
+                            </div>
+
+
+                            <div className="profile-form__grid">
+
+                                <AuthInput
+                                    id="firstName"
+                                    name="firstName"
+                                    type="text"
+                                    label="First Name"
+                                    placeholder="Enter your first name"
+                                    value={form.firstName}
+                                    onChange={handleChange}
+                                    autoComplete="given-name"
+                                    maxLength={50}
+                                    required
+                                />
+
+
+                                <AuthInput
+                                    id="lastName"
+                                    name="lastName"
+                                    type="text"
+                                    label="Last Name"
+                                    placeholder="Enter your last name"
+                                    value={form.lastName}
+                                    onChange={handleChange}
+                                    autoComplete="family-name"
+                                    maxLength={50}
+                                    required
+                                />
+
+                            </div>
+
+
+                            <AuthInput
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                type="tel"
+                                label="Phone Number"
+                                placeholder="Enter your phone number"
+                                value={form.phoneNumber ?? ""}
+                                onChange={handleChange}
+                                autoComplete="tel"
+                                maxLength={30}
+                            />
+
+                        </div>
+
+
+                        {/* Submit ---------------------------------- */}
+
+                        <div className="profile-form__actions">
+
+                            <AuthButton
+                                type="submit"
+                                loading={saving}
+                            >
+                                Save Changes
+                            </AuthButton>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                {/* ==================================================
+                    Account Footer
+                ================================================== */}
+
+                <div className="auth-footer profile-footer">
+
+                    <Link
+                        to="/"
+                        className="auth-link"
+                    >
+                        <span>←</span>
+                        Back to Store
+                    </Link>
+
+                </div>
 
             </div>
 
         </AuthLayout>
     );
 }
-
