@@ -5,14 +5,43 @@ const Hero = () => {
     return (
         <section className="hero-section">
 
+            {/* =====================================================
+               Background Video
+            ===================================================== */}
+
+            <video
+                className="hero-background-video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden="true"
+            >
+                <source
+                    src="/AAEQ9128.MP4"
+                    type="video/mp4"
+                />
+            </video>
+
+            <div className="hero-background-overlay" />
+
             <div className="hero-bg-grid" />
 
             <div className="hero-bg-glow hero-bg-glow--one" />
             <div className="hero-bg-glow hero-bg-glow--two" />
 
+
+            {/* =====================================================
+               Main Content
+            ===================================================== */}
+
             <div className="hero-container">
 
-                {/* Content */}
+                {/* =================================================
+                   Content
+                ================================================= */}
+
                 <div className="hero-content">
 
                     <div className="hero-badge">
@@ -27,7 +56,9 @@ const Hero = () => {
                         </span>
                     </div>
 
+
                     <h1 className="hero-title">
+
                         <span className="hero-title__line">
                             Discover
                         </span>
@@ -39,13 +70,16 @@ const Hero = () => {
                         <span className="hero-title__line">
                             Products.
                         </span>
+
                     </h1>
+
 
                     <p className="hero-description">
                         A curated collection of products
                         designed to make everyday shopping
                         simpler, smarter, and better.
                     </p>
+
 
                     <div className="hero-actions">
 
@@ -62,6 +96,7 @@ const Hero = () => {
                             </span>
                         </Link>
 
+
                         <Link
                             to="/categories"
                             className="hero-button hero-button--secondary"
@@ -70,6 +105,7 @@ const Hero = () => {
                         </Link>
 
                     </div>
+
 
                     <div className="hero-meta">
 
@@ -96,17 +132,24 @@ const Hero = () => {
 
                 </div>
 
-                {/* Visual */}
+
+                {/* =================================================
+                   Visual
+                ================================================= */}
+
                 <div className="hero-visual">
 
                     <div className="hero-visual__orbit hero-visual__orbit--one" />
+
                     <div className="hero-visual__orbit hero-visual__orbit--two" />
 
                     <div className="hero-visual__halo" />
 
+
                     <div className="hero-main-card">
 
                         <div className="hero-main-card__top">
+
                             <span>
                                 Featured
                             </span>
@@ -115,25 +158,36 @@ const Hero = () => {
                                 <i />
                                 Available
                             </span>
+
                         </div>
+
 
                         <div className="hero-main-card__visual">
 
                             <div className="hero-product-shape hero-product-shape--one" />
+
                             <div className="hero-product-shape hero-product-shape--two" />
+
                             <div className="hero-product-shape hero-product-shape--three" />
 
+
                             <div className="hero-product-symbol">
+
                                 <span className="hero-product-symbol__line hero-product-symbol__line--left" />
+
                                 <span className="hero-product-symbol__line hero-product-symbol__line--center" />
+
                                 <span className="hero-product-symbol__line hero-product-symbol__line--right" />
+
                             </div>
 
                         </div>
 
+
                         <div className="hero-main-card__bottom">
 
                             <div>
+
                                 <span className="hero-main-card__label">
                                     Micro Shop
                                 </span>
@@ -141,6 +195,7 @@ const Hero = () => {
                                 <strong>
                                     Curated Collection
                                 </strong>
+
                             </div>
 
                             <span className="hero-main-card__arrow">
@@ -150,6 +205,7 @@ const Hero = () => {
                         </div>
 
                     </div>
+
 
                     <div className="hero-floating-card hero-floating-card--top">
 
@@ -164,6 +220,7 @@ const Hero = () => {
 
                     </div>
 
+
                     <div className="hero-floating-card hero-floating-card--bottom">
 
                         <span className="hero-floating-card__check">
@@ -177,6 +234,7 @@ const Hero = () => {
 
                     </div>
 
+
                     <span className="hero-visual__number">
                         01
                     </span>
@@ -185,9 +243,19 @@ const Hero = () => {
 
             </div>
 
+
+            {/* =====================================================
+               Scroll Indicator
+            ===================================================== */}
+
             <div className="hero-scroll">
+
                 <span className="hero-scroll__line" />
-                <span>Scroll to explore</span>
+
+                <span>
+                    Scroll to explore
+                </span>
+
             </div>
 
         </section>

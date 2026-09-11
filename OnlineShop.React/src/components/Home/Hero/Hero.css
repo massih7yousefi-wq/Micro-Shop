@@ -15,11 +15,6 @@
     isolation: isolate;
 
     background:
-            radial-gradient(
-                    circle at 78% 42%,
-                    rgba(59, 130, 246, 0.08),
-                    transparent 30%
-            ),
             linear-gradient(
                     135deg,
                     #ffffff 0%,
@@ -30,16 +25,87 @@
 
 
 /* =========================================================
+   Background Video
+========================================================= */
+
+.hero-background-video {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -5;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center center;
+
+    pointer-events: none;
+
+    opacity: 0.78;
+
+    transform: scale(1.015);
+
+    filter:
+            saturate(0.92)
+            contrast(0.96);
+
+    animation:
+            hero-video-enter
+            1200ms
+            ease
+            both;
+}
+
+
+/* =========================================================
+   Video Overlay
+========================================================= */
+
+.hero-background-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -4;
+
+    pointer-events: none;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.97) 0%,
+                    rgba(255, 255, 255, 0.91) 30%,
+                    rgba(255, 255, 255, 0.62) 52%,
+                    rgba(255, 255, 255, 0.20) 76%,
+                    rgba(255, 255, 255, 0.05) 100%
+            );
+
+    backdrop-filter:
+            blur(0.5px);
+
+    -webkit-backdrop-filter:
+            blur(0.5px);
+}
+
+
+/* =========================================================
    Background Grid
 ========================================================= */
 
 .hero-bg-grid {
     position: absolute;
+
     inset: 0;
 
     z-index: -3;
 
-    opacity: 0.5;
+    opacity: 0.22;
+
+    pointer-events: none;
 
     background-image:
             linear-gradient(
@@ -58,7 +124,7 @@
             linear-gradient(
                     to bottom,
                     black 0%,
-                    black 55%,
+                    black 50%,
                     transparent 92%
             );
 
@@ -66,11 +132,9 @@
             linear-gradient(
                     to bottom,
                     black 0%,
-                    black 55%,
+                    black 50%,
                     transparent 92%
             );
-
-    pointer-events: none;
 }
 
 
@@ -106,7 +170,7 @@
     background:
             radial-gradient(
                     circle,
-                    rgba(59, 130, 246, 0.15),
+                    rgba(59, 130, 246, 0.10),
                     transparent 68%
             );
 }
@@ -121,7 +185,7 @@
     background:
             radial-gradient(
                     circle,
-                    rgba(96, 165, 250, 0.10),
+                    rgba(96, 165, 250, 0.08),
                     transparent 68%
             );
 
@@ -135,6 +199,7 @@
 
 .hero-container {
     position: relative;
+
     z-index: 2;
 
     width: 100%;
@@ -207,10 +272,14 @@
     font-weight: 850;
 
     letter-spacing: 0.08em;
+
     text-transform: uppercase;
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter:
+            blur(12px);
+
+    -webkit-backdrop-filter:
+            blur(12px);
 
     opacity: 0;
 
@@ -244,6 +313,7 @@
     content: "";
 
     position: absolute;
+
     inset: -4px;
 
     border:
@@ -321,7 +391,7 @@
     animation:
             hero-title-in
             850ms
-            var(--ease-out)
+            var(--ease-smooth)
             forwards;
 }
 
@@ -385,7 +455,7 @@
     animation:
             hero-line
             850ms
-            var(--ease-out)
+            var(--ease-smooth)
             900ms
             forwards;
 }
@@ -418,7 +488,7 @@
     animation:
             hero-content-in
             700ms
-            var(--ease-out)
+            var(--ease-smooth)
             470ms
             forwards;
 }
@@ -444,7 +514,7 @@
     animation:
             hero-content-in
             700ms
-            var(--ease-out)
+            var(--ease-smooth)
             590ms
             forwards;
 }
@@ -546,7 +616,7 @@
 .hero-button--secondary {
     border:
             1px solid
-            var(--color-border);
+            rgba(148, 163, 184, 0.35);
 
     background:
             rgba(255, 255, 255, 0.72);
@@ -555,6 +625,9 @@
             var(--color-text-secondary);
 
     backdrop-filter:
+            blur(10px);
+
+    -webkit-backdrop-filter:
             blur(10px);
 }
 
@@ -596,7 +669,7 @@
     animation:
             hero-content-in
             700ms
-            var(--ease-out)
+            var(--ease-smooth)
             720ms
             forwards;
 }
@@ -624,6 +697,7 @@
     font-weight: 750;
 
     letter-spacing: 0.07em;
+
     text-transform: uppercase;
 }
 
@@ -632,7 +706,7 @@
     height: 27px;
 
     background:
-            var(--color-border);
+            rgba(148, 163, 184, 0.45);
 }
 
 
@@ -669,8 +743,8 @@
     background:
             radial-gradient(
                     circle,
-                    rgba(37, 99, 235, 0.10),
-                    rgba(96, 165, 250, 0.035) 45%,
+                    rgba(37, 99, 235, 0.13),
+                    rgba(96, 165, 250, 0.045) 45%,
                     transparent 72%
             );
 
@@ -694,7 +768,7 @@
 
     border:
             1px solid
-            rgba(37, 99, 235, 0.09);
+            rgba(37, 99, 235, 0.12);
 
     border-radius: 50%;
 
@@ -733,6 +807,7 @@
 
 .hero-main-card {
     position: relative;
+
     z-index: 3;
 
     width:
@@ -753,7 +828,7 @@
 
     border:
             1px solid
-            rgba(255, 255, 255, 0.9);
+            rgba(255, 255, 255, 0.92);
 
     border-radius:
             var(--radius-2xl);
@@ -761,15 +836,23 @@
     background:
             linear-gradient(
                     145deg,
-                    rgba(255, 255, 255, 0.98),
-                    rgba(245, 249, 255, 0.96)
+                    rgba(255, 255, 255, 0.78),
+                    rgba(239, 246, 255, 0.66)
             );
 
     box-shadow:
             0 35px 80px
             rgba(15, 23, 42, 0.13),
             0 0 0 12px
-            rgba(255, 255, 255, 0.42);
+            rgba(255, 255, 255, 0.30);
+
+    backdrop-filter:
+            blur(18px)
+            saturate(120%);
+
+    -webkit-backdrop-filter:
+            blur(18px)
+            saturate(120%);
 
     opacity: 0;
 
@@ -781,7 +864,7 @@
     animation:
             hero-card-enter
             1100ms
-            var(--ease-out)
+            var(--ease-smooth)
             300ms
             forwards;
 }
@@ -791,7 +874,7 @@
             0 40px 90px
             rgba(15, 23, 42, 0.16),
             0 0 0 12px
-            rgba(255, 255, 255, 0.48);
+            rgba(255, 255, 255, 0.36);
 }
 
 
@@ -815,7 +898,7 @@
     background:
             radial-gradient(
                     circle,
-                    rgba(96, 165, 250, 0.24),
+                    rgba(96, 165, 250, 0.22),
                     transparent 70%
             );
 
@@ -833,7 +916,7 @@
             linear-gradient(
                     120deg,
                     transparent 30%,
-                    rgba(255, 255, 255, 0.38),
+                    rgba(255, 255, 255, 0.35),
                     transparent 70%
             );
 
@@ -858,6 +941,7 @@
 
 .hero-main-card__top {
     position: relative;
+
     z-index: 2;
 
     display: flex;
@@ -871,6 +955,7 @@
     font-weight: 800;
 
     letter-spacing: 0.1em;
+
     text-transform: uppercase;
 }
 
@@ -943,8 +1028,8 @@
     background:
             linear-gradient(
                     135deg,
-                    #dbeafe,
-                    #eff6ff
+                    rgba(219, 234, 254, 0.85),
+                    rgba(239, 246, 255, 0.80)
             );
 
     box-shadow:
@@ -959,11 +1044,11 @@
     background:
             linear-gradient(
                     135deg,
-                    #60a5fa,
-                    #2563eb
+                    rgba(96, 165, 250, 0.92),
+                    rgba(37, 99, 235, 0.88)
             );
 
-    opacity: 0.85;
+    opacity: 0.82;
 
     animation-delay:
             -1.7s;
@@ -974,7 +1059,7 @@
     height: 68px;
 
     background:
-            var(--color-white);
+            rgba(255, 255, 255, 0.86);
 
     border:
             1px solid
@@ -987,11 +1072,11 @@
 
 /* =========================================================
    Brand Mark
-   Same Logo Language as Header
 ========================================================= */
 
 .hero-product-symbol {
     position: relative;
+
     z-index: 5;
 
     width: 90px;
@@ -1141,6 +1226,7 @@
 
 .hero-main-card__bottom {
     position: relative;
+
     z-index: 2;
 
     display: flex;
@@ -1152,7 +1238,7 @@
 
     border-top:
             1px solid
-            var(--color-border);
+            rgba(148, 163, 184, 0.30);
 }
 
 .hero-main-card__bottom > div {
@@ -1170,6 +1256,7 @@
     font-weight: 850;
 
     letter-spacing: 0.1em;
+
     text-transform: uppercase;
 }
 
@@ -1220,6 +1307,7 @@
 
 .hero-floating-card {
     position: absolute;
+
     z-index: 5;
 
     display: flex;
@@ -1232,22 +1320,24 @@
 
     border:
             1px solid
-            rgba(255, 255, 255, 0.9);
+            rgba(255, 255, 255, 0.85);
 
     border-radius:
             var(--radius-md);
 
     background:
-            rgba(255, 255, 255, 0.84);
+            rgba(255, 255, 255, 0.72);
 
     box-shadow:
             var(--shadow-md);
 
     backdrop-filter:
-            blur(14px);
+            blur(16px)
+            saturate(120%);
 
     -webkit-backdrop-filter:
-            blur(14px);
+            blur(16px)
+            saturate(120%);
 
     opacity: 0;
 }
@@ -1308,7 +1398,7 @@
     animation:
             hero-floating-top-in
             750ms
-            var(--ease-out)
+            var(--ease-smooth)
             850ms
             forwards;
 }
@@ -1324,7 +1414,7 @@
     animation:
             hero-floating-bottom-in
             750ms
-            var(--ease-out)
+            var(--ease-smooth)
             1000ms
             forwards;
 }
@@ -1389,6 +1479,7 @@
     font-weight: 750;
 
     letter-spacing: 0.08em;
+
     text-transform: uppercase;
 
     white-space: nowrap;
@@ -1421,6 +1512,20 @@
 /* =========================================================
    Animations
 ========================================================= */
+
+@keyframes hero-video-enter {
+
+    from {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+
+    to {
+        opacity: 0.78;
+        transform: scale(1.015);
+    }
+}
+
 
 @keyframes hero-badge-in {
 
@@ -1764,6 +1869,24 @@
                 auto;
     }
 
+    .hero-background-video {
+        object-position:
+                62% center;
+
+        opacity:
+                0.68;
+    }
+
+    .hero-background-overlay {
+        background:
+                linear-gradient(
+                        180deg,
+                        rgba(255, 255, 255, 0.95) 0%,
+                        rgba(255, 255, 255, 0.86) 48%,
+                        rgba(255, 255, 255, 0.62) 100%
+                );
+    }
+
     .hero-container {
         grid-template-columns:
             1fr;
@@ -2076,5 +2199,10 @@
 
         transition:
                 none !important;
+    }
+
+    .hero-background-video {
+        opacity:
+                0.62;
     }
 }
