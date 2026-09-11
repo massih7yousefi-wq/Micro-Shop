@@ -11,6 +11,7 @@ function Categories() {
 
     const navigate = useNavigate();
 
+
     const [categories, setCategories] =
         useState<Category[]>([]);
 
@@ -62,7 +63,9 @@ function Categories() {
                     <div className="categories__loading">
 
                         <span className="categories__loading-dot" />
+
                         <span className="categories__loading-dot" />
+
                         <span className="categories__loading-dot" />
 
                     </div>
@@ -106,7 +109,9 @@ function Categories() {
             <div className="categories__container">
 
 
-                {/* Header */}
+                {/* =====================================================
+                    HEADER
+                ===================================================== */}
 
                 <div className="categories__header">
 
@@ -122,25 +127,33 @@ function Categories() {
 
 
                         <h2>
+
                             Shop by
+
                             <span>
                                 Category.
                             </span>
+
                         </h2>
 
                     </div>
 
 
                     <p className="categories__description">
+
                         Find exactly what you're looking for.
+
                         Browse our carefully organized collection
                         and discover something worth adding to your world.
+
                     </p>
 
                 </div>
 
 
-                {/* Category list */}
+                {/* =====================================================
+                    CATEGORY LIST
+                ===================================================== */}
 
                 <div className="categories__list">
 
@@ -167,6 +180,8 @@ function Categories() {
                                         event.key === "Enter" ||
                                         event.key === " "
                                     ) {
+
+                                        event.preventDefault();
 
                                         navigate(
                                             `/products?categoryId=${category.id}`
@@ -244,7 +259,9 @@ function Categories() {
                 </div>
 
 
-                {/* Bottom decoration */}
+                {/* =====================================================
+                    FOOTER LINE
+                ===================================================== */}
 
                 <div className="categories__footer-line">
 

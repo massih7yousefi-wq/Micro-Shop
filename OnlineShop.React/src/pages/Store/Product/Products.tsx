@@ -1,21 +1,24 @@
-// Imports----------------------------------------
 import { useEffect, useState } from "react";
 
 import type { Category } from "../../../models/Category/Category";
 import { categoryService } from "../../../services/categoryService";
 import { useSearchParams } from "react-router-dom";
+
 import CategoryFilter from "../../../components/Store/Product/CategoryFilter/CategoryFilter";
 import ProductSearch from "../../../components/Store/Product/ProductSearch/ProductSearch";
 import ProductCard from "../../../components/Store/Product/ProductCart/ProductCart";
+
 import { useProducts } from "../../../hooks/useProducts";
+
 import "./Products.css";
 
-// Component--------------------------------------
+
 function Products() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [categories, setCategories] = useState<Category[]>([]);
+
 
     const categoryIdParam = searchParams.get("categoryId");
 
@@ -23,52 +26,87 @@ function Products() {
         ? Number(categoryIdParam)
         : undefined;
 
+
     const {
         products,
         loading,
         error,
-
         searchTerm,
         handleSearchChange,
-
         currentPage,
         totalPages,
         nextPage,
         previousPage,
     } = useProducts(categoryId);
-    //useEffect-------------------------------------
+
+
     useEffect(() => {
+
         const loadCategories = async () => {
+
             try {
+
                 const data = await categoryService.GetAll();
 
                 setCategories(data);
+
             } catch (error) {
+
                 console.error(error);
+
             }
+
         };
 
         void loadCategories();
+
     }, []);
-    //handleCategoryChange---------------------
+
+
     const handleCategoryChange = (newCategoryId?: number) => {
+
         const params = new URLSearchParams(searchParams);
 
+
         if (newCategoryId === undefined) {
+
             params.delete("categoryId");
+
         } else {
+
             params.set(
                 "categoryId",
                 String(newCategoryId)
             );
+
         }
 
+
         setSearchParams(params);
+
     };
-    // Loading---------------------------------------
+
+
     if (loading) {
+
         return (
             <section className="store-products">
+
+                <video
+                    className="store-products__video"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                >
+                    <source
+                        src="/PJUZ7349.MP4"
+                        type="video/mp4"
+                    />
+                </video>
+
+
                 <div className="store-products__container">
 
                     <div className="store-products__loading">
@@ -76,14 +114,33 @@ function Products() {
                     </div>
 
                 </div>
+
             </section>
         );
+
     }
 
-    // Error-----------------------------------------
+
     if (error) {
+
         return (
             <section className="store-products">
+
+                <video
+                    className="store-products__video"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                >
+                    <source
+                        src="/PJUZ7349.MP4"
+                        type="video/mp4"
+                    />
+                </video>
+
+
                 <div className="store-products__container">
 
                     <div className="store-products__error">
@@ -91,15 +148,46 @@ function Products() {
                     </div>
 
                 </div>
+
             </section>
         );
+
     }
 
-    // Body------------------------------------------
+
     return (
         <section className="store-products">
 
+            {/* =====================================================
+                BACKGROUND VIDEO
+            ====================================================== */}
+
+            <video
+                className="store-products__video"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                aria-hidden="true"
+            >
+                <source
+                    src="/PJUZ7349.MP4"
+                    type="video/mp4"
+                />
+            </video>
+
+
+            {/* =====================================================
+                CONTENT
+            ====================================================== */}
+
             <div className="store-products__container">
+
+
+                {/* =================================================
+                    HEADER
+                ================================================== */}
 
                 <div className="store-products__header">
 
@@ -107,9 +195,11 @@ function Products() {
                         Store
                     </span>
 
+
                     <h1>
                         All Products
                     </h1>
+
 
                     <p>
                         Explore our products and find
@@ -119,10 +209,19 @@ function Products() {
                 </div>
 
 
+                {/* =================================================
+                    SEARCH
+                ================================================== */}
+
                 <ProductSearch
                     searchTerm={searchTerm}
                     onSearchChange={handleSearchChange}
                 />
+
+
+                {/* =================================================
+                    CATEGORY FILTER
+                ================================================== */}
 
                 <CategoryFilter
                     categories={categories}
@@ -131,17 +230,27 @@ function Products() {
                 />
 
 
+                {/* =================================================
+                    PRODUCTS
+                ================================================== */}
+
                 <div className="store-products__list">
 
                     {products.map((product) => (
+
                         <ProductCard
                             key={product.id}
                             product={product}
                         />
+
                     ))}
 
                 </div>
 
+
+                {/* =================================================
+                    PAGINATION
+                ================================================== */}
 
                 <div className="store-products__pagination">
 
@@ -153,9 +262,11 @@ function Products() {
                         Previous
                     </button>
 
+
                     <span>
                         Page {currentPage} of {totalPages}
                     </span>
+
 
                     <button
                         type="button"
@@ -172,5 +283,6 @@ function Products() {
         </section>
     );
 }
+
 
 export default Products;

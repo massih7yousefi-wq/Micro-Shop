@@ -11,6 +11,9 @@ import Home
 
 // Auth--------------------------------------------------------
 
+import AuthLayout
+    from "./layout/AuthLayout/AuthLayout";
+
 import Login
     from "./pages/Auth/Login/Login";
 
@@ -27,6 +30,9 @@ import ConfirmEmail
     from "./pages/Auth/ConfirmEmail/ConfirmEmail";
 
 // Account-----------------------------------------------------
+
+import AccountLayout
+    from "./layout/AccountLayout/AccountLayout";
 
 import Profile
     from "./pages/Account/Profile/Profile";
@@ -129,29 +135,35 @@ function App() {
             ================================================== */}
 
             <Route
-                path="/login"
-                element={<Login />}
-            />
+                element={<AuthLayout />}
+            >
 
-            <Route
-                path="/register"
-                element={<Register />}
-            />
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
 
-            <Route
-                path="/forgot-password"
-                element={<ForgotPassword />}
-            />
+                <Route
+                    path="/register"
+                    element={<Register />}
+                />
 
-            <Route
-                path="/reset-password"
-                element={<ResetPassword />}
-            />
+                <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                />
 
-            <Route
-                path="/confirm-email"
-                element={<ConfirmEmail />}
-            />
+                <Route
+                    path="/reset-password"
+                    element={<ResetPassword />}
+                />
+
+                <Route
+                    path="/confirm-email"
+                    element={<ConfirmEmail />}
+                />
+
+            </Route>
 
 
             {/* ==================================================
@@ -162,54 +174,61 @@ function App() {
                 element={<ProtectedRoute />}
             >
 
-                {/* ------------------------------------------
-                    Profile
-                ------------------------------------------ */}
-
                 <Route
-                    path="/account/profile"
-                    element={
-                        <Profile />
-                    }
-                />
+                    path="/account"
+                    element={<AccountLayout />}
+                >
+
+                    {/* ------------------------------------------
+                        Profile
+                    ------------------------------------------ */}
+
+                    <Route
+                        path="profile"
+                        element={
+                            <Profile />
+                        }
+                    />
 
 
-                {/* ------------------------------------------
-                    Change Password
-                ------------------------------------------ */}
+                    {/* ------------------------------------------
+                        Change Password
+                    ------------------------------------------ */}
 
-                <Route
-                    path="/account/change-password"
-                    element={
-                        <ChangePassword />
-                    }
-                />
+                    <Route
+                        path="change-password"
+                        element={
+                            <ChangePassword />
+                        }
+                    />
 
 
-                {/* ------------------------------------------
-                    Addresses
-                ------------------------------------------ */}
+                    {/* ------------------------------------------
+                        Addresses
+                    ------------------------------------------ */}
 
-                <Route
-                    path="/account/addresses"
-                    element={
-                        <Addresses />
-                    }
-                />
+                    <Route
+                        path="addresses"
+                        element={
+                            <Addresses />
+                        }
+                    />
 
-                <Route
-                    path="/account/addresses/create"
-                    element={
-                        <CreateAddress />
-                    }
-                />
+                    <Route
+                        path="addresses/create"
+                        element={
+                            <CreateAddress />
+                        }
+                    />
 
-                <Route
-                    path="/account/addresses/edit/:id"
-                    element={
-                        <EditAddress />
-                    }
-                />
+                    <Route
+                        path="addresses/edit/:id"
+                        element={
+                            <EditAddress />
+                        }
+                    />
+
+                </Route>
 
             </Route>
 

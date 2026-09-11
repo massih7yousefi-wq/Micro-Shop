@@ -3,12 +3,20 @@
 ========================================================= */
 
 .edit-address-page {
-    width: 100%;
+    width:
+            100%;
 
-    display: flex;
-    flex-direction: column;
+    display:
+            flex;
 
-    gap: 22px;
+    flex-direction:
+            column;
+
+    gap:
+            22px;
+
+    color:
+            #f8fafc;
 }
 
 
@@ -17,45 +25,56 @@
 ========================================================= */
 
 .edit-address-header {
-    display: flex;
-    flex-direction: column;
+    display:
+            flex;
 
-    gap: 14px;
+    flex-direction:
+            column;
+
+    gap:
+            14px;
 }
 
 
 .edit-address-back {
-    display: inline-flex;
-    align-items: center;
+    display:
+            inline-flex;
 
-    gap: 7px;
+    align-items:
+            center;
 
-    width: fit-content;
+    gap:
+            7px;
+
+    width:
+            fit-content;
 
     color:
-            var(--color-text-muted);
+            rgba(226, 232, 240, 0.52);
 
-    text-decoration: none;
+    text-decoration:
+            none;
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
-    font-weight: 650;
+    font-weight:
+            650;
 
     transition:
-            color var(--transition-fast) ease;
+            color 200ms ease;
 }
 
 
 .edit-address-back span {
     transition:
-            transform var(--transition-fast) ease;
+            transform 200ms ease;
 }
 
 
 .edit-address-back:hover {
     color:
-            var(--color-primary);
+            #93c5fd;
 }
 
 
@@ -66,65 +85,101 @@
 
 
 .edit-address-heading {
-    display: flex;
-    align-items: center;
+    display:
+            flex;
 
-    gap: 14px;
+    align-items:
+            center;
 
-    margin-top: 8px;
+    gap:
+            14px;
+
+    margin-top:
+            8px;
 }
 
 
 .edit-address-heading__icon {
-    width: 46px;
-    height: 46px;
+    width:
+            46px;
 
-    flex: 0 0 46px;
+    height:
+            46px;
 
-    display: grid;
-    place-items: center;
+    flex:
+            0 0 46px;
 
-    border-radius: 13px;
+    display:
+            grid;
+
+    place-items:
+            center;
+
+    border:
+            1px solid rgba(96, 165, 250, 0.20);
+
+    border-radius:
+            13px;
 
     background:
-            var(--color-primary-soft);
+            rgba(59, 130, 246, 0.12);
 
     color:
-            var(--color-primary);
+            #93c5fd;
+
+    box-shadow:
+            0 8px 24px rgba(37, 99, 235, 0.10);
 }
 
 
 .edit-address-heading__icon svg {
-    width: 21px;
-    height: 21px;
+    width:
+            21px;
 
-    fill: none;
+    height:
+            21px;
 
-    stroke: currentColor;
-    stroke-width: 1.8;
+    fill:
+            none;
 
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke:
+            currentColor;
+
+    stroke-width:
+            1.8;
+
+    stroke-linecap:
+            round;
+
+    stroke-linejoin:
+            round;
 }
 
 
 .edit-address-heading h1 {
-    margin: 0;
+    margin:
+            0;
+
+    color:
+            #ffffff;
 
     font-size:
-            clamp(
-                    28px,
-                    4vw,
-                    36px
-            );
+            clamp(28px, 4vw, 36px);
+
+    letter-spacing:
+            -0.035em;
 }
 
 
 .edit-address-heading p {
-    margin-top: 4px;
+    margin-top:
+            4px;
+
+    color:
+            rgba(226, 232, 240, 0.52);
 
     font-size:
-            var(--font-size-sm);
+            13px;
 }
 
 
@@ -133,44 +188,59 @@
 ========================================================= */
 
 .edit-address-message {
-    display: flex;
-    align-items: center;
+    display:
+            flex;
 
-    gap: 10px;
+    align-items:
+            center;
+
+    gap:
+            10px;
 
     padding:
             13px 15px;
 
     border:
-            1px solid rgba(220, 38, 38, 0.18);
+            1px solid rgba(248, 113, 113, 0.18);
 
     border-radius:
-            var(--radius-md);
+            12px;
 
     background:
-            #fef2f2;
+            rgba(239, 68, 68, 0.08);
 
     color:
-            var(--color-danger);
+            #fca5a5;
 
     font-size:
-            var(--font-size-sm);
+            13px;
+
+    backdrop-filter:
+            blur(14px);
 }
 
 
 .edit-address-message__icon {
-    width: 22px;
-    height: 22px;
+    width:
+            22px;
 
-    flex: 0 0 22px;
+    height:
+            22px;
 
-    display: grid;
-    place-items: center;
+    flex:
+            0 0 22px;
 
-    border-radius: 50%;
+    display:
+            grid;
+
+    place-items:
+            center;
+
+    border-radius:
+            50%;
 
     background:
-            rgba(220, 38, 38, 0.1);
+            rgba(239, 68, 68, 0.13);
 
     font-size:
             12px;
@@ -185,66 +255,89 @@
 ========================================================= */
 
 .edit-address-card {
-    position: relative;
+    position:
+            relative;
 
-    width: 100%;
+    width:
+            100%;
 
     border:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.11);
 
     border-radius:
-            var(--radius-lg);
+            22px;
 
     background:
-            var(--color-white);
+            linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.075),
+                    rgba(255, 255, 255, 0.025)
+            );
 
     box-shadow:
-            var(--shadow-sm);
+            0 25px 60px rgba(0, 0, 0, 0.20),
+            inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-    overflow: hidden;
+    backdrop-filter:
+            blur(22px);
+
+    -webkit-backdrop-filter:
+            blur(22px);
+
+    overflow:
+            hidden;
 }
 
 
 .edit-address-card::before {
-    content: "";
+    content:
+            "";
 
-    position: absolute;
+    position:
+            absolute;
 
-    top: 0;
-    left: 0;
-    right: 0;
+    top:
+            0;
 
-    height: 3px;
+    left:
+            0;
+
+    right:
+            0;
+
+    height:
+            2px;
 
     background:
             linear-gradient(
                     90deg,
-                    var(--color-primary),
+                    transparent,
                     #60a5fa,
+                    #2563eb,
                     transparent
             );
 }
 
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
 
 .edit-address-card__header {
     padding:
             28px 30px 24px;
 
     border-bottom:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.08);
 
     background:
-            linear-gradient(
-                    180deg,
-                    var(--color-surface-soft),
-                    #ffffff
-            );
+            rgba(255, 255, 255, 0.025);
 }
 
 
 .edit-address-card__eyebrow {
     color:
-            var(--color-primary);
+            #93c5fd;
 
     font-size:
             10px;
@@ -258,7 +351,11 @@
 
 
 .edit-address-card__header h2 {
-    margin-top: 5px;
+    margin:
+            5px 0 0;
+
+    color:
+            #ffffff;
 
     font-size:
             21px;
@@ -266,10 +363,14 @@
 
 
 .edit-address-card__header p {
-    margin-top: 4px;
+    margin:
+            4px 0 0;
+
+    color:
+            rgba(226, 232, 240, 0.50);
 
     font-size:
-            var(--font-size-sm);
+            13px;
 }
 
 
@@ -278,53 +379,71 @@
 ========================================================= */
 
 .edit-address-form {
-    display: flex;
-    flex-direction: column;
+    display:
+            flex;
+
+    flex-direction:
+            column;
 }
 
 
 .edit-address-form__section {
-    display: flex;
-    flex-direction: column;
+    display:
+            flex;
 
-    gap: 20px;
+    flex-direction:
+            column;
+
+    gap:
+            20px;
 
     padding:
             28px 30px;
 
     border-bottom:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.08);
 }
 
 
 .edit-address-form__section-header {
-    display: flex;
-    align-items: flex-start;
+    display:
+            flex;
 
-    gap: 12px;
+    align-items:
+            flex-start;
+
+    gap:
+            12px;
 }
 
 
 .edit-address-form__number {
-    width: 32px;
-    height: 32px;
+    width:
+            32px;
 
-    flex: 0 0 32px;
+    height:
+            32px;
 
-    display: grid;
-    place-items: center;
+    flex:
+            0 0 32px;
+
+    display:
+            grid;
+
+    place-items:
+            center;
 
     border:
-            1px solid rgba(37, 99, 235, 0.15);
+            1px solid rgba(96, 165, 250, 0.18);
 
     border-radius:
             10px;
 
     background:
-            var(--color-primary-soft);
+            rgba(59, 130, 246, 0.11);
 
     color:
-            var(--color-primary);
+            #93c5fd;
 
     font-size:
             10px;
@@ -335,8 +454,11 @@
 
 
 .edit-address-form__section-header h3 {
+    color:
+            #ffffff;
+
     font-size:
-            var(--font-size-md);
+            14px;
 
     font-weight:
             750;
@@ -344,37 +466,55 @@
 
 
 .edit-address-form__section-header p {
-    margin-top: 2px;
+    margin-top:
+            2px;
+
+    color:
+            rgba(226, 232, 240, 0.45);
 
     font-size:
-            var(--font-size-xs);
+            12px;
 }
 
 
+/* =========================================================
+   FORM GRID
+========================================================= */
+
 .edit-address-form__grid {
-    display: grid;
+    display:
+            grid;
 
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 18px;
+    gap:
+            18px;
 }
 
 
-.edit-address-field {
-    display: flex;
-    flex-direction: column;
+/* =========================================================
+   FIELDS
+========================================================= */
 
-    gap: 7px;
+.edit-address-field {
+    display:
+            flex;
+
+    flex-direction:
+            column;
+
+    gap:
+            7px;
 }
 
 
 .edit-address-field label {
     color:
-            var(--color-text-secondary);
+            rgba(255, 255, 255, 0.70);
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
     font-weight:
             650;
@@ -383,34 +523,46 @@
 
 .edit-address-field input,
 .edit-address-field textarea {
-    width: 100%;
+    width:
+            100%;
+
+    box-sizing:
+            border-box;
 
     border:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.11);
 
     border-radius:
-            var(--radius-sm);
+            12px;
 
     background:
-            var(--color-white);
+            rgba(255, 255, 255, 0.045);
 
     color:
-            var(--color-text);
+            #ffffff;
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
-    outline: none;
+    outline:
+            none;
+
+    backdrop-filter:
+            blur(12px);
+
+    -webkit-backdrop-filter:
+            blur(12px);
 
     transition:
-            border-color var(--transition-fast) ease,
-            box-shadow var(--transition-fast) ease,
-            background var(--transition-fast) ease;
+            border-color 200ms ease,
+            box-shadow 200ms ease,
+            background 200ms ease;
 }
 
 
 .edit-address-field input {
-    height: 46px;
+    height:
+            46px;
 
     padding:
             0 13px;
@@ -418,42 +570,45 @@
 
 
 .edit-address-field textarea {
-    min-height: 115px;
+    min-height:
+            115px;
 
     padding:
             12px 13px;
 
-    resize: vertical;
+    resize:
+            vertical;
 
-    line-height: 1.55;
+    line-height:
+            1.55;
 }
 
 
 .edit-address-field input::placeholder,
 .edit-address-field textarea::placeholder {
     color:
-            var(--color-text-light);
+            rgba(255, 255, 255, 0.28);
 }
 
 
 .edit-address-field input:hover,
 .edit-address-field textarea:hover {
     border-color:
-            var(--color-border-strong);
+            rgba(255, 255, 255, 0.18);
 }
 
 
 .edit-address-field input:focus,
 .edit-address-field textarea:focus {
     border-color:
-            var(--color-primary);
+            rgba(96, 165, 250, 0.60);
 
     background:
-            var(--color-white);
+            rgba(59, 130, 246, 0.07);
 
     box-shadow:
-            0 0 0 4px
-            rgba(37, 99, 235, 0.08);
+            0 0 0 3px rgba(59, 130, 246, 0.10),
+            0 8px 25px rgba(37, 99, 235, 0.08);
 }
 
 
@@ -466,74 +621,102 @@
             20px 30px;
 
     border-bottom:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.08);
 
     background:
-            var(--color-surface-soft);
+            rgba(255, 255, 255, 0.025);
 }
 
 
 .edit-address-default__label {
-    display: flex;
-    align-items: center;
+    display:
+            flex;
 
-    gap: 12px;
+    align-items:
+            center;
 
-    cursor: pointer;
+    gap:
+            12px;
+
+    cursor:
+            pointer;
 }
 
 
 .edit-address-default__label > input {
-    position: absolute;
+    position:
+            absolute;
 
-    width: 1px;
-    height: 1px;
+    width:
+            1px;
 
-    opacity: 0;
+    height:
+            1px;
 
-    pointer-events: none;
+    opacity:
+            0;
+
+    pointer-events:
+            none;
 }
 
 
 .edit-address-default__checkbox {
-    width: 21px;
-    height: 21px;
+    width:
+            21px;
 
-    flex: 0 0 21px;
+    height:
+            21px;
 
-    display: grid;
-    place-items: center;
+    flex:
+            0 0 21px;
+
+    display:
+            grid;
+
+    place-items:
+            center;
 
     border:
-            1.5px solid var(--color-border-strong);
+            1.5px solid rgba(255, 255, 255, 0.20);
 
     border-radius:
             6px;
 
     background:
-            var(--color-white);
+            rgba(255, 255, 255, 0.04);
 
     color:
             transparent;
 
     transition:
-            background var(--transition-fast) ease,
-            border-color var(--transition-fast) ease,
-            color var(--transition-fast) ease;
+            background 200ms ease,
+            border-color 200ms ease,
+            color 200ms ease;
 }
 
 
 .edit-address-default__checkbox svg {
-    width: 14px;
-    height: 14px;
+    width:
+            14px;
 
-    fill: none;
+    height:
+            14px;
 
-    stroke: currentColor;
-    stroke-width: 2.5;
+    fill:
+            none;
 
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke:
+            currentColor;
+
+    stroke-width:
+            2.5;
+
+    stroke-linecap:
+            round;
+
+    stroke-linejoin:
+            round;
 }
 
 
@@ -541,13 +724,16 @@
 > input:checked
 + .edit-address-default__checkbox {
     border-color:
-            var(--color-primary);
+            #3b82f6;
 
     background:
-            var(--color-primary);
+            #2563eb;
 
     color:
-            var(--color-white);
+            #ffffff;
+
+    box-shadow:
+            0 0 15px rgba(37, 99, 235, 0.30);
 }
 
 
@@ -563,19 +749,23 @@
 
 
 .edit-address-default__content {
-    display: flex;
-    flex-direction: column;
+    display:
+            flex;
 
-    gap: 2px;
+    flex-direction:
+            column;
+
+    gap:
+            2px;
 }
 
 
 .edit-address-default__content strong {
     color:
-            var(--color-text);
+            #ffffff;
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
     font-weight:
             700;
@@ -584,7 +774,7 @@
 
 .edit-address-default__content small {
     color:
-            var(--color-text-muted);
+            rgba(226, 232, 240, 0.46);
 
     font-size:
             12px;
@@ -596,11 +786,17 @@
 ========================================================= */
 
 .edit-address-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    display:
+            flex;
 
-    gap: 10px;
+    align-items:
+            center;
+
+    justify-content:
+            flex-end;
+
+    gap:
+            10px;
 
     padding:
             20px 30px;
@@ -608,117 +804,151 @@
 
 
 .edit-address-cancel {
-    min-height: 44px;
+    min-height:
+            44px;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
 
     padding:
             0 16px;
 
     border:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.11);
 
     border-radius:
-            var(--radius-md);
+            12px;
 
     background:
-            var(--color-white);
+            rgba(255, 255, 255, 0.045);
 
     color:
-            var(--color-text-secondary);
+            rgba(255, 255, 255, 0.70);
 
-    text-decoration: none;
+    text-decoration:
+            none;
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
     font-weight:
             700;
 
+    backdrop-filter:
+            blur(10px);
+
     transition:
-            background var(--transition-fast) ease,
-            border-color var(--transition-fast) ease,
-            color var(--transition-fast) ease;
+            background 200ms ease,
+            border-color 200ms ease,
+            color 200ms ease;
 }
 
 
 .edit-address-cancel:hover {
     border-color:
-            var(--color-border-strong);
+            rgba(255, 255, 255, 0.20);
 
     background:
-            var(--color-surface-soft);
+            rgba(255, 255, 255, 0.075);
 
     color:
-            var(--color-text);
+            #ffffff;
 }
 
 
 .edit-address-save {
-    min-height: 44px;
+    min-height:
+            44px;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display:
+            inline-flex;
 
-    gap: 8px;
+    align-items:
+            center;
 
-    min-width: 155px;
+    justify-content:
+            center;
+
+    gap:
+            8px;
+
+    min-width:
+            155px;
 
     padding:
             0 18px;
 
+    border:
+            1px solid rgba(96, 165, 250, 0.28);
+
     border-radius:
-            var(--radius-md);
+            12px;
 
     background:
-            var(--color-primary);
+            linear-gradient(
+                    135deg,
+                    rgba(59, 130, 246, 0.94),
+                    rgba(37, 99, 235, 0.80)
+            );
 
     color:
-            var(--color-white);
+            #ffffff;
 
     font-size:
-            var(--font-size-sm);
+            13px;
 
     font-weight:
             750;
 
     box-shadow:
-            var(--shadow-primary);
+            0 10px 28px rgba(37, 99, 235, 0.20);
 
     transition:
-            background var(--transition-fast) ease,
-            transform var(--transition-normal) var(--ease-standard),
-            box-shadow var(--transition-normal) ease;
+            background 200ms ease,
+            transform 250ms ease,
+            box-shadow 250ms ease;
 }
 
 
 .edit-address-save svg {
-    width: 17px;
-    height: 17px;
+    width:
+            17px;
 
-    fill: none;
+    height:
+            17px;
 
-    stroke: currentColor;
-    stroke-width: 2.2;
+    fill:
+            none;
 
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke:
+            currentColor;
+
+    stroke-width:
+            2.2;
+
+    stroke-linecap:
+            round;
+
+    stroke-linejoin:
+            round;
 }
 
 
 .edit-address-save:not(:disabled):hover {
-    background:
-            var(--color-primary-hover);
-
     transform:
             translateY(-2px);
 
     box-shadow:
-            0 18px 38px
-            rgba(37, 99, 235, 0.25);
+            0 17px 38px rgba(37, 99, 235, 0.30);
+
+    filter:
+            brightness(1.08);
 }
 
 
@@ -727,21 +957,25 @@
             not-allowed;
 
     opacity:
-            0.7;
+            0.60;
 }
 
 
 .edit-address-save__spinner {
-    width: 16px;
-    height: 16px;
+    width:
+            16px;
+
+    height:
+            16px;
 
     border:
-            2px solid rgba(255, 255, 255, 0.4);
+            2px solid rgba(255, 255, 255, 0.35);
 
     border-top-color:
-            var(--color-white);
+            #ffffff;
 
-    border-radius: 50%;
+    border-radius:
+            50%;
 
     animation:
             edit-address-spin 650ms linear infinite;
@@ -763,33 +997,44 @@
 ========================================================= */
 
 .edit-address-loading {
-    min-height: 280px;
+    min-height:
+            280px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:
+            flex;
 
-    gap: 11px;
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    gap:
+            11px;
 
     color:
-            var(--color-text-muted);
+            rgba(226, 232, 240, 0.55);
 
     font-size:
-            var(--font-size-sm);
+            13px;
 }
 
 
 .edit-address-loading__spinner {
-    width: 20px;
-    height: 20px;
+    width:
+            20px;
+
+    height:
+            20px;
 
     border:
-            2px solid var(--color-border);
+            2px solid rgba(255, 255, 255, 0.12);
 
     border-top-color:
-            var(--color-primary);
+            #60a5fa;
 
-    border-radius: 50%;
+    border-radius:
+            50%;
 
     animation:
             edit-address-spin 700ms linear infinite;
@@ -801,47 +1046,71 @@
 ========================================================= */
 
 .edit-address-error {
-    min-height: 320px;
+    min-height:
+            320px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display:
+            flex;
 
-    padding: 30px;
+    flex-direction:
+            column;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    padding:
+            30px;
 
     border:
-            1px solid var(--color-border);
+            1px solid rgba(255, 255, 255, 0.10);
 
     border-radius:
-            var(--radius-lg);
+            20px;
 
     background:
-            var(--color-white);
+            rgba(255, 255, 255, 0.035);
 
     box-shadow:
-            var(--shadow-sm);
+            0 20px 50px rgba(0, 0, 0, 0.18);
 
-    text-align: center;
+    backdrop-filter:
+            blur(18px);
+
+    text-align:
+            center;
 }
 
 
 .edit-address-error__icon {
-    width: 54px;
-    height: 54px;
+    width:
+            54px;
 
-    display: grid;
-    place-items: center;
+    height:
+            54px;
 
-    margin-bottom: 16px;
+    display:
+            grid;
 
-    border-radius: 16px;
+    place-items:
+            center;
+
+    margin-bottom:
+            16px;
+
+    border:
+            1px solid rgba(248, 113, 113, 0.18);
+
+    border-radius:
+            16px;
 
     background:
-            #fef2f2;
+            rgba(239, 68, 68, 0.08);
 
     color:
-            var(--color-danger);
+            #fca5a5;
 
     font-size:
             20px;
@@ -852,23 +1121,38 @@
 
 
 .edit-address-error h1 {
+    margin:
+            0;
+
+    color:
+            #ffffff;
+
     font-size:
-            var(--font-size-xl);
+            20px;
 }
 
 
 .edit-address-error p {
-    max-width: 420px;
+    max-width:
+            420px;
 
-    margin-top: 6px;
+    margin-top:
+            6px;
+
+    color:
+            rgba(226, 232, 240, 0.50);
 
     font-size:
-            var(--font-size-sm);
+            13px;
+
+    line-height:
+            1.6;
 }
 
 
 .edit-address-error .edit-address-back {
-    margin-top: 20px;
+    margin-top:
+            20px;
 }
 
 
@@ -913,26 +1197,33 @@
 @media (max-width: 520px) {
 
     .edit-address-heading {
-        align-items: flex-start;
+        align-items:
+                flex-start;
     }
 
 
     .edit-address-heading__icon {
-        width: 42px;
-        height: 42px;
+        width:
+                42px;
 
-        flex-basis: 42px;
+        height:
+                42px;
+
+        flex-basis:
+                42px;
     }
 
 
     .edit-address-actions {
-        flex-direction: column-reverse;
+        flex-direction:
+                column-reverse;
     }
 
 
     .edit-address-save,
     .edit-address-cancel {
-        width: 100%;
+        width:
+                100%;
     }
 
 }
@@ -942,13 +1233,15 @@
 
     .edit-address-back span,
     .edit-address-save {
-        transition: none;
+        transition:
+                none;
     }
 
 
     .edit-address-loading__spinner,
     .edit-address-save__spinner {
-        animation: none;
+        animation:
+                none;
     }
 
 }

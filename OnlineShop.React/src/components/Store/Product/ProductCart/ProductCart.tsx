@@ -1,71 +1,59 @@
 import type { Product } from "../../../../models/Product/Product.ts";
-
 import { Link } from "react-router-dom";
-
 import "./ProductCart.css";
-
 
 interface ProductCartProps {
     product: Product;
 }
 
-
-function ProductCart({
-                         product
-                     }: ProductCartProps) {
-
+function ProductCart({ product }: ProductCartProps) {
     const mainImage =
-        product.images.find(
-            (image) => image.isMain
-        ) ?? product.images[0];
-
+        product.images.find((image) => image.isMain) ??
+        product.images[0];
 
     return (
         <article className="product-card">
 
-
-            {/* Image */}
-
+            {/* Product Image */}
             <Link
                 to={`/products/${product.id}`}
                 className="product-card__media"
                 aria-label={`View ${product.name}`}
             >
+                <div className="product-card__image-stage">
 
-                {mainImage ? (
+                    {mainImage ? (
+                        <img
+                            src={mainImage.imageUrl}
+                            alt={product.name}
+                            className="product-card__image"
+                            loading="lazy"
+                        />
+                    ) : (
+                        <div className="product-card__placeholder">
+                            <span className="product-card__placeholder-icon">
+                                ◇
+                            </span>
 
-                    <img
-                        src={mainImage.imageUrl}
-                        alt={product.name}
-                        className="product-card__image"
-                    />
+                            <span>
+                                No image
+                            </span>
+                        </div>
+                    )}
 
-                ) : (
-
-                    <div className="product-card__placeholder">
-
-                        <span className="product-card__placeholder-icon">
-                            ◇
-                        </span>
-
-                        <span>
-                            No image
-                        </span>
-
-                    </div>
-
-                )}
-
+                </div>
 
                 {/* Category */}
+                {product.categoryName && (
+                    <span className="product-card__badge">
+                        {product.categoryName}
+                    </span>
+                )}
 
-                <span className="product-card__badge">
-                    {product.categoryName}
-                </span>
-
+                {/* Image shine */}
+                <span className="product-card__shine" />
 
                 {/* Hover overlay */}
-
                 <span className="product-card__overlay">
 
                     <span className="product-card__overlay-text">
@@ -77,37 +65,26 @@ function ProductCart({
                     </span>
 
                 </span>
-
             </Link>
 
-
-            {/* Content */}
-
+            {/* Product Content */}
             <div className="product-card__content">
-
 
                 <div className="product-card__heading">
 
                     <span className="product-card__eyebrow">
-                        Featured
+                        Featured Product
                     </span>
 
-
                     <h3 className="product-card__title">
-
-                        <Link
-                            to={`/products/${product.id}`}
-                        >
+                        <Link to={`/products/${product.id}`}>
                             {product.name}
                         </Link>
-
                     </h3>
 
                 </div>
 
-
                 <div className="product-card__footer">
-
 
                     <div className="product-card__price-wrapper">
 
@@ -121,12 +98,10 @@ function ProductCart({
 
                     </div>
 
-
                     <Link
                         to={`/products/${product.id}`}
                         className="product-card__link"
                     >
-
                         <span>
                             Details
                         </span>
@@ -134,18 +109,14 @@ function ProductCart({
                         <span className="product-card__link-arrow">
                             →
                         </span>
-
                     </Link>
 
-
                 </div>
-
 
             </div>
 
         </article>
     );
 }
-
 
 export default ProductCart;

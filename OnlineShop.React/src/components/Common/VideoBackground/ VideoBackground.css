@@ -1,0 +1,189 @@
+
+    /* =========================================================
+       VIDEO BACKGROUND
+    ========================================================= */
+
+.video-background {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    background: #020617;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.video-background__video {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    display: block;
+
+    opacity: 0.90;
+
+    filter:
+            saturate(0.95)
+            brightness(0.90)
+            contrast(1.02);
+
+    transform: scale(1.015);
+}
+
+
+/* =========================================================
+   BLUE OVERLAY
+========================================================= */
+
+.video-background__overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    rgba(2, 6, 23, 0.55) 0%,
+                    rgba(3, 18, 38, 0.35) 35%,
+                    rgba(7, 30, 58, 0.28) 65%,
+                    rgba(2, 6, 23, 0.55) 100%
+            );
+
+    mix-blend-mode: multiply;
+}
+
+
+/* =========================================================
+   SOFT BLUE ATMOSPHERE
+========================================================= */
+
+.video-background__overlay::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            radial-gradient(
+                    circle at 15% 20%,
+                    rgba(96, 165, 250, 0.20),
+                    transparent 34%
+            ),
+            radial-gradient(
+                    circle at 85% 75%,
+                    rgba(37, 99, 235, 0.16),
+                    transparent 36%
+            );
+
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+   VIGNETTE
+========================================================= */
+
+.video-background__vignette {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            radial-gradient(
+                    ellipse at center,
+                    transparent 35%,
+                    rgba(2, 6, 23, 0.10) 65%,
+                    rgba(2, 6, 23, 0.55) 100%
+            );
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .video-background__video {
+        display: block;
+
+        opacity: 0.82;
+
+        filter:
+                saturate(0.92)
+                brightness(0.88)
+                contrast(1.02);
+
+        object-position: center;
+    }
+
+
+    .video-background__overlay {
+        background:
+                linear-gradient(
+                        135deg,
+                        rgba(2, 6, 23, 0.58) 0%,
+                        rgba(3, 18, 38, 0.40) 50%,
+                        rgba(2, 6, 23, 0.58) 100%
+                );
+    }
+
+
+    .video-background__vignette {
+        background:
+                radial-gradient(
+                        ellipse at center,
+                        transparent 30%,
+                        rgba(2, 6, 23, 0.15) 65%,
+                        rgba(2, 6, 23, 0.50) 100%
+                );
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .video-background__video {
+        opacity: 0.78;
+
+        filter:
+                saturate(0.90)
+                brightness(0.86)
+                contrast(1.02);
+
+        object-position: center;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .video-background__video {
+        display: none;
+    }
+}

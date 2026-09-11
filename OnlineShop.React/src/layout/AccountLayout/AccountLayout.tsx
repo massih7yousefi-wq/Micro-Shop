@@ -3,15 +3,54 @@ import {
     Outlet,
 } from "react-router-dom";
 
+import "./Account.css";
+
 
 export default function AccountLayout() {
 
     return (
         <main className="account-page">
 
+            {/* =================================================
+                BACKGROUND VIDEO
+            ================================================= */}
+
+            <video
+                className="account-background-video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden="true"
+            >
+                <source
+                    src="/PJUZ7349.MP4"
+                    type="video/mp4"
+                />
+            </video>
+
+
+            {/* =================================================
+                BACKGROUND OVERLAY
+            ================================================= */}
+
+            <div
+                className="account-background-overlay"
+                aria-hidden="true"
+            />
+
+
+            {/* =================================================
+                ACCOUNT CONTAINER
+            ================================================= */}
+
             <div className="account-container">
 
-                {/* Sidebar ----------------------------------- */}
+
+                {/* =================================================
+                    SIDEBAR
+                ================================================= */}
 
                 <aside className="account-sidebar">
 
@@ -65,7 +104,9 @@ export default function AccountLayout() {
                 </aside>
 
 
-                {/* Content ----------------------------------- */}
+                {/* =================================================
+                    CONTENT
+                ================================================= */}
 
                 <section className="account-content">
 

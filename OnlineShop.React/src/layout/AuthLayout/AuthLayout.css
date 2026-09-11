@@ -1,0 +1,190 @@
+/* =========================================================
+   AUTH LAYOUT
+========================================================= */
+
+.auth-layout {
+    position: relative;
+
+    min-height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    background: #05060c;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.auth-layout-background {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+/* VIDEO */
+
+.auth-layout-background-video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    opacity: 0.78;
+
+    filter:
+            brightness(0.72)
+            saturate(0.85)
+            contrast(1.05);
+}
+
+
+/* DARK OVERLAY */
+
+.auth-layout-background-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    rgba(5, 6, 12, 0.82),
+                    rgba(5, 6, 12, 0.48),
+                    rgba(5, 6, 12, 0.82)
+            );
+}
+
+
+/* VIGNETTE */
+
+.auth-layout-background-vignette {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            radial-gradient(
+                    circle at center,
+                    transparent 20%,
+                    rgba(5, 6, 12, 0.35) 65%,
+                    rgba(5, 6, 12, 0.9) 100%
+            );
+}
+
+
+/* =========================================================
+   DECORATIVE LIGHTS
+========================================================= */
+
+.auth-layout-light {
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    filter: blur(120px);
+
+    opacity: 0.16;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+.auth-layout-light-one {
+    top: -180px;
+    left: -120px;
+
+    background: #6366f1;
+
+    animation: authLightFloatOne 10s ease-in-out infinite;
+}
+
+
+.auth-layout-light-two {
+    right: -160px;
+    bottom: -180px;
+
+    background: #06b6d4;
+
+    animation: authLightFloatTwo 12s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.auth-layout-content {
+    position: relative;
+
+    z-index: 5;
+
+    min-height: 100vh;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes authLightFloatOne {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(80px, 60px) scale(1.12);
+    }
+}
+
+
+@keyframes authLightFloatTwo {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(-70px, -50px) scale(1.1);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .auth-layout-light {
+        width: 280px;
+        height: 280px;
+
+        filter: blur(90px);
+    }
+
+    .auth-layout-background-video {
+        object-position: center;
+    }
+}

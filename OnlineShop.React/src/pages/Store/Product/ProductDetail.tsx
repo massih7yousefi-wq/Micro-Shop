@@ -2,11 +2,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import type { Product, ProductImage } from "../../../models/Product/Product";
+import type {
+    Product,
+    ProductImage
+} from "../../../models/Product/Product";
+
 import { productService } from "../../../services/productService";
 
-
 import "./ProductDetail.css";
+
 
 // Component-------------------------------------
 function ProductDetail() {
@@ -14,15 +18,20 @@ function ProductDetail() {
     // Get product id from URL--------------------
     const { id } = useParams<{ id: string }>();
 
+
     // States-------------------------------------
-    const [product, setProduct] = useState<Product | null>(null);
+    const [product, setProduct] =
+        useState<Product | null>(null);
 
     const [selectedImage, setSelectedImage] =
         useState<ProductImage | null>(null);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [error, setError] = useState("");
+    const [error, setError] =
+        useState("");
+
 
     // Load product--------------------------------
     useEffect(() => {
@@ -30,24 +39,34 @@ function ProductDetail() {
         const loadProduct = async () => {
 
             if (!id) {
+
                 setError("Product id is missing.");
+
                 setLoading(false);
+
                 return;
             }
 
+
             try {
 
-                const data = await productService.getById(
-                    Number(id)
-                );
+                const data =
+                    await productService.getById(
+                        Number(id)
+                    );
+
 
                 setProduct(data);
+
 
                 // Select main image
                 const mainImage =
                     data.images.find(
                         (image) => image.isMain
-                    ) ?? data.images[0] ?? null;
+                    )
+                    ?? data.images[0]
+                    ?? null;
+
 
                 setSelectedImage(mainImage);
 
@@ -55,83 +74,219 @@ function ProductDetail() {
 
                 console.error(error);
 
-                setError("Failed to load product.");
+                setError(
+                    "Failed to load product."
+                );
 
             } finally {
 
                 setLoading(false);
 
             }
+
         };
+
 
         void loadProduct();
 
     }, [id]);
 
+
     // Loading-------------------------------------
     if (loading) {
 
         return (
+
             <section className="product-detail">
+
+                {/* Background video */}
+                <video
+                    className="product-detail__background-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-hidden="true"
+                >
+                    <source
+                        src="/PJUZ7349.MP4"
+                        type="video/mp4"
+                    />
+                </video>
+
+
+                <div className="product-detail__background-overlay" />
+
 
                 <div className="product-detail__container">
 
                     <div className="product-detail__loading">
-                        Loading product...
+
+                        <span className="product-detail__loader" />
+
+                        <span>
+                            Loading product...
+                        </span>
+
                     </div>
 
                 </div>
 
             </section>
+
         );
 
     }
+
 
     // Error---------------------------------------
     if (error) {
 
         return (
+
             <section className="product-detail">
+
+                <video
+                    className="product-detail__background-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-hidden="true"
+                >
+                    <source
+                        src="/PJUZ7349.MP4"
+                        type="video/mp4"
+                    />
+                </video>
+
+
+                <div className="product-detail__background-overlay" />
+
 
                 <div className="product-detail__container">
 
                     <div className="product-detail__error">
-                        {error}
+
+                        <span className="product-detail__error-icon">
+                            !
+                        </span>
+
+                        <span>
+                            {error}
+                        </span>
+
                     </div>
 
                 </div>
 
             </section>
+
         );
 
     }
+
 
     // Product not found---------------------------
     if (!product) {
 
         return (
+
             <section className="product-detail">
+
+                <video
+                    className="product-detail__background-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-hidden="true"
+                >
+                    <source
+                        src="/PJUZ7349.MP4"
+                        type="video/mp4"
+                    />
+                </video>
+
+
+                <div className="product-detail__background-overlay" />
+
 
                 <div className="product-detail__container">
 
                     <div className="product-detail__error">
-                        Product not found.
+
+                        <span className="product-detail__error-icon">
+                            !
+                        </span>
+
+                        <span>
+                            Product not found.
+                        </span>
+
                     </div>
 
                 </div>
 
             </section>
+
         );
 
     }
 
+
     // Body----------------------------------------
     return (
+
         <section className="product-detail">
+
+            {/* =================================================
+                BACKGROUND VIDEO
+            ================================================= */}
+
+            <video
+                className="product-detail__background-video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-hidden="true"
+            >
+
+                <source
+                    src="/PJUZ7349.MP4"
+                    type="video/mp4"
+                />
+
+            </video>
+
+
+            {/* =================================================
+                VIDEO OVERLAY
+            ================================================= */}
+
+            <div className="product-detail__background-overlay" />
+
+
+            {/* =================================================
+                DECORATIVE GLOW
+            ================================================= */}
+
+            <div className="product-detail__ambient-glow product-detail__ambient-glow--one" />
+
+            <div className="product-detail__ambient-glow product-detail__ambient-glow--two" />
+
+
+            {/* =================================================
+                CONTENT
+            ================================================= */}
 
             <div className="product-detail__container">
 
-                {/* Breadcrumb -------------------------- */}
+
+                {/* =================================================
+                    BREADCRUMB
+                ================================================= */}
 
                 <div className="product-detail__breadcrumb">
 
@@ -139,52 +294,71 @@ function ProductDetail() {
                         Home
                     </Link>
 
-                    <span>/</span>
+                    <span className="product-detail__breadcrumb-separator">
+                        /
+                    </span>
 
                     <Link to="/products">
                         Products
                     </Link>
 
-                    <span>/</span>
+                    <span className="product-detail__breadcrumb-separator">
+                        /
+                    </span>
 
-                    <span>
+                    <span className="product-detail__breadcrumb-current">
                         {product.name}
                     </span>
 
                 </div>
 
 
-                {/* Product ----------------------------- */}
+                {/* =================================================
+                    PRODUCT
+                ================================================= */}
 
                 <div className="product-detail__product">
 
-                    {/* Gallery ------------------------- */}
+
+                    {/* =================================================
+                        GALLERY
+                    ================================================= */}
 
                     <div className="product-detail__gallery">
 
-                        {/* Main Image ------------------- */}
+
+                        {/* Main Image ----------------------------- */}
 
                         <div className="product-detail__main-image">
 
-                            {selectedImage ? (
+                            <div className="product-detail__image-glow" />
 
-                                <img
-                                    src={selectedImage.imageUrl}
-                                    alt={product.name}
-                                />
 
-                            ) : (
+                            <div className="product-detail__image-inner">
 
-                                <div className="product-detail__image-placeholder">
-                                    No Image
-                                </div>
+                                {selectedImage ? (
 
-                            )}
+                                    <img
+                                        src={selectedImage.imageUrl}
+                                        alt={product.name}
+                                    />
+
+                                ) : (
+
+                                    <div className="product-detail__image-placeholder">
+
+                                        No Image
+
+                                    </div>
+
+                                )}
+
+                            </div>
 
                         </div>
 
 
-                        {/* Thumbnails ------------------- */}
+                        {/* Thumbnails ----------------------------- */}
 
                         {product.images.length > 0 && (
 
@@ -200,9 +374,15 @@ function ProductDetail() {
                                                 ? "product-detail__thumbnail--active"
                                                 : ""
                                         }`}
-                                        onClick={() => setSelectedImage(image)}
-                                        aria-label={`View image ${image.id + 1} of ${product.name}`}
-                                        aria-pressed={selectedImage?.id === image.id}
+                                        onClick={() =>
+                                            setSelectedImage(image)
+                                        }
+                                        aria-label={`View image ${
+                                            image.id + 1
+                                        } of ${product.name}`}
+                                        aria-pressed={
+                                            selectedImage?.id === image.id
+                                        }
                                     >
 
                                         <img
@@ -221,33 +401,109 @@ function ProductDetail() {
                     </div>
 
 
-                    {/* Product Information -------------- */}
+                    {/* =================================================
+                        PRODUCT INFORMATION
+                    ================================================= */}
 
                     <div className="product-detail__content">
 
+
+                        {/* Category ----------------------------- */}
+
                         <span className="product-detail__category">
+
+                            <span className="product-detail__category-dot" />
+
                             {product.categoryName}
+
                         </span>
+
+
+                        {/* Title -------------------------------- */}
 
                         <h1 className="product-detail__title">
                             {product.name}
                         </h1>
 
+
+                        {/* Price -------------------------------- */}
+
                         <div className="product-detail__price">
-                            ${product.price.toFixed(2)}
+
+                            <span className="product-detail__price-currency">
+                                $
+                            </span>
+
+                            {product.price.toFixed(2)}
+
                         </div>
 
+
+                        {/* Divider ------------------------------ */}
+
                         <div className="product-detail__divider" />
+
+
+                        {/* Description -------------------------- */}
 
                         <p className="product-detail__description">
                             {product.description}
                         </p>
 
+
+                        {/* Product Meta ------------------------- */}
+
+                        <div className="product-detail__meta">
+
+                            <div className="product-detail__meta-item">
+
+                                <span className="product-detail__meta-icon">
+                                    ✓
+                                </span>
+
+                                <span>
+                                    Premium quality
+                                </span>
+
+                            </div>
+
+
+                            <div className="product-detail__meta-item">
+
+                                <span className="product-detail__meta-icon">
+                                    ✓
+                                </span>
+
+                                <span>
+                                    Secure shopping
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* Add To Cart -------------------------- */}
+
                         <button
                             type="button"
                             className="product-detail__button"
                         >
-                            Add to Cart
+
+                            <span className="product-detail__button-shine" />
+
+                            <span className="product-detail__button-content">
+
+                                <span>
+                                    Add to Cart
+                                </span>
+
+                                <span className="product-detail__button-arrow">
+                                    →
+                                </span>
+
+                            </span>
+
                         </button>
 
                     </div>
@@ -255,12 +511,22 @@ function ProductDetail() {
                 </div>
 
 
-                {/* Back -------------------------------- */}
+                {/* =================================================
+                    BACK
+                ================================================= */}
 
                 <div className="product-detail__back">
 
                     <Link to="/products">
-                        ← Back to Products
+
+                        <span className="product-detail__back-arrow">
+                            ←
+                        </span>
+
+                        <span>
+                            Back to Products
+                        </span>
+
                     </Link>
 
                 </div>
@@ -268,10 +534,9 @@ function ProductDetail() {
             </div>
 
         </section>
+
     );
 }
 
+
 export default ProductDetail;
-
-
-
